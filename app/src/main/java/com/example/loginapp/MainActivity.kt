@@ -49,11 +49,21 @@ class MainActivity : AppCompatActivity() {
 
         var emptyFieldToast: Toast
 
-        if (isEmpty(emailField.text.toString())) {
+        if (isEmpty(emailField.text.toString()) && isEmpty(passwordField.text.toString())){
+            emptyFieldToast = Toast.makeText(baseContext, "Email and Password Field Required.", Toast.LENGTH_LONG)
+            emptyFieldToast.show()
+            return false
+        }
+        else if (isEmpty(emailField.text.toString())) {
             emptyFieldToast = Toast.makeText(baseContext, "Email Field Required.", Toast.LENGTH_LONG)
             emptyFieldToast.show()
+            return false
         }
         else if (isEmpty(passwordField.text.toString())){
+
+            emptyFieldToast = Toast.makeText(baseContext, "Password Field Required", Toast.LENGTH_SHORT)
+            emptyFieldToast.show()
+            return false
 
         }
 
