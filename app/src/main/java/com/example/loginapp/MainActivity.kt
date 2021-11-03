@@ -1,13 +1,18 @@
 package com.example.loginapp
 
 import android.content.Context
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.SpannableString
 import android.text.TextUtils.isEmpty
+import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.util.Patterns
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
@@ -23,10 +28,15 @@ class MainActivity : AppCompatActivity() {
         val passwordField = findViewById<EditText>(R.id.passwordField)
 
         loginButton.setOnClickListener {
-//            var credentials = getLoginDetails(emailField, passwordField)
 
-//            val testToaast = Toast.makeText(this, "success", Toast.LENGTH_SHORT)
-//            testToaast.show()
+            val error = findViewById<TextView>(R.id.errorText)
+
+            if (error.visibility == View.INVISIBLE){
+                error.visibility = View.VISIBLE
+            }
+            else{
+                error.visibility = View.INVISIBLE
+            }
 
             val loginClass = Login()
             val credentials = loginClass.getLoginDetails(emailField, passwordField)
@@ -39,6 +49,23 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
+        }
+
+        val linkColor = Color.parseColor("#3ea2c7")
+
+        val signupTextField = findViewById<TextView>(R.id.signUp)
+
+        val signUpText: String = "Need new account? Sign Up"
+
+        val spanSignUp = SpannableString(signUpText)
+
+        spanSignUp.setSpan(ForegroundColorSpan(linkColor), 18, 25, SpannableString.SPAN_EXCLUSIVE_INCLUSIVE)
+
+        signupTextField.text = spanSignUp
+
+        signupTextField.setOnClickListener {
+            println("signUp")
+            val signupToast = Toast.makeText(this, "HEY", Toast.LENGTH_SHORT)
         }
     }
 
@@ -64,17 +91,25 @@ class Login{
 
     fun checkIsEmpty(context: Context, credentials: Array<String>): Boolean {
 
+        /*
+        Method to check for correct input format and for empty fields.
+
+        returns Boolean: value depicting if any of the issue is present
+         */
+
         val email = 0
         val password = 1
 
         val emptyFieldToast: Toast
 
         if (isEmpty(credentials[email]) && isEmpty(credentials[password]) ){
+
             emptyFieldToast = Toast.makeText(context, "Valid Email and Password Required.", Toast.LENGTH_LONG)
             emptyFieldToast.show()
             return false
         }
         else if (isEmpty(credentials[email]) || !Patterns.EMAIL_ADDRESS.matcher(credentials[email]).matches()) {
+
             emptyFieldToast = Toast.makeText(context, "Valid Email Required.", Toast.LENGTH_LONG)
             emptyFieldToast.show()
             return false
