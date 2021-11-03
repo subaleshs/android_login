@@ -1,6 +1,7 @@
 package com.example.loginapp
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -21,6 +22,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val activityContext = applicationContext
+        val email = 0
+        val password = 1
 
         val loginButton = findViewById<Button>(R.id.loginButton)
 
@@ -31,12 +34,12 @@ class MainActivity : AppCompatActivity() {
 
             val error = findViewById<TextView>(R.id.errorText)
 
-            if (error.visibility == View.INVISIBLE){
-                error.visibility = View.VISIBLE
-            }
-            else{
+            if (error.visibility == View.VISIBLE){
                 error.visibility = View.INVISIBLE
             }
+//            else{
+//                error.visibility = View.VISIBLE
+//            }
 
             val loginClass = Login()
             val credentials = loginClass.getLoginDetails(emailField, passwordField)
@@ -46,6 +49,15 @@ class MainActivity : AppCompatActivity() {
 
                 for (i in 0 until (credentials.size)) {
                     println(credentials[i])
+                }
+
+                if (credentials[email] == "sam@gmail.com" && credentials[password] == "password"){
+                    val activityIntent: Intent = Intent(applicationContext, HomeScreen::class.java)
+                    activityIntent.putExtra("email",credentials[email])
+                    startActivity(activityIntent)
+                }
+                else{
+                    error.visibility = View.VISIBLE
                 }
             }
 

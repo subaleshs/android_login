@@ -72,10 +72,10 @@ android:layout_height="fill_parent">
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/loginButton"
                 android:layout_marginBottom="10dp"
-                android:fontFamily="serif-monospace"
+                android:fontFamily="serif"
                 android:text="@string/errorText"
-                android:textColor="@color/white"
-                android:textSize="20sp"
+                android:textColor="@color/red"
+                android:textSize="15sp"
                 android:visibility="invisible" />
 
             <androidx.appcompat.widget.AppCompatButton
