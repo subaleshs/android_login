@@ -12,17 +12,29 @@ class HomeScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_screen)
 
-        var userName = intent.getStringExtra("username")
+//        var userName = intent.getStringExtra("username")
 
+        val loginSharedPreferences = getSharedPreferences("user", MODE_PRIVATE)
 
-        val textField = findViewById<TextView>(R.id.userNameText)
-        textField.text = userName
+        var userName: String? = loginSharedPreferences.getString("email", null)
+
+        if (userName != null){
+            val textField = findViewById<TextView>(R.id.userNameText)
+            textField.text = userName.split("@")[0]
+        }
+
 
         var logoutButton = findViewById<Button>(R.id.logoutButton)
 
         logoutButton.setOnClickListener {
-            val mainActivityIntent: Intent = Intent(applicationContext, MainActivity::class.java)
-            startActivity(mainActivityIntent)
+
+            val loginDetailEditor = loginSharedPreferences.edit()
+            loginDetailEditor.clear()
+            loginDetailEditor.apply()
+            finish()
         }
+
+
+
     }
 }

@@ -2,14 +2,12 @@ package com.example.loginapp
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.SpannableString
-import android.text.TextUtils.isEmpty
 import android.text.style.ForegroundColorSpan
-import android.util.Log
-import android.util.Patterns
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -21,50 +19,51 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val activityContext = applicationContext
+        val appContext = applicationContext
         val email = 0
         val password = 1
 
         val loginButton = findViewById<Button>(R.id.loginButton)
-
         val emailField = findViewById<EditText>(R.id.emailField)
         val passwordField = findViewById<EditText>(R.id.passwordField)
 
+        val pref = getSharedPreferences("user", MODE_PRIVATE)
+        println(pref.contains("email"))
+
         loginButton.setOnClickListener {
-
-            val error = findViewById<TextView>(R.id.errorText)
-
-            if (error.visibility == View.VISIBLE){
-                error.visibility = View.INVISIBLE
-            }
 
             val loginClass = Login()
             val credentials = loginClass.getLoginDetails(emailField, passwordField)
 
-            if (loginClass.checkIsEmpty(activityContext, credentials)) {
-
+            if (loginClass.checkIsEmpty(appContext, credentials)) {
 
 //                for (i in 0 until (credentials.size)) {
 //                    println(credentials[i])
 //                }
 
                 if (credentials[email] == "sam@gmail.com" && credentials[password] == "password"){
-                    val activityIntent: Intent = Intent(applicationContext, HomeScreen::class.java)
-                    activityIntent.putExtra("username",credentials[email].split("@")[0])
-                    startActivity(activityIntent)
+
+                    homeScreen(appContext, credentials)
                 }
                 else{
-                    error.visibility = View.VISIBLE
+                    errorMessage()
+//                    error.visibility = View.VISIBLE
                 }
             }
 
         }
 
+        val loginDetailsPreferences = getSharedPreferences("user", MODE_PRIVATE)
+        if (loginDetailsPreferences.contains("email") && loginDetailsPreferences.contains("password")){
+
+            val activityIntent = Intent(appContext, HomeScreen::class.java)
+            startActivity(activityIntent)
+        }
         val linkColor = Color.parseColor("#3ea2c7")
 
         val signupTextField = findViewById<TextView>(R.id.signUp)
 
-        val signUpText: String = "Need new account? Sign Up"
+        val signUpText = "Need new account? Sign Up"
 
         val spanSignUp = SpannableString(signUpText)
 
@@ -74,9 +73,45 @@ class MainActivity : AppCompatActivity() {
 
         signupTextField.setOnClickListener {
             println("signUp")
-            val signupToast = Toast.makeText(this, "SIGNUP", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "SIGNUP", Toast.LENGTH_SHORT).show()
         }
     }
+
+    private fun homeScreen(activityContext: Context, loginCredentials: Array<String>) {
+        /*
+        Method to switch to home screen
+         */
+
+        val loginSharedPreferences = getSharedPreferences("user", MODE_PRIVATE)
+        val loginEditor = loginSharedPreferences.edit()
+
+
+        loginEditor.putString("email", loginCredentials[0])
+        loginEditor.putString("password", loginCredentials[1])
+        loginEditor.apply()
+
+        val activityIntent = Intent(activityContext, HomeScreen::class.java)
+//        activityIntent.putExtra("username", loginCredentials[0].split("@")[0])
+        startActivity(activityIntent)
+    }
+
+    private fun errorMessage() {
+
+        /*
+        Method sets the error TextView
+         */
+        val error = findViewById<TextView>(R.id.errorText)
+
+        if (error.visibility == View.VISIBLE){
+            error.visibility = View.INVISIBLE
+        }
+        else{
+            error.visibility = View.VISIBLE
+        }
+    }
+
+
+
 
 
 }
