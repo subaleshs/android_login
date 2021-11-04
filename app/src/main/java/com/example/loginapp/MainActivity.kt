@@ -37,9 +37,6 @@ class MainActivity : AppCompatActivity() {
             if (error.visibility == View.VISIBLE){
                 error.visibility = View.INVISIBLE
             }
-//            else{
-//                error.visibility = View.VISIBLE
-//            }
 
             val loginClass = Login()
             val credentials = loginClass.getLoginDetails(emailField, passwordField)
@@ -47,13 +44,13 @@ class MainActivity : AppCompatActivity() {
             if (loginClass.checkIsEmpty(activityContext, credentials)) {
 
 
-                for (i in 0 until (credentials.size)) {
-                    println(credentials[i])
-                }
+//                for (i in 0 until (credentials.size)) {
+//                    println(credentials[i])
+//                }
 
                 if (credentials[email] == "sam@gmail.com" && credentials[password] == "password"){
                     val activityIntent: Intent = Intent(applicationContext, HomeScreen::class.java)
-                    activityIntent.putExtra("email",credentials[email])
+                    activityIntent.putExtra("email",credentials[email].split("@")[0])
                     startActivity(activityIntent)
                 }
                 else{
@@ -77,7 +74,7 @@ class MainActivity : AppCompatActivity() {
 
         signupTextField.setOnClickListener {
             println("signUp")
-            val signupToast = Toast.makeText(this, "HEY", Toast.LENGTH_SHORT)
+            val signupToast = Toast.makeText(this, "SIGNUP", Toast.LENGTH_SHORT).show()
         }
     }
 

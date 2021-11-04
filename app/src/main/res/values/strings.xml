@@ -6,4 +6,5 @@
     <string name="errorText">Incorrect Email or Password</string>
     <string name="main_banner">COMPANY Ltd.</string>
     <string name="forgot_password_text">Forgot Password?</string>
+    <string name="welcome">Welcome</string>
 </resources>
