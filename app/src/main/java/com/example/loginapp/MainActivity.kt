@@ -2,7 +2,6 @@ package com.example.loginapp
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -16,83 +15,85 @@ import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
+        super.onCreate( savedInstanceState )
         val appContext = applicationContext
-        val email = 0
-        val password = 1
-
-        val loginButton = findViewById<Button>(R.id.loginButton)
-        val emailField = findViewById<EditText>(R.id.emailField)
-        val passwordField = findViewById<EditText>(R.id.passwordField)
-
-        val pref = getSharedPreferences("user", MODE_PRIVATE)
-        println(pref.contains("email"))
-
-        loginButton.setOnClickListener {
-
-            val loginClass = Login()
-            val credentials = loginClass.getLoginDetails(emailField, passwordField)
-
-            if (loginClass.checkIsEmpty(appContext, credentials)) {
-
-//                for (i in 0 until (credentials.size)) {
-//                    println(credentials[i])
-//                }
-
-                if (credentials[email] == "sam@gmail.com" && credentials[password] == "password"){
-
-                    homeScreen(appContext, credentials)
-                }
-                else{
-                    errorMessage()
-//                    error.visibility = View.VISIBLE
-                }
-            }
-
-        }
-
         val loginDetailsPreferences = getSharedPreferences("user", MODE_PRIVATE)
-        if (loginDetailsPreferences.contains("email") && loginDetailsPreferences.contains("password")){
 
-            val activityIntent = Intent(appContext, HomeScreen::class.java)
+        if ( loginDetailsPreferences.contains("email") && loginDetailsPreferences.contains("password") ){
+
+            val activityIntent = Intent( appContext, HomeScreen::class.java )
             startActivity(activityIntent)
         }
-        val linkColor = Color.parseColor("#3ea2c7")
+        else{
 
-        val signupTextField = findViewById<TextView>(R.id.signUp)
 
-        val signUpText = "Need new account? Sign Up"
+            setContentView( R.layout.activity_main )
 
-        val spanSignUp = SpannableString(signUpText)
+            val email = 0
+            val password = 1
 
-        spanSignUp.setSpan(ForegroundColorSpan(linkColor), 18, 25, SpannableString.SPAN_EXCLUSIVE_INCLUSIVE)
+            val loginButton = findViewById<Button>( R.id.loginButton )
+            val emailField = findViewById<EditText>( R.id.emailField )
+            val passwordField = findViewById<EditText>( R.id.passwordField )
 
-        signupTextField.text = spanSignUp
+            loginButton.setOnClickListener {
 
-        signupTextField.setOnClickListener {
-            println("signUp")
-            Toast.makeText(this, "SIGNUP", Toast.LENGTH_SHORT).show()
+                val loginClass = Login()
+                val credentials = loginClass.getLoginDetails( emailField, passwordField )
+
+                if ( loginClass.checkIsEmpty( appContext, credentials ) ) {
+
+                    if ( credentials[email] == "sam@gmail.com" && credentials[password] == "password" ){
+
+                        homeScreen( appContext, credentials )
+                    }
+                    else{
+                        errorMessage()
+                    }
+                }
+
+            }
+
+            val signupTextField = findViewById<TextView>( R.id.signUp )
+            signUpTextView( signupTextField )
+            signupTextField.setOnClickListener {
+                println("signUp")
+                Toast.makeText(this, "SIGNUP", Toast.LENGTH_SHORT).show()
+            }
         }
+
     }
 
-    private fun homeScreen(activityContext: Context, loginCredentials: Array<String>) {
+    private fun signUpTextView (signUpText: TextView) {
+
+        /*
+        Method sets the sign up text in main activity
+         */
+
+        val linkColor = Color.parseColor("#3ea2c7")
+        val signUpValue = "Need new account? Sign Up"
+        val spanSignUp = SpannableString(signUpValue)
+        spanSignUp.setSpan(ForegroundColorSpan(linkColor), 18, 25, SpannableString.SPAN_EXCLUSIVE_INCLUSIVE)
+        signUpText.text = spanSignUp
+
+    }
+
+    private fun homeScreen ( activityContext: Context, loginCredentials: Array<String> ) {
         /*
         Method to switch to home screen
          */
 
-        val loginSharedPreferences = getSharedPreferences("user", MODE_PRIVATE)
+        val loginSharedPreferences = getSharedPreferences("user", MODE_PRIVATE )
         val loginEditor = loginSharedPreferences.edit()
 
 
-        loginEditor.putString("email", loginCredentials[0])
-        loginEditor.putString("password", loginCredentials[1])
+        loginEditor.putString( "email", loginCredentials[0] )
+        loginEditor.putString( "password", loginCredentials[1] )
         loginEditor.apply()
 
-        val activityIntent = Intent(activityContext, HomeScreen::class.java)
-//        activityIntent.putExtra("username", loginCredentials[0].split("@")[0])
-        startActivity(activityIntent)
+        val activityIntent = Intent( activityContext, HomeScreen::class.java )
+        startActivity( activityIntent )
     }
 
     private fun errorMessage() {
@@ -100,9 +101,9 @@ class MainActivity : AppCompatActivity() {
         /*
         Method sets the error TextView
          */
-        val error = findViewById<TextView>(R.id.errorText)
+        val error = findViewById<TextView>( R.id.errorText )
 
-        if (error.visibility == View.VISIBLE){
+        if ( error.visibility == View.VISIBLE ){
             error.visibility = View.INVISIBLE
         }
         else{
