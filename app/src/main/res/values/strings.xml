@@ -8,4 +8,5 @@
     <string name="forgot_password_text">Forgot Password?</string>
     <string name="welcome">Welcome</string>
     <string name="logout_button">LOGOUT</string>
+    <string name="auto_logout">Logout automatically after 10sec</string>
 </resources>
