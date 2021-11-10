@@ -8,6 +8,7 @@ import android.os.CountDownTimer
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 
 class HomeScreen : AppCompatActivity() {
 
@@ -33,7 +34,7 @@ class HomeScreen : AppCompatActivity() {
         var logoutButton = findViewById<Button>(R.id.logoutButton)
 
         logoutButton.setOnClickListener {
-            logOut(loginSharedPreferences)
+            logoutConfirm(loginSharedPreferences)
         }
 
 
@@ -49,7 +50,7 @@ class HomeScreen : AppCompatActivity() {
             }
 
             override fun onFinish() {
-                logOut(sharedPreferences)
+                logoutConfirm(sharedPreferences)
             }
         }
         timer.start()
@@ -60,5 +61,20 @@ class HomeScreen : AppCompatActivity() {
         loginDetailEditor.clear()
         loginDetailEditor.apply()
         finish()
+    }
+
+    private fun logoutConfirm(sharedDetails: SharedPreferences){
+
+        val logoutConfirmAlert = AlertDialog.Builder(this)
+
+        logoutConfirmAlert.setMessage("Press Confirm to Logout")
+
+        logoutConfirmAlert.setPositiveButton("Confirm"){
+            dialog, which -> logOut(sharedDetails)
+        }
+        logoutConfirmAlert.setNegativeButton("Cancel"){
+                dialog, which -> dialog.cancel()
+        }
+        logoutConfirmAlert.show()
     }
 }
