@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SwitchCompat
 
 class MainActivity : AppCompatActivity() {
@@ -114,8 +115,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
 
+        val exitConfirm = AlertDialog.Builder(this)
 
+        exitConfirm.setMessage("Do you want to exit?")
+
+        exitConfirm.setPositiveButton("Confirm"){
+            dialog, which -> finish()
+        }
+
+        exitConfirm.setNegativeButton("Cancel"){
+                dialog, which -> dialog.cancel()
+        }
+
+        exitConfirm.show()
+    }
 
 
 }
