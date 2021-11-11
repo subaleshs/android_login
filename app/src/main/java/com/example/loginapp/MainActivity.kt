@@ -1,118 +1,89 @@
 package com.example.loginapp
 
-import android.content.Context
 import android.content.Intent
-import android.graphics.Color
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
-import android.view.View
+import android.os.CountDownTimer
 import android.widget.Button
-import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.SwitchCompat
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
+        val loginSharedPreferences: SharedPreferences= getSharedPreferences("user", MODE_PRIVATE)
         val appContext = applicationContext
-        val loginDetailsPreferences = getSharedPreferences("user", MODE_PRIVATE)
 
-        if (loginDetailsPreferences.contains("email") && loginDetailsPreferences.contains("password")){
+        if (!loginSharedPreferences.contains("email") && !loginSharedPreferences.contains("password")){
 
-            val activityIntent = Intent(appContext, HomeScreen::class.java)
+            val activityIntent = Intent(appContext, LoginScreen::class.java)
             startActivity(activityIntent)
         }
         else{
-
-
             setContentView(R.layout.activity_main)
 
-            val email = 0
-            val password = 1
+//        var userName = intent.getStringExtra("username")
 
-            val loginButton = findViewById<Button>(R.id.loginButton)
-            val emailField = findViewById<EditText>(R.id.emailField)
-            val passwordField = findViewById<EditText>(R.id.passwordField)
-            val autoLogOutSwitch = findViewById<SwitchCompat>(R.id.autoLogout)
 
-            loginButton.setOnClickListener {
 
-                val loginClass = Login()
-                val credentials = loginClass.getLoginDetails(emailField, passwordField)
+            val userName: String? = loginSharedPreferences.getString("email", null)
 
-                if (loginClass.checkIsEmpty(appContext, credentials)) {
-
-                    if (credentials[email] == "sam@gmail.com" && credentials[password] == "password"){
-
-                        homeScreen(appContext, credentials, autoLogOutSwitch)
-                    }
-                    else{
-                        errorMessage()
-                    }
-                }
-
+            if (userName != null){
+                val textField = findViewById<TextView>(R.id.userNameText)
+                textField.text = userName.split("@")[0]
             }
 
-            val signupTextField = findViewById<TextView>(R.id.signUp)
-            signUpTextView(signupTextField)
-            signupTextField.setOnClickListener {
-                println("signUp")
-                Toast.makeText(this, "SIGNUP", Toast.LENGTH_SHORT).show()
+            if (loginSharedPreferences.getBoolean("autoLogoutBool", false)){
+                setTimeCounter(loginSharedPreferences)
+            }
+
+            val logoutButton = findViewById<Button>(R.id.logoutButton)
+
+            logoutButton.setOnClickListener {
+                showLogoutConfirm(loginSharedPreferences)
             }
         }
 
     }
 
-    private fun signUpTextView (signUpText: TextView) {
+    private fun setTimeCounter(sharedPreferences: SharedPreferences){
+        val timer = object : CountDownTimer(10000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                // do nothing
+                val timerText = findViewById<TextView>(R.id.timer)
+                timerText.text = "${millisUntilFinished/1000}"
+            }
 
-        /*
-        Method sets the sign up text in main activity
-         */
-
-        val linkColor = Color.parseColor("#3ea2c7")
-        val signUpValue = "Need new account? Sign Up"
-        val spanSignUp = SpannableString(signUpValue)
-        spanSignUp.setSpan(ForegroundColorSpan(linkColor), 18, 25, SpannableString.SPAN_EXCLUSIVE_INCLUSIVE)
-        signUpText.text = spanSignUp
-
+            override fun onFinish() {
+                showLogoutConfirm(sharedPreferences)
+            }
+        }
+        timer.start()
     }
 
-    private fun homeScreen (activityContext: Context, loginCredentials: Array<String>, autoLogout: SwitchCompat) {
-        /*
-        Method to switch to home screen
-         */
-
-        val loginSharedPreferences = getSharedPreferences("user", MODE_PRIVATE)
-        val loginEditor = loginSharedPreferences.edit()
-
-
-        loginEditor.putString("email", loginCredentials[0])
-        loginEditor.putString("password", loginCredentials[1])
-        loginEditor.putBoolean("autoLogoutBool", autoLogout.isChecked)
-        loginEditor.apply()
-
-        val activityIntent = Intent(activityContext, HomeScreen::class.java)
+    private fun logOut(sharedPreferences: SharedPreferences) {
+        val loginDetailEditor = sharedPreferences.edit()
+        loginDetailEditor.clear()
+        loginDetailEditor.apply()
+        val activityIntent = Intent(applicationContext, LoginScreen::class.java)
         startActivity(activityIntent)
     }
 
-    private fun errorMessage() {
+    private fun showLogoutConfirm(sharedDetails: SharedPreferences){
 
-        /*
-        Method sets the error TextView
-         */
-        val error = findViewById<TextView>(R.id.errorText)
+        val logoutConfirmAlert = AlertDialog.Builder(this)
 
-        if (error.visibility == View.VISIBLE){
-            error.visibility = View.INVISIBLE
+        logoutConfirmAlert.setMessage("Press Confirm to Logout")
+
+        logoutConfirmAlert.setPositiveButton("Confirm"){
+                _, _ -> logOut(sharedDetails)
         }
-        else{
-            error.visibility = View.VISIBLE
+        logoutConfirmAlert.setNegativeButton("Cancel"){
+                dialog, _ -> dialog.dismiss()
         }
+        logoutConfirmAlert.show()
     }
 
     override fun onBackPressed() {
@@ -122,16 +93,14 @@ class MainActivity : AppCompatActivity() {
         exitConfirm.setMessage("Do you want to exit?")
 
         exitConfirm.setPositiveButton("Confirm"){
-            dialog, which -> finish()
+                _, _ -> finishAffinity()
         }
 
         exitConfirm.setNegativeButton("Cancel"){
-                dialog, which -> dialog.cancel()
+                dialog, _ -> dialog.cancel()
         }
 
         exitConfirm.show()
     }
 
-
 }
-

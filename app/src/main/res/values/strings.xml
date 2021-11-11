@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Loginapp</string>
+    <string name="app_name">COMPANY Ltd.</string>
     <string name="email_hint">Email</string>
     <string name="password_hint">Password</string>
     <string name="login_button">LOGIN</string>
@@ -9,4 +9,6 @@
     <string name="welcome">Welcome</string>
     <string name="logout_button">LOGOUT</string>
     <string name="auto_logout">Logout automatically after 10sec</string>
+    <string name="user_name_placeholder">Username</string>
+    <string name="profile_pic_description">User profile photo</string>
 </resources>

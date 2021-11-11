@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Loginapp">
         <activity
-            android:name=".HomeScreen"
+            android:name=".LoginScreen"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
