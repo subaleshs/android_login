@@ -9,7 +9,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 
-class MainActivity : AppCompatActivity() {
+class HomeScreenActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,11 +18,11 @@ class MainActivity : AppCompatActivity() {
 
         if (!loginSharedPreferences.contains("email") && !loginSharedPreferences.contains("password")){
 
-            val activityIntent = Intent(appContext, LoginScreen::class.java)
+            val activityIntent = Intent(appContext, LoginScreenActivity::class.java)
             startActivity(activityIntent)
         }
         else{
-            setContentView(R.layout.activity_main)
+            setContentView(R.layout.activity_home_screen)
 
 //        var userName = intent.getStringExtra("username")
 
@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
         val loginDetailEditor = sharedPreferences.edit()
         loginDetailEditor.clear()
         loginDetailEditor.apply()
-        val activityIntent = Intent(applicationContext, LoginScreen::class.java)
+        val activityIntent = Intent(applicationContext, LoginScreenActivity::class.java)
         startActivity(activityIntent)
     }
 

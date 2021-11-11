@@ -12,9 +12,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.widget.SwitchCompat
 
-class LoginScreen : AppCompatActivity() {
+class LoginScreenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -23,21 +22,20 @@ class LoginScreen : AppCompatActivity() {
 
         if (loginDetailsPreferences.contains("email") && loginDetailsPreferences.contains("password")){
 
-            val activityIntent = Intent(appContext, MainActivity::class.java)
+            val activityIntent = Intent(appContext, HomeScreenActivity::class.java)
             startActivity(activityIntent)
         }
         else{
 
 
-            setContentView(R.layout.activity_home_screen)
+            setContentView(R.layout.activity_login_screen)
 
             val email = 0
             val password = 1
 
-            val loginButton = findViewById<Button>(R.id.loginButton)
-            val emailField = findViewById<EditText>(R.id.emailField)
-            val passwordField = findViewById<EditText>(R.id.passwordField)
-            val autoLogOutSwitch = findViewById<SwitchCompat>(R.id.autoLogout)
+            val loginButton = findViewById<Button>(R.id.loginButtonView)
+            val emailField = findViewById<EditText>(R.id.emailTextView)
+            val passwordField = findViewById<EditText>(R.id.passwordTextView)
 
             loginButton.setOnClickListener {
 
@@ -48,7 +46,7 @@ class LoginScreen : AppCompatActivity() {
 
                     if (credentials[email] == "sam@gmail.com" && credentials[password] == "password"){
 
-                        changeToMainScreen(appContext, credentials, autoLogOutSwitch)
+                        changeToMainScreen(appContext, credentials)
                     }
                     else{
                         showErrorMessage()
@@ -57,7 +55,7 @@ class LoginScreen : AppCompatActivity() {
 
             }
 
-            val signupTextField = findViewById<TextView>(R.id.signUp)
+            val signupTextField = findViewById<TextView>(R.id.signUpTextView)
             showSignUpTextView(signupTextField)
             signupTextField.setOnClickListener {
                 println("signUp")
@@ -81,7 +79,7 @@ class LoginScreen : AppCompatActivity() {
 
     }
 
-    private fun changeToMainScreen (activityContext: Context, loginCredentials: Array<String>, autoLogout: SwitchCompat) {
+    private fun changeToMainScreen (activityContext: Context, loginCredentials: Array<String>) {
         /*
         Method to switch to home screen
          */
@@ -92,10 +90,9 @@ class LoginScreen : AppCompatActivity() {
 
         loginEditor.putString("email", loginCredentials[0])
         loginEditor.putString("password", loginCredentials[1])
-        loginEditor.putBoolean("autoLogoutBool", autoLogout.isChecked)
         loginEditor.apply()
 
-        val activityIntent = Intent(activityContext, MainActivity::class.java)
+        val activityIntent = Intent(activityContext, HomeScreenActivity::class.java)
         startActivity(activityIntent)
     }
 
@@ -104,7 +101,7 @@ class LoginScreen : AppCompatActivity() {
         /*
         Method sets the error TextView
          */
-        val error = findViewById<TextView>(R.id.errorText)
+        val error = findViewById<TextView>(R.id.errorTextView)
 
         if (error.visibility == View.VISIBLE){
             error.visibility = View.INVISIBLE
