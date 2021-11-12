@@ -3,27 +3,16 @@ package com.example.loginapp
 import android.content.Context
 import android.text.TextUtils
 import android.util.Patterns
-import android.widget.EditText
 import android.widget.Toast
+import com.google.android.material.textfield.TextInputLayout
 
-class Login{
+class Login(email: String, password: String){
 
-    fun getLoginDetails(emailField: EditText, passwordField: EditText): Array<String> {
-
-        /*
-        Method to retrieve login credentials entered by the user
-
-        return: unit - Void function
-         */
+    private var userEmail = email
+    private var userPassword = password
 
 
-        val email = emailField.text.toString()
-        val password = passwordField.text.toString()
-
-        return arrayOf(email, password)
-    }
-
-    fun checkIsEmpty(context: Context, credentials: Array<String>): Boolean {
+    fun checkIsEmpty(context: Context, emailTextInputLayout: TextInputLayout, passwordTextInputLayout: TextInputLayout): Boolean {
 
         /*
         Method to check for correct input format and for empty fields.
@@ -31,24 +20,28 @@ class Login{
         returns Boolean: value depicting if any of the issue is present
          */
 
-        val email = 0
-        val password = 1
-
         val emptyFieldToast: Toast
 
-        if (TextUtils.isEmpty(credentials[email]) && TextUtils.isEmpty(credentials[password])){
+        if (TextUtils.isEmpty(userEmail) && TextUtils.isEmpty(userPassword)){
+
+            emailTextInputLayout.error = "Valid Email Required."
+            passwordTextInputLayout.error = "Valid Password Required."
 
             emptyFieldToast = Toast.makeText(context, "Valid Email and Password Required.", Toast.LENGTH_LONG)
             emptyFieldToast.show()
             return false
         }
-        else if (TextUtils.isEmpty(credentials[email]) || !Patterns.EMAIL_ADDRESS.matcher(credentials[email]).matches()) {
+        else if (TextUtils.isEmpty(userEmail) || !Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()) {
+
+            emailTextInputLayout.error = "Valid Email Required."
 
             emptyFieldToast = Toast.makeText(context, "Valid Email Required.", Toast.LENGTH_LONG)
             emptyFieldToast.show()
             return false
         }
-        else if (TextUtils.isEmpty(credentials[password])){
+        else if (TextUtils.isEmpty(userPassword)){
+
+            passwordTextInputLayout.error = "Valid Password Required"
 
             emptyFieldToast = Toast.makeText(context, "Valid Password Required", Toast.LENGTH_SHORT)
             emptyFieldToast.show()
@@ -57,6 +50,22 @@ class Login{
         }
 
         return true
+    }
+
+    fun checkLoginCredentials(emailTextInputLayout: TextInputLayout, passwordTextInputLayout: TextInputLayout): Boolean{
+
+        return if (userEmail == "sam@gmail.com" ){
+
+            if (userPassword == "password"){
+                true
+            } else{
+                passwordTextInputLayout.error = "Incorrect Password."
+                false
+            }
+        } else{
+            emailTextInputLayout.error = "Incorrect Email."
+            false
+        }
     }
 
 }

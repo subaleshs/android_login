@@ -24,10 +24,6 @@ class HomeScreenActivity : AppCompatActivity() {
         else{
             setContentView(R.layout.activity_home_screen)
 
-//        var userName = intent.getStringExtra("username")
-
-
-
             val userName: String? = loginSharedPreferences.getString("email", null)
 
             if (userName != null){

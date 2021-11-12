@@ -12,6 +12,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
+import com.google.android.material.textfield.TextInputLayout
 
 class LoginScreenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,29 +32,29 @@ class LoginScreenActivity : AppCompatActivity() {
 
             setContentView(R.layout.activity_login_screen)
 
-            val email = 0
-            val password = 1
-
             val loginButton = findViewById<Button>(R.id.loginButtonView)
             val emailField = findViewById<EditText>(R.id.emailTextView)
             val passwordField = findViewById<EditText>(R.id.passwordTextView)
+            val emailTextInputLayout = findViewById<TextInputLayout>(R.id.emailTextInputLayout)
+            val passwordTextInputLayout = findViewById<TextInputLayout>(R.id.passwordTextInputLayout)
+
+            emailField.addTextChangedListener { emailTextInputLayout.error = null }
+
+            passwordField.addTextChangedListener { passwordTextInputLayout.error = null }
 
             loginButton.setOnClickListener {
 
-                val loginClass = Login()
-                val credentials = loginClass.getLoginDetails(emailField, passwordField)
+                val userEmailAddress = emailField.text.toString()
+                val userPassword = passwordField.text.toString()
 
-                if (loginClass.checkIsEmpty(appContext, credentials)) {
+                val loginClass = Login(userEmailAddress, userPassword)
 
-                    if (credentials[email] == "sam@gmail.com" && credentials[password] == "password"){
+                if (loginClass.checkIsEmpty(appContext, emailTextInputLayout, passwordTextInputLayout)) {
 
-                        changeToMainScreen(appContext, credentials)
-                    }
-                    else{
-                        showErrorMessage()
+                    if (loginClass.checkLoginCredentials(emailTextInputLayout, passwordTextInputLayout)){
+                        changeToMainScreen(appContext, userEmailAddress, userPassword)
                     }
                 }
-
             }
 
             val signupTextField = findViewById<TextView>(R.id.signUpTextView)
@@ -79,7 +81,7 @@ class LoginScreenActivity : AppCompatActivity() {
 
     }
 
-    private fun changeToMainScreen (activityContext: Context, loginCredentials: Array<String>) {
+    private fun changeToMainScreen (activityContext: Context, emailAddress:String, password: String) {
         /*
         Method to switch to home screen
          */
@@ -88,27 +90,12 @@ class LoginScreenActivity : AppCompatActivity() {
         val loginEditor = loginSharedPreferences.edit()
 
 
-        loginEditor.putString("email", loginCredentials[0])
-        loginEditor.putString("password", loginCredentials[1])
+        loginEditor.putString("email", emailAddress)
+        loginEditor.putString("password", password)
         loginEditor.apply()
 
         val activityIntent = Intent(activityContext, HomeScreenActivity::class.java)
         startActivity(activityIntent)
-    }
-
-    private fun showErrorMessage() {
-
-        /*
-        Method sets the error TextView
-         */
-        val error = findViewById<TextView>(R.id.errorTextView)
-
-        if (error.visibility == View.VISIBLE){
-            error.visibility = View.INVISIBLE
-        }
-        else{
-            error.visibility = View.VISIBLE
-        }
     }
 
     override fun onBackPressed() {

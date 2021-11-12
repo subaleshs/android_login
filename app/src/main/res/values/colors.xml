@@ -9,7 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="primary">#628a7e</color>
     <color name="main_background">#b4d1c8</color>
-    <color name="form_background">#631e03</color>
+    <color name="forgot_password_color">#631e03</color>
     <color name="red">#DC143C</color>
     <color name="link">#389c93</color>
 
