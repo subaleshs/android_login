@@ -49,7 +49,7 @@ class LoginScreenActivity : AppCompatActivity() {
 
                 val loginClass = Login(userEmailAddress, userPassword)
 
-                if (loginClass.checkIsEmpty(appContext, emailTextInputLayout, passwordTextInputLayout)) {
+                if (loginClass.checkIsEmpty(emailTextInputLayout, passwordTextInputLayout)) {
 
                     if (loginClass.checkLoginCredentials(emailTextInputLayout, passwordTextInputLayout)){
                         changeToMainScreen(appContext, userEmailAddress, userPassword)

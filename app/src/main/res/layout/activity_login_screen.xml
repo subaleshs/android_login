@@ -53,7 +53,6 @@
             android:hint="@string/password_layout_hint"
             android:inputType="textPassword"
             app:errorEnabled="true"
-            app:boxBackgroundMode="outline"
             app:layout_constraintBottom_toTopOf="@+id/loginButtonView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
