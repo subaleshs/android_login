@@ -10,7 +10,7 @@ class Login(email: String, password: String){
     private var userPassword = password
 
 
-    fun checkIsEmpty(emailTextInputLayout: TextInputLayout, passwordTextInputLayout: TextInputLayout): Boolean {
+    fun checkLoginField(emailTextInputLayout: TextInputLayout, passwordTextInputLayout: TextInputLayout): Boolean {
 
         /*
         Method to check for correct input format and for empty fields.
@@ -39,7 +39,13 @@ class Login(email: String, password: String){
         return true
     }
 
-    fun checkLoginCredentials(emailTextInputLayout: TextInputLayout, passwordTextInputLayout: TextInputLayout): Boolean{
+    fun authenticateUser(emailTextInputLayout: TextInputLayout, passwordTextInputLayout: TextInputLayout): Boolean{
+
+        /*
+        Method checks user email and password to authenticate the user
+
+        returns Boolean: true on successful authentication else false.
+         */
 
         return if (userEmail == "sam@gmail.com" ){
 

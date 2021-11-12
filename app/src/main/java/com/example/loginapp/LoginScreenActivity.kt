@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -16,6 +15,7 @@ import androidx.core.widget.addTextChangedListener
 import com.google.android.material.textfield.TextInputLayout
 
 class LoginScreenActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -29,7 +29,6 @@ class LoginScreenActivity : AppCompatActivity() {
         }
         else{
 
-
             setContentView(R.layout.activity_login_screen)
 
             val loginButton = findViewById<Button>(R.id.loginButtonView)
@@ -38,36 +37,35 @@ class LoginScreenActivity : AppCompatActivity() {
             val emailTextInputLayout = findViewById<TextInputLayout>(R.id.emailTextInputLayout)
             val passwordTextInputLayout = findViewById<TextInputLayout>(R.id.passwordTextInputLayout)
 
-            emailField.addTextChangedListener { emailTextInputLayout.error = null }
+            val signupTextField = findViewById<TextView>(R.id.signUpTextView)
+            showSignUpText(signupTextField)
+            signupTextField.setOnClickListener {
+                println("signUp")
+                Toast.makeText(this, "SIGNUP", Toast.LENGTH_SHORT).show()
+            }
 
+
+            emailField.addTextChangedListener { emailTextInputLayout.error = null }
             passwordField.addTextChangedListener { passwordTextInputLayout.error = null }
 
             loginButton.setOnClickListener {
-
                 val userEmailAddress = emailField.text.toString()
                 val userPassword = passwordField.text.toString()
 
                 val loginClass = Login(userEmailAddress, userPassword)
 
-                if (loginClass.checkIsEmpty(emailTextInputLayout, passwordTextInputLayout)) {
-
-                    if (loginClass.checkLoginCredentials(emailTextInputLayout, passwordTextInputLayout)){
-                        changeToMainScreen(appContext, userEmailAddress, userPassword)
+                if (loginClass.checkLoginField(emailTextInputLayout, passwordTextInputLayout)) {
+                    if (loginClass.authenticateUser(emailTextInputLayout, passwordTextInputLayout)){
+                        changeToHomeScreen(appContext, userEmailAddress, userPassword)
                     }
                 }
             }
 
-            val signupTextField = findViewById<TextView>(R.id.signUpTextView)
-            showSignUpTextView(signupTextField)
-            signupTextField.setOnClickListener {
-                println("signUp")
-                Toast.makeText(this, "SIGNUP", Toast.LENGTH_SHORT).show()
-            }
         }
 
     }
 
-    private fun showSignUpTextView (signUpText: TextView) {
+    private fun showSignUpText (signUpTextView: TextView) {
 
         /*
         Method sets the sign up text in main activity
@@ -77,19 +75,17 @@ class LoginScreenActivity : AppCompatActivity() {
         val signUpValue = "Need new account? Sign Up"
         val spanSignUp = SpannableString(signUpValue)
         spanSignUp.setSpan(ForegroundColorSpan(linkColor), 18, 25, SpannableString.SPAN_EXCLUSIVE_INCLUSIVE)
-        signUpText.text = spanSignUp
+        signUpTextView.text = spanSignUp
 
     }
 
-    private fun changeToMainScreen (activityContext: Context, emailAddress:String, password: String) {
+    private fun changeToHomeScreen (activityContext: Context, emailAddress:String, password: String) {
         /*
         Method to switch to home screen
          */
 
         val loginSharedPreferences = getSharedPreferences("user", MODE_PRIVATE)
         val loginEditor = loginSharedPreferences.edit()
-
-
         loginEditor.putString("email", emailAddress)
         loginEditor.putString("password", password)
         loginEditor.apply()
