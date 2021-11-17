@@ -17,11 +17,8 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val fragmentInflater =  inflater.inflate(R.layout.fragment_login, container, false)
-
-
-
-        return fragmentInflater
+        return inflater.inflate(R.layout.fragment_login, container, false)
+        
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -32,9 +29,9 @@ class LoginFragment : Fragment() {
         showSignUpText(signUpText)
 
         signUpText.setOnClickListener {
-            val signUpTransaction = parentFragmentManager.beginTransaction()
+            val signUpFragmentTransaction = parentFragmentManager.beginTransaction()
 
-            signUpTransaction.apply {
+            signUpFragmentTransaction.apply {
                 replace(R.id.fragmentContainer, SignUpFragment())
                 addToBackStack(null)
                 commit()
@@ -42,12 +39,12 @@ class LoginFragment : Fragment() {
         }
 
         forgotPasswordTextView.setOnClickListener {
-            val forgotPasswordFragment = ForgotPasswordFragment()
+            val resetPasswordFragment = PasswordResetFragment()
             val fragmentTransaction = parentFragmentManager.beginTransaction()
 
             fragmentTransaction.apply {
-                replace(R.id.fragmentContainer, forgotPasswordFragment)
-                addToBackStack("forgotPasswordFragmrnt")
+                replace(R.id.fragmentContainer, resetPasswordFragment)
+                addToBackStack("forgotPasswordFragment")
                 setReorderingAllowed(true)
                 commit()
             }
