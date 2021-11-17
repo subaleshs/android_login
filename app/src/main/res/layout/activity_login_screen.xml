@@ -3,7 +3,6 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -12,101 +11,18 @@
         android:layout_height="wrap_content"
         android:paddingTop="200dp">
 
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/emailTextInputLayout"
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragmentContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="25dp"
-            android:hint="@string/email_layout_hint"
-            app:errorEnabled="true"
-            app:errorTextAppearance="@style/error_text"
-            app:layout_constraintBottom_toTopOf="@+id/passwordTextInputLayout"
+            android:layout_marginBottom="10dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed">
-
-
-            <EditText
-                android:id="@+id/emailTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:paddingTop="30dp"
-                tools:ignore="LabelFor" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/passwordTextInputLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="25dp"
-            android:hint="@string/password_layout_hint"
-            android:inputType="textPassword"
-            app:errorEnabled="true"
-            app:layout_constraintBottom_toTopOf="@+id/loginButtonView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/emailTextInputLayout"
-            app:passwordToggleEnabled="true">
-
-            <EditText
-                android:id="@+id/passwordTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="30dp"
-                android:inputType="textPassword"
-                tools:ignore="LabelFor" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-            <Button
-                android:id="@+id/loginButtonView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="60dp"
-                android:layout_marginEnd="60dp"
-                android:layout_marginBottom="25dp"
-                android:text="@string/login_button"
-                app:layout_constraintBottom_toTopOf="@+id/forgotPasswordTextView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/passwordTextInputLayout" />
-
-            <TextView
-                android:id="@+id/forgotPasswordTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
-                android:layout_marginBottom="25dp"
-                android:text="@string/forgot_password_text"
-                android:textColor="@color/forgot_password_color"
-                app:layout_constraintBottom_toTopOf="@+id/signUpTextView"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/loginButtonView" />
-
-            <TextView
-                android:id="@+id/signUpTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:layout_marginBottom="50dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/forgotPasswordTextView" />
-
-
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
 </ScrollView>

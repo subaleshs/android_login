@@ -31,51 +31,44 @@ class LoginScreenActivity : AppCompatActivity() {
 
             setContentView(R.layout.activity_login_screen)
 
-            val loginButton = findViewById<Button>(R.id.loginButtonView)
-            val emailField = findViewById<EditText>(R.id.emailTextView)
-            val passwordField = findViewById<EditText>(R.id.passwordTextView)
-            val emailTextInputLayout = findViewById<TextInputLayout>(R.id.emailTextInputLayout)
-            val passwordTextInputLayout = findViewById<TextInputLayout>(R.id.passwordTextInputLayout)
+            val fragmentTransacion = supportFragmentManager.beginTransaction()
 
-            val signupTextField = findViewById<TextView>(R.id.signUpTextView)
-            showSignUpText(signupTextField)
-            signupTextField.setOnClickListener {
-                println("signUp")
-                Toast.makeText(this, "SIGNUP", Toast.LENGTH_SHORT).show()
+            fragmentTransacion.apply {
+                add(R.id.fragmentContainer, LoginFragment())
+                commit()
             }
 
+//            val loginButton = findViewById<Button>(R.id.loginButtonView)
+//            val emailField = findViewById<EditText>(R.id.emailTextView)
+//            val passwordField = findViewById<EditText>(R.id.passwordTextView)
+//            val emailTextInputLayout = findViewById<TextInputLayout>(R.id.emailTextInputLayout)
+//            val passwordTextInputLayout = findViewById<TextInputLayout>(R.id.passwordTextInputLayout)
+//
+//            val signupTextField = findViewById<TextView>(R.id.signUpTextView)
+//            showSignUpText(signupTextField)
+//            signupTextField.setOnClickListener {
+//                println("signUp")
+//                Toast.makeText(this, "SIGNUP", Toast.LENGTH_SHORT).show()
+//            }
+//
+//
+//            emailField.addTextChangedListener { emailTextInputLayout.error = null }
+//            passwordField.addTextChangedListener { passwordTextInputLayout.error = null }
 
-            emailField.addTextChangedListener { emailTextInputLayout.error = null }
-            passwordField.addTextChangedListener { passwordTextInputLayout.error = null }
-
-            loginButton.setOnClickListener {
-                val userEmailAddress = emailField.text.toString()
-                val userPassword = passwordField.text.toString()
-
-                val loginClass = Login(userEmailAddress, userPassword)
-
-                if (loginClass.checkLoginField(emailTextInputLayout, passwordTextInputLayout)) {
-                    if (loginClass.authenticateUser(emailTextInputLayout, passwordTextInputLayout)){
-                        changeToHomeScreen(appContext, userEmailAddress, userPassword)
-                    }
-                }
-            }
+//            loginButton.setOnClickListener {
+//                val userEmailAddress = emailField.text.toString()
+//                val userPassword = passwordField.text.toString()
+//
+//                val loginClass = Login(userEmailAddress, userPassword)
+//
+//                if (loginClass.checkLoginField(emailTextInputLayout, passwordTextInputLayout)) {
+//                    if (loginClass.authenticateUser(emailTextInputLayout, passwordTextInputLayout)){
+//                        changeToHomeScreen(appContext, userEmailAddress, userPassword)
+//                    }
+//                }
+//            }
 
         }
-
-    }
-
-    private fun showSignUpText (signUpTextView: TextView) {
-
-        /*
-        Method sets the sign up text in main activity
-         */
-
-        val linkColor = Color.parseColor("#3ea2c7")
-        val signUpValue = "Need new account? Sign Up"
-        val spanSignUp = SpannableString(signUpValue)
-        spanSignUp.setSpan(ForegroundColorSpan(linkColor), 18, 25, SpannableString.SPAN_EXCLUSIVE_INCLUSIVE)
-        signUpTextView.text = spanSignUp
 
     }
 
@@ -93,10 +86,5 @@ class LoginScreenActivity : AppCompatActivity() {
         val activityIntent = Intent(activityContext, HomeScreenActivity::class.java)
         startActivity(activityIntent)
     }
-
-    override fun onBackPressed() {
-        finishAffinity()
-    }
-
 }
 
