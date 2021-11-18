@@ -33,7 +33,7 @@ class HomeScreenActivity : AppCompatActivity() {
 
             val logoutButton = findViewById<Button>(R.id.logoutButton)
             logoutButton.setOnClickListener {
-                showLogoutConfirm(loginSharedPreferences)
+                showLogoutDialog(loginSharedPreferences)
             }
         }
 
@@ -47,7 +47,7 @@ class HomeScreenActivity : AppCompatActivity() {
         startActivity(activityIntent)
     }
 
-    private fun showLogoutConfirm(sharedDetails: SharedPreferences){
+    private fun showLogoutDialog(sharedDetails: SharedPreferences){
 
         val logoutConfirmAlert = AlertDialog.Builder(this)
         logoutConfirmAlert.setMessage("Press Confirm to Logout")
