@@ -2,17 +2,8 @@ package com.example.loginapp
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
-import androidx.core.widget.addTextChangedListener
-import com.google.android.material.textfield.TextInputLayout
 
 class LoginScreenActivity : AppCompatActivity() {
 
@@ -30,13 +21,6 @@ class LoginScreenActivity : AppCompatActivity() {
         else{
 
             setContentView(R.layout.activity_login_screen)
-
-            val fragmentTransacion = supportFragmentManager.beginTransaction()
-
-            fragmentTransacion.apply {
-                add(R.id.fragmentContainer, LoginFragment())
-                commit()
-            }
 
 //            val loginButton = findViewById<Button>(R.id.loginButtonView)
 //            val emailField = findViewById<EditText>(R.id.emailTextView)

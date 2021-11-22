@@ -4,11 +4,16 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
+import com.google.android.material.textfield.TextInputEditText
 
 class LoginFragment : Fragment() {
 
@@ -18,7 +23,7 @@ class LoginFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_login, container, false)
-        
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -26,6 +31,7 @@ class LoginFragment : Fragment() {
 
         val forgotPasswordTextView = view.findViewById<TextView>(R.id.forgotPasswordTextView)
         val signUpText =  view.findViewById<TextView>(R.id.signUpTextView)
+
         showSignUpText(signUpText)
 
         signUpText.setOnClickListener {
@@ -52,6 +58,7 @@ class LoginFragment : Fragment() {
         }
     }
 
+    
     private fun showSignUpText (signUpTextView: TextView) {
 
         /*
