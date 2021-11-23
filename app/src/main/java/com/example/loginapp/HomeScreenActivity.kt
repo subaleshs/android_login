@@ -7,8 +7,12 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import com.example.loginapp.databinding.ActivityHomeScreenBinding
+import com.example.loginapp.databinding.FragmentSignupBinding
 
 class HomeScreenActivity : AppCompatActivity() {
+
+    private lateinit var homeScreenActivityBinding: ActivityHomeScreenBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,13 +25,15 @@ class HomeScreenActivity : AppCompatActivity() {
             startActivity(activityIntent)
         }
         else{
-            setContentView(R.layout.activity_home_screen)
+
+            homeScreenActivityBinding = ActivityHomeScreenBinding.inflate(layoutInflater)
+            setContentView(homeScreenActivityBinding.root)
 
             val userName: String? = loginSharedPreferences.getString("email", null)
 
             if (userName != null){
-                val textField = findViewById<TextView>(R.id.userNameText)
-                textField.text = userName.split("@")[0]
+
+                homeScreenActivityBinding.userNameText.text = userName.split("@")[0]
             }
 
 

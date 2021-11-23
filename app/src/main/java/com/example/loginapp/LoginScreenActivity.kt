@@ -4,8 +4,12 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.loginapp.databinding.ActivityLoginScreenBinding
+import com.example.loginapp.databinding.FragmentLoginBinding
 
 class LoginScreenActivity : AppCompatActivity(){
+
+    private lateinit var loginActivityBinding: ActivityLoginScreenBinding
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,7 +23,9 @@ class LoginScreenActivity : AppCompatActivity(){
         }
         else{
 
-            setContentView(R.layout.activity_login_screen)
+            loginActivityBinding = ActivityLoginScreenBinding.inflate(layoutInflater)
+
+            setContentView(loginActivityBinding.root)
 
         }
 

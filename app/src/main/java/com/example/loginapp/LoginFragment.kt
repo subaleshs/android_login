@@ -16,51 +16,50 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
+import com.example.loginapp.databinding.ActivityHomeScreenBinding
+import com.example.loginapp.databinding.FragmentLoginBinding
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
 class LoginFragment : Fragment() {
+
+    private lateinit var loginFragmentBinding: FragmentLoginBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false)
+        loginFragmentBinding = FragmentLoginBinding.inflate(inflater, container, false)
+
+        return loginFragmentBinding.root
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        
 
-        val forgotPasswordTextView = view.findViewById<TextView>(R.id.forgotPasswordTextView)
-        val signUpText =  view.findViewById<TextView>(R.id.signUpTextView)
-        val loginButton = view.findViewById<Button>(R.id.loginButtonView)
-        val emailField = view.findViewById<TextInputEditText>(R.id.emailTextView)
-        val passwordField = view.findViewById<TextInputEditText>(R.id.passwordTextView)
-        val emailTextInputLayout = view.findViewById<TextInputLayout>(R.id.emailTextInputLayout)
-        val passwordTextInputLayout = view.findViewById<TextInputLayout>(R.id.passwordTextInputLayout)
+        loginFragmentBinding.emailTextView.addTextChangedListener { loginFragmentBinding.emailTextInputLayout.error = null }
+        loginFragmentBinding.passwordTextView.addTextChangedListener { loginFragmentBinding.passwordTextInputLayout.error = null }
 
-        emailField.addTextChangedListener { emailTextInputLayout.error = null }
-        passwordField.addTextChangedListener { passwordTextInputLayout.error = null }
+        showSignUpText(loginFragmentBinding.signUpTextView)
 
-        showSignUpText(signUpText)
+        loginFragmentBinding.loginButtonView.setOnClickListener {
 
-        loginButton.setOnClickListener {
-
-            val userEmailAddress = emailField.text.toString()
-            val userPassword = passwordField.text.toString()
+            val userEmailAddress = loginFragmentBinding.emailTextView.text.toString()
+            val userPassword = loginFragmentBinding.passwordTextView.text.toString()
 
             val loginClass = Login(userEmailAddress, userPassword)
 
-            if (loginClass.checkLoginField(emailTextInputLayout, passwordTextInputLayout)) {
-                if (loginClass.authenticateUser(emailTextInputLayout, passwordTextInputLayout)) {
+            if (loginClass.checkLoginField(loginFragmentBinding.emailTextInputLayout, loginFragmentBinding.passwordTextInputLayout)) {
+                if (loginClass.authenticateUser(loginFragmentBinding.emailTextInputLayout, loginFragmentBinding.passwordTextInputLayout)) {
                     changeToHomeScreen( userEmailAddress, userPassword)
                 }
             }
         }
 
-        signUpText.setOnClickListener {
+        loginFragmentBinding.signUpTextView.setOnClickListener {
             val signUpFragmentTransaction = parentFragmentManager.beginTransaction()
 
             signUpFragmentTransaction.apply {
@@ -70,7 +69,7 @@ class LoginFragment : Fragment() {
             }
         }
 
-        forgotPasswordTextView.setOnClickListener {
+        loginFragmentBinding.forgotPasswordTextView.setOnClickListener {
             val resetPasswordFragment = PasswordResetFragment()
             val fragmentTransaction = parentFragmentManager.beginTransaction()
 

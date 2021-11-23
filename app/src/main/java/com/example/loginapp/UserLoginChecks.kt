@@ -20,6 +20,7 @@ class Login(email: String, password: String){
 
         if (TextUtils.isEmpty(userEmail) && TextUtils.isEmpty(userPassword)){
 
+
             emailTextInputLayout.error = "Valid Email Required."
             passwordTextInputLayout.error = "Valid Password Required."
             return false
