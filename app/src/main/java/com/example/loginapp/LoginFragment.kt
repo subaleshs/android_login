@@ -38,7 +38,7 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        
+
 
         loginFragmentBinding.emailTextView.addTextChangedListener { loginFragmentBinding.emailTextInputLayout.error = null }
         loginFragmentBinding.passwordTextView.addTextChangedListener { loginFragmentBinding.passwordTextInputLayout.error = null }
