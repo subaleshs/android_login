@@ -66,7 +66,8 @@ class HomeScreenActivity : AppCompatActivity() {
             newsArrayList.add(
                 NewsTitle(
                     news.getString("title"),
-                    news.getString("author")
+                    news.getString("author"),
+                    news.getString("date")
             )
             )
         }

@@ -12,10 +12,11 @@ class NewsAdapter(private val newsList: ArrayList<NewsTitle>): RecyclerView.Adap
         private val binding = binding
 
         fun bind(newsData: NewsTitle){
-            val (title, author) = newsData
+            val (title, author, date) = newsData
 
             binding.newsTitle.text = title
-            binding.author.text = author
+            binding.authorNameView.text = author
+            binding.dateView.text = date
         }
     }
 

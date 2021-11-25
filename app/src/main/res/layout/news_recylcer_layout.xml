@@ -1,35 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_marginTop="10dp"
     android:layout_marginStart="5dp"
-    android:layout_marginEnd="5dp">
+    android:layout_marginEnd="5dp"
+    android:background="@drawable/news_tile">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/newsTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/teal_200"
-        android:orientation="vertical"
-        android:layout_marginBottom="10dp">
+        android:text="TextView"
+        android:textColor="@color/news_title"
+        android:padding="8dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="10dp"/>
 
-        <TextView
-            android:id="@+id/newsTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="10dp"/>
+    <TextView
+        android:id="@+id/authorNameView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/newsTitle"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="25dp"
+        android:padding="8dp"
+        android:text="TextView"
+        android:textColor="@color/purple_500"
+        android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/author"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:layout_marginBottom="25dp"
-            android:textSize="20sp" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/dateView"
+        android:layout_width="171dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/newsTitle"
+        android:layout_marginStart="108dp"
+     android:layout_toEndOf="@+id/authorNameView"
+        android:padding="8dp"
+        android:text="TextView"
+        android:textColor="@color/purple_500"
+        android:textSize="15sp" />
 
-</LinearLayout>
+</RelativeLayout>

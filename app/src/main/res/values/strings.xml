@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">COMPANY Ltd.</string>
+    <string name="app_name">The Truth</string>
     <string name="email_layout_hint">Email</string>
     <string name="email_edittext_hint">Enter your email address</string>
     <string name="password_layout_hint">Password</string>

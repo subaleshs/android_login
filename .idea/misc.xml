@@ -5,12 +5,15 @@
       <map>
         <entry key="..\:/Android/LoginApp/app/src/main/res/layout/activity_home_screen.xml" value="0.1793478260869565" />
         <entry key="..\:/Android/LoginApp/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Android/android_login/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.22763157894736843" />
+        <entry key="..\:/Android/android_login/app/src/main/res/drawable/ic_launcher_background.xml" value="0.22763157894736843" />
+        <entry key="..\:/Android/android_login/app/src/main/res/drawable/news_tile.xml" value="0.22763157894736843" />
         <entry key="..\:/Android/android_login/app/src/main/res/layout/activity_home_screen.xml" value="0.1793478260869565" />
         <entry key="..\:/Android/android_login/app/src/main/res/layout/activity_login_screen.xml" value="0.22" />
         <entry key="..\:/Android/android_login/app/src/main/res/layout/activity_main.xml" value="0.1793478260869565" />
         <entry key="..\:/Android/android_login/app/src/main/res/layout/activity_test_home_screen.xml" value="0.2" />
         <entry key="..\:/Android/android_login/app/src/main/res/layout/fragment_login.xml" value="0.21403508771929824" />
-        <entry key="..\:/Android/android_login/app/src/main/res/layout/news_recylcer_layout.xml" value="0.16666666666666666" />
+        <entry key="..\:/Android/android_login/app/src/main/res/layout/news_recylcer_layout.xml" value="0.264" />
         <entry key="app/src/main/res/layout/activity_home_screen.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22" />
       </map>
