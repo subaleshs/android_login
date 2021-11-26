@@ -1,10 +1,12 @@
 <resources>
-    <string name="app_name">COMPANY Ltd.</string>
+    <string name="app_name">The Truth</string>
     <string name="email_layout_hint">Email</string>
     <string name="email_edittext_hint">Enter your email address</string>
     <string name="password_layout_hint">Password</string>
+    <string name="confirm_password_hint">Confirm password</string>
     <string name="password_edittext_hint">Enter your password</string>
     <string name="login_button">LOGIN</string>
+    <string name="sign_up_button">SIGN UP</string>
     <string name="errorText">Incorrect Email or Password</string>
     <string name="main_banner">COMPANY Ltd.</string>
     <string name="forgot_password_text">Forgot Password?</string>
@@ -13,4 +15,6 @@
     <string name="auto_logout">Logout automatically after 10sec</string>
     <string name="user_name_placeholder">Username</string>
     <string name="profile_pic_description">User profile photo</string>
+    <string name="next_text">Next</string>
+    <string name="password_reset">Enter your email address.</string>
 </resources>

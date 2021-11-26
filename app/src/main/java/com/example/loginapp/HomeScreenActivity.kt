@@ -7,8 +7,14 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import com.example.loginapp.databinding.ActivityHomeScreenBinding
+import com.example.loginapp.databinding.FragmentSignupBinding
+import org.json.JSONObject
+import java.io.IOException
 
 class HomeScreenActivity : AppCompatActivity() {
+
+    private lateinit var homeScreenActivityBinding: ActivityHomeScreenBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,20 +27,66 @@ class HomeScreenActivity : AppCompatActivity() {
             startActivity(activityIntent)
         }
         else{
-            setContentView(R.layout.activity_home_screen)
+
+            homeScreenActivityBinding = ActivityHomeScreenBinding.inflate(layoutInflater)
+            setContentView(homeScreenActivityBinding.root)
 
             val userName: String? = loginSharedPreferences.getString("email", null)
 
             if (userName != null){
-                val textField = findViewById<TextView>(R.id.userNameText)
-                textField.text = userName.split("@")[0]
+
+                homeScreenActivityBinding.userNameText.text = userName.split("@")[0]
             }
+
+            val jsonObject = JSONObject(getJSON("news.json"))
+
+            var newsDataList = getNews(jsonObject)
+
+
+
+            homeScreenActivityBinding.newsRecyclerLayout.adapter = NewsAdapter(newsDataList)
 
 
             val logoutButton = findViewById<Button>(R.id.logoutButton)
             logoutButton.setOnClickListener {
                 showLogoutDialog(loginSharedPreferences)
             }
+        }
+
+    }
+
+    private fun getNews(jsonObject: JSONObject): ArrayList<NewsTitle> {
+
+        val newsArrayList: ArrayList<NewsTitle> = ArrayList()
+        val jsonArray = jsonObject.getJSONArray("data")
+
+        for(index in 0 until jsonArray.length()){
+            val news = jsonArray.getJSONObject(index)
+
+            newsArrayList.add(
+                NewsTitle(
+                    news.getString("title"),
+                    news.getString("author"),
+                    news.getString("date")
+            )
+            )
+        }
+
+        return  newsArrayList
+    }
+
+    private fun getJSON(fileName: String): String? {
+
+        var json: String? = null
+
+        try {
+            val jsonFile = assets.open(fileName)
+            json = jsonFile.bufferedReader().use { it.readText() }
+            return json
+        }
+        catch (exception: IOException){
+            exception.printStackTrace()
+            return null
         }
 
     }
