@@ -4,11 +4,9 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.example.loginapp.databinding.ActivityHomeScreenBinding
-import com.example.loginapp.databinding.FragmentSignupBinding
+import com.example.loginapp.fragments.NewsFeedFragment
 import org.json.JSONObject
 import java.io.IOException
 
@@ -33,22 +31,26 @@ class HomeScreenActivity : AppCompatActivity() {
 
             val userName: String? = loginSharedPreferences.getString("email", null)
 
-            if (userName != null){
-
-                homeScreenActivityBinding.userNameText.text = userName.split("@")[0]
-            }
-
             val jsonObject = JSONObject(getJSON("news.json"))
 
-            var newsDataList = getNews(jsonObject)
+            val newsDataList = getNews(jsonObject)
+
+            if (savedInstanceState == null){
+
+                val transaction = supportFragmentManager.beginTransaction()
+
+                transaction.apply {
+                    replace(R.id.fragmentContainerView, NewsFeedFragment(newsDataList))
+                    commit()
+                }
+            }
 
 
 
-            homeScreenActivityBinding.newsRecyclerLayout.adapter = NewsAdapter(newsDataList)
+//            homeScreenActivityBinding.newsRecyclerLayout.adapter = NewsAdapter(newsDataList)
 
 
-            val logoutButton = findViewById<Button>(R.id.logoutButton)
-            logoutButton.setOnClickListener {
+            homeScreenActivityBinding.loginButtonView.setOnClickListener {
                 showLogoutConfirm(loginSharedPreferences)
             }
         }
@@ -75,19 +77,20 @@ class HomeScreenActivity : AppCompatActivity() {
         return  newsArrayList
     }
 
-    private fun getJSON(fileName: String): String? {
+    private fun getJSON(fileName: String): String {
 
-        var json: String? = null
+        var json = "{}"
 
         try {
             val jsonFile = assets.open(fileName)
-            json = jsonFile.bufferedReader().use { it.readText() }
-            return json
+            json =  jsonFile.bufferedReader().use { it.readText() }
         }
         catch (exception: IOException){
             exception.printStackTrace()
-            return null
+            return "{}"
         }
+
+        return json
 
     }
 
