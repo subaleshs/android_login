@@ -34,6 +34,9 @@ class AccountFragment(private val sharedPreferences: SharedPreferences, private 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        accountFragmentBinding.profileImage.setImageResource(R.drawable.profile)
+        accountFragmentBinding.userName.text = sharedPreferences.getString("username", "No Username")
         accountFragmentBinding.loginButtonView.setOnClickListener { showLogoutDialog()}
 
     }

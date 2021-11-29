@@ -90,6 +90,7 @@ class LoginFragment : Fragment() {
         val loginEditor = loginSharedPreferences?.edit()
         loginEditor?.putString("email", emailAddress)
         loginEditor?.putString("password", password)
+        loginEditor?.putString("username","Sam Ronigen")
         loginEditor?.apply()
 
         val activityIntent = Intent(activity, HomeScreenActivity::class.java)
