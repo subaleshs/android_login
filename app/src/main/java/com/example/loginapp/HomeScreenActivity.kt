@@ -5,7 +5,9 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import com.example.loginapp.databinding.ActivityHomeScreenBinding
+import com.example.loginapp.fragments.AccountFragment
 import com.example.loginapp.fragments.NewsFeedFragment
 import org.json.JSONObject
 import java.io.IOException
@@ -13,6 +15,8 @@ import java.io.IOException
 class HomeScreenActivity : AppCompatActivity() {
 
     private lateinit var homeScreenActivityBinding: ActivityHomeScreenBinding
+    private lateinit var newsFeedFragment: NewsFeedFragment
+    private lateinit var accountFragment: AccountFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,28 +39,34 @@ class HomeScreenActivity : AppCompatActivity() {
 
             val newsDataList = getNews(jsonObject)
 
+            newsFeedFragment = NewsFeedFragment(newsDataList)
+            accountFragment = AccountFragment(loginSharedPreferences, this)
+
             if (savedInstanceState == null){
-
-                val transaction = supportFragmentManager.beginTransaction()
-
-                transaction.apply {
-                    replace(R.id.fragmentContainerView, NewsFeedFragment(newsDataList))
-                    commit()
-                }
+                replaceFragment(newsFeedFragment)
             }
 
 
-
-//            homeScreenActivityBinding.newsRecyclerLayout.adapter = NewsAdapter(newsDataList)
-
-
-
-            homeScreenActivityBinding.loginButtonView.setOnClickListener {
-                showLogoutDialog(loginSharedPreferences)
-
+            homeScreenActivityBinding.bottomNavigation.setOnNavigationItemSelectedListener {
+                when(it.itemId){
+                    R.id.account -> replaceFragment(accountFragment)
+                    R.id.home -> replaceFragment(newsFeedFragment)
+                }
+                true
             }
         }
 
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+
+        val transaction = supportFragmentManager.beginTransaction()
+
+        transaction.apply {
+            replace(R.id.fragmentContainerView, fragment)
+            addToBackStack("navigation")
+            commit()
+        }
     }
 
     private fun getNews(jsonObject: JSONObject): ArrayList<NewsTitle> {
@@ -96,30 +106,18 @@ class HomeScreenActivity : AppCompatActivity() {
 
     }
 
-    private fun logOut(sharedPreferences: SharedPreferences) {
-        val loginDetailEditor = sharedPreferences.edit()
-        loginDetailEditor.clear()
-        loginDetailEditor.apply()
-        val activityIntent = Intent(applicationContext, LoginScreenActivity::class.java)
-        startActivity(activityIntent)
-    }
-
-    private fun showLogoutDialog(sharedDetails: SharedPreferences){
-
-        val logoutConfirmAlert = AlertDialog.Builder(this)
-        logoutConfirmAlert.setMessage("Press Confirm to Logout")
-        logoutConfirmAlert.setPositiveButton("Confirm"){ _, _ -> logOut(sharedDetails) }
-        logoutConfirmAlert.setNegativeButton("Cancel"){ dialog, _ -> dialog.dismiss() }
-        logoutConfirmAlert.show()
-    }
-
     override fun onBackPressed() {
 
-        val exitConfirm = AlertDialog.Builder(this)
-        exitConfirm.setMessage("Do you want to exit?")
-        exitConfirm.setPositiveButton("Confirm"){ _, _ -> finishAffinity() }
-        exitConfirm.setNegativeButton("Cancel"){ dialog, _ -> dialog.cancel() }
-        exitConfirm.show()
+        if(supportFragmentManager.backStackEntryCount <= 1){
+            val exitConfirm = AlertDialog.Builder(this)
+            exitConfirm.setMessage("Do you want to exit?")
+            exitConfirm.setPositiveButton("Confirm"){ _, _ -> finishAffinity() }
+            exitConfirm.setNegativeButton("Cancel"){ dialog, _ -> dialog.cancel() }
+            exitConfirm.show()
+        }
+        else{
+            super.onBackPressed()
+        }
     }
 
 }
