@@ -1,8 +1,9 @@
-package com.example.loginapp
+package com.example.loginapp.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.loginapp.NewsTitle
 import com.example.loginapp.databinding.NewsRecylcerLayoutBinding
 
 class NewsAdapter(private val newsList: ArrayList<NewsTitle>): RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {

@@ -6,11 +6,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import com.example.loginapp.adapters.SwipeViewAdapter
 import com.example.loginapp.databinding.ActivityHomeScreenBinding
 import com.example.loginapp.fragments.AccountFragment
 import com.example.loginapp.fragments.NewsFeedFragment
-import org.json.JSONObject
-import java.io.IOException
 
 class HomeScreenActivity : AppCompatActivity() {
 

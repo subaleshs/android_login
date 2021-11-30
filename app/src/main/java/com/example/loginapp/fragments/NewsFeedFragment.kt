@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.loginapp.NewsAdapter
+import com.example.loginapp.adapters.NewsAdapter
 import com.example.loginapp.NewsTitle
 import com.example.loginapp.databinding.FragmentNewsFeedBinding
 import org.json.JSONObject
