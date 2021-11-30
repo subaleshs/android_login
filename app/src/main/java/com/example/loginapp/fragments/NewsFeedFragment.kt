@@ -12,9 +12,8 @@ import org.json.JSONObject
 import java.io.IOException
 
 
-class NewsFeedFragment(private val newsTitle: ArrayList<NewsTitle>) : Fragment() {
+class NewsFeedFragment() : Fragment() {
 
-    private val newsTitleArray = newsTitle
 
     private lateinit var newsFragmentBinding: FragmentNewsFeedBinding
 
@@ -32,9 +31,51 @@ class NewsFeedFragment(private val newsTitle: ArrayList<NewsTitle>) : Fragment()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        newsFragmentBinding.newsRecyclerLayout.adapter = NewsAdapter(newsTitleArray)
+        val jsonObject = JSONObject(getJSON("news.json"))
+
+        val newsDataList = getNews(jsonObject)
+
+        newsFragmentBinding.newsRecyclerLayout.adapter = NewsAdapter(newsDataList)
 
 
     }
+
+    private fun getNews(jsonObject: JSONObject): ArrayList<NewsTitle> {
+
+        val newsArrayList: ArrayList<NewsTitle> = ArrayList()
+        val jsonArray = jsonObject.getJSONArray("data")
+
+        for(index in 0 until jsonArray.length()){
+            val news = jsonArray.getJSONObject(index)
+
+            newsArrayList.add(
+                NewsTitle(
+                    news.getString("title"),
+                    news.getString("author"),
+                    news.getString("date")
+                )
+            )
+        }
+
+        return  newsArrayList
+    }
+
+    private fun getJSON(fileName: String): String {
+
+        var json = "{}"
+
+        try {
+            val jsonFile = context?.assets?.open(fileName)
+            json =  jsonFile?.bufferedReader().use { it!!.readText() }
+        }
+        catch (exception: IOException){
+            exception.printStackTrace()
+            return "{}"
+        }
+
+        return json
+
+    }
+
 
 }

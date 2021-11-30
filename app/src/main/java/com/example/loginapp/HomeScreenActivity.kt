@@ -35,11 +35,11 @@ class HomeScreenActivity : AppCompatActivity() {
 
             val userName: String? = loginSharedPreferences.getString("email", null)
 
-            val jsonObject = JSONObject(getJSON("news.json"))
+//            val jsonObject = JSONObject(getJSON("news.json"))
+//
+//            val newsDataList = getNews(jsonObject)
 
-            val newsDataList = getNews(jsonObject)
-
-            newsFeedFragment = NewsFeedFragment(newsDataList)
+            newsFeedFragment = NewsFeedFragment()
             accountFragment = AccountFragment(loginSharedPreferences, this)
             val viewPager = homeScreenActivityBinding.viewPagerBottomNav
 
@@ -79,42 +79,42 @@ class HomeScreenActivity : AppCompatActivity() {
         }
     }
 
-    private fun getNews(jsonObject: JSONObject): ArrayList<NewsTitle> {
-
-        val newsArrayList: ArrayList<NewsTitle> = ArrayList()
-        val jsonArray = jsonObject.getJSONArray("data")
-
-        for(index in 0 until jsonArray.length()){
-            val news = jsonArray.getJSONObject(index)
-
-            newsArrayList.add(
-                NewsTitle(
-                    news.getString("title"),
-                    news.getString("author"),
-                    news.getString("date")
-            )
-            )
-        }
-
-        return  newsArrayList
-    }
-
-    private fun getJSON(fileName: String): String {
-
-        var json = "{}"
-
-        try {
-            val jsonFile = assets.open(fileName)
-            json =  jsonFile.bufferedReader().use { it.readText() }
-        }
-        catch (exception: IOException){
-            exception.printStackTrace()
-            return "{}"
-        }
-
-        return json
-
-    }
+//    private fun getNews(jsonObject: JSONObject): ArrayList<NewsTitle> {
+//
+//        val newsArrayList: ArrayList<NewsTitle> = ArrayList()
+//        val jsonArray = jsonObject.getJSONArray("data")
+//
+//        for(index in 0 until jsonArray.length()){
+//            val news = jsonArray.getJSONObject(index)
+//
+//            newsArrayList.add(
+//                NewsTitle(
+//                    news.getString("title"),
+//                    news.getString("author"),
+//                    news.getString("date")
+//            )
+//            )
+//        }
+//
+//        return  newsArrayList
+//    }
+//
+//    private fun getJSON(fileName: String): String {
+//
+//        var json = "{}"
+//
+//        try {
+//            val jsonFile = assets.open(fileName)
+//            json =  jsonFile.bufferedReader().use { it.readText() }
+//        }
+//        catch (exception: IOException){
+//            exception.printStackTrace()
+//            return "{}"
+//        }
+//
+//        return json
+//
+//    }
 
     override fun onBackPressed() {
 
