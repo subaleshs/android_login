@@ -41,16 +41,26 @@ class HomeScreenActivity : AppCompatActivity() {
 
             newsFeedFragment = NewsFeedFragment(newsDataList)
             accountFragment = AccountFragment(loginSharedPreferences, this)
+            val viewPager = homeScreenActivityBinding.viewPagerBottomNav
 
-            if (savedInstanceState == null){
-                replaceFragment(newsFeedFragment)
-            }
+            viewPager.adapter = SwipeViewAdapter(supportFragmentManager, lifecycle, newsFeedFragment, accountFragment)
+
+//            if (savedInstanceState == null){
+//                replaceFragment(newsFeedFragment)
+//            }
 
 
             homeScreenActivityBinding.bottomNavigation.setOnNavigationItemSelectedListener {
                 when(it.itemId){
-                    R.id.account -> replaceFragment(accountFragment)
-                    R.id.home -> replaceFragment(newsFeedFragment)
+                    R.id.home -> {
+                        viewPager.currentItem = 0
+                    }
+                    R.id.favorites->{
+                        viewPager.currentItem = 1
+                    }
+                    R.id.account -> {
+                        viewPager.currentItem = 2
+                    }
                 }
                 true
             }

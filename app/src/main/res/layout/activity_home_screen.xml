@@ -9,6 +9,15 @@
     android:fitsSystemWindows="true"
     tools:context=".HomeScreenActivity">
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigation"
@@ -22,14 +31,15 @@
             app:itemIconTint="@color/light_blue_grey"
             app:itemTextColor="@color/light_blue_grey"/>
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPagerBottomNav"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="56dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/fragmentContainerView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
