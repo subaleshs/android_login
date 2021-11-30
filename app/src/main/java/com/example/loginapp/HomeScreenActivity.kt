@@ -14,8 +14,6 @@ import com.example.loginapp.fragments.NewsFeedFragment
 class HomeScreenActivity : AppCompatActivity() {
 
     private lateinit var homeScreenActivityBinding: ActivityHomeScreenBinding
-    private lateinit var newsFeedFragment: NewsFeedFragment
-    private lateinit var accountFragment: AccountFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,22 +30,8 @@ class HomeScreenActivity : AppCompatActivity() {
             homeScreenActivityBinding = ActivityHomeScreenBinding.inflate(layoutInflater)
             setContentView(homeScreenActivityBinding.root)
 
-            val userName: String? = loginSharedPreferences.getString("email", null)
-
-//            val jsonObject = JSONObject(getJSON("news.json"))
-//
-//            val newsDataList = getNews(jsonObject)
-
-            newsFeedFragment = NewsFeedFragment()
-            accountFragment = AccountFragment(loginSharedPreferences, this)
             val viewPager = homeScreenActivityBinding.viewPagerBottomNav
-
-            viewPager.adapter = SwipeViewAdapter(supportFragmentManager, lifecycle, newsFeedFragment, accountFragment)
-
-//            if (savedInstanceState == null){
-//                replaceFragment(newsFeedFragment)
-//            }
-
+            viewPager.adapter = SwipeViewAdapter(supportFragmentManager, lifecycle)
 
             homeScreenActivityBinding.bottomNavigation.setOnNavigationItemSelectedListener {
                 when(it.itemId){
@@ -64,56 +48,7 @@ class HomeScreenActivity : AppCompatActivity() {
                 true
             }
         }
-
     }
-
-    private fun replaceFragment(fragment: Fragment) {
-
-        val transaction = supportFragmentManager.beginTransaction()
-
-        transaction.apply {
-            replace(R.id.fragmentContainerView, fragment)
-            addToBackStack("navigation")
-            commit()
-        }
-    }
-
-//    private fun getNews(jsonObject: JSONObject): ArrayList<NewsTitle> {
-//
-//        val newsArrayList: ArrayList<NewsTitle> = ArrayList()
-//        val jsonArray = jsonObject.getJSONArray("data")
-//
-//        for(index in 0 until jsonArray.length()){
-//            val news = jsonArray.getJSONObject(index)
-//
-//            newsArrayList.add(
-//                NewsTitle(
-//                    news.getString("title"),
-//                    news.getString("author"),
-//                    news.getString("date")
-//            )
-//            )
-//        }
-//
-//        return  newsArrayList
-//    }
-//
-//    private fun getJSON(fileName: String): String {
-//
-//        var json = "{}"
-//
-//        try {
-//            val jsonFile = assets.open(fileName)
-//            json =  jsonFile.bufferedReader().use { it.readText() }
-//        }
-//        catch (exception: IOException){
-//            exception.printStackTrace()
-//            return "{}"
-//        }
-//
-//        return json
-//
-//    }
 
     override fun onBackPressed() {
 

@@ -11,17 +11,16 @@ import com.example.loginapp.fragments.NewsFeedFragment
 private const val numberOfTabs = 3
 
 class SwipeViewAdapter(
-    private val fragmentManager: FragmentManager, private val lifecycle: Lifecycle, private val newsFeedFragment: NewsFeedFragment, private val accountFragment: AccountFragment
-): FragmentStateAdapter(fragmentManager, lifecycle) {
+    private val fragmentManager: FragmentManager, private val lifecycle: Lifecycle): FragmentStateAdapter(fragmentManager, lifecycle) {
     override fun getItemCount(): Int {
         return numberOfTabs
     }
 
     override fun createFragment(position: Int): Fragment {
         return when(position){
-            0->newsFeedFragment
+            0->NewsFeedFragment()
             1->FavoritesFragment()
-            else->accountFragment
+            else->AccountFragment()
         }
 
     }

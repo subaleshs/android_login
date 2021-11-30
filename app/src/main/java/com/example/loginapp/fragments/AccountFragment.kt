@@ -17,7 +17,9 @@ import com.example.loginapp.R
 import com.example.loginapp.databinding.FragmentAccountBinding
 
 
-class AccountFragment(private val sharedPreferences: SharedPreferences, private val activity: Context) : Fragment() {
+class AccountFragment() : Fragment() {
+
+    private lateinit var sharedPreferences: SharedPreferences
 
     private lateinit var accountFragmentBinding: FragmentAccountBinding
 
@@ -34,7 +36,7 @@ class AccountFragment(private val sharedPreferences: SharedPreferences, private 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
+        sharedPreferences = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE)
         accountFragmentBinding.profileImage.setImageResource(R.drawable.profile)
         accountFragmentBinding.userName.text = sharedPreferences.getString("username", "No Username")
         accountFragmentBinding.loginButtonView.setOnClickListener { showLogoutDialog()}
@@ -43,7 +45,7 @@ class AccountFragment(private val sharedPreferences: SharedPreferences, private 
 
     private fun showLogoutDialog(){
 
-        val logoutConfirmAlert = AlertDialog.Builder(activity)
+        val logoutConfirmAlert = AlertDialog.Builder(requireActivity())
         logoutConfirmAlert.setMessage("Press Confirm to Logout")
         logoutConfirmAlert.setPositiveButton("Confirm"){ _, _ -> logOut() }
         logoutConfirmAlert.setNegativeButton("Cancel"){ dialog, _ -> dialog.dismiss() }
