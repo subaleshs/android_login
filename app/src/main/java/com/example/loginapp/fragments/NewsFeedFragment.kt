@@ -5,14 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.loginapp.NewsData
 import com.example.loginapp.adapters.NewsAdapter
-import com.example.loginapp.NewsTitle
 import com.example.loginapp.databinding.FragmentNewsFeedBinding
-import org.json.JSONObject
+import com.google.gson.Gson
 import java.io.IOException
 
 
-class NewsFeedFragment() : Fragment() {
+class NewsFeedFragment : Fragment() {
 
 
     private lateinit var newsFragmentBinding: FragmentNewsFeedBinding
@@ -20,7 +20,7 @@ class NewsFeedFragment() : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         newsFragmentBinding = FragmentNewsFeedBinding.inflate(inflater, container, false)
 
@@ -31,46 +31,33 @@ class NewsFeedFragment() : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val jsonObject = JSONObject(getJSON("news.json"))
+        val jsonString = getJSONString()
+        val news = getNewsData(jsonString)
 
-        val newsDataList = getNews(jsonObject)
-
-        newsFragmentBinding.newsRecyclerLayout.adapter = NewsAdapter(newsDataList)
+        val newsTitleArray = news.data
+        println(newsTitleArray)
+        newsFragmentBinding.newsRecyclerLayout.adapter = NewsAdapter(newsTitleArray)
 
 
     }
 
-    private fun getNews(jsonObject: JSONObject): ArrayList<NewsTitle> {
+    private fun getNewsData(json: String): NewsData{
 
-        val newsArrayList: ArrayList<NewsTitle> = ArrayList()
-        val jsonArray = jsonObject.getJSONArray("data")
-
-        for(index in 0 until jsonArray.length()){
-            val news = jsonArray.getJSONObject(index)
-
-            newsArrayList.add(
-                NewsTitle(
-                    news.getString("title"),
-                    news.getString("author"),
-                    news.getString("date")
-                )
-            )
-        }
-
-        return  newsArrayList
+            return Gson().fromJson(json, NewsData::class.java)
     }
 
-    private fun getJSON(fileName: String): String {
+
+    private fun getJSONString(): String {
 
         var json = "{}"
 
         try {
-            val jsonFile = context?.assets?.open(fileName)
+            val jsonFile = context?.assets?.open("news.json")
             json =  jsonFile?.bufferedReader().use { it!!.readText() }
         }
         catch (exception: IOException){
             exception.printStackTrace()
-            return "{}"
+            return json
         }
 
         return json
