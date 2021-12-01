@@ -27,6 +27,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_account.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_favorites.xml" value="0.16510416666666666" />
+        <entry key="app/src/main/res/layout/news_recycler_update.xml" value="0.22" />
         <entry key="app/src/main/res/menu/bottom_navigation.xml" value="0.16510416666666666" />
       </map>
     </option>

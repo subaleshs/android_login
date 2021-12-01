@@ -4,11 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.loginapp.NewsTitle
+import com.example.loginapp.databinding.NewsRecyclerUpdateBinding
 import com.example.loginapp.databinding.NewsRecylcerLayoutBinding
 
 class NewsAdapter(private val newsList: ArrayList<NewsTitle>): RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
-    class NewsViewHolder(binding: NewsRecylcerLayoutBinding): RecyclerView.ViewHolder(binding.root) {
+    class NewsViewHolder(binding: NewsRecyclerUpdateBinding): RecyclerView.ViewHolder(binding.root) {
 
         private val binding = binding
 
@@ -16,14 +17,13 @@ class NewsAdapter(private val newsList: ArrayList<NewsTitle>): RecyclerView.Adap
             val (title, author, date) = newsData
 
             binding.newsTitle.text = title
-            binding.authorNameView.text = author
             binding.dateView.text = date
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
 
-        val viewBinding = NewsRecylcerLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val viewBinding = NewsRecyclerUpdateBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return NewsViewHolder(viewBinding)
     }
 
