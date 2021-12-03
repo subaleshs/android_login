@@ -1,6 +1,7 @@
 package com.example.loginapp
 
-data class NewsTitle(
+
+data class NewsContent(
     val title: String,
     val date: String,
     val content: String,
@@ -9,6 +10,6 @@ data class NewsTitle(
 
 data class NewsData(
     val category: String,
-    val data: ArrayList<NewsTitle>
+    val data: ArrayList<NewsContent>
 )
 
