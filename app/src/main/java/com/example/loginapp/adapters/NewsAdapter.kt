@@ -1,20 +1,30 @@
 package com.example.loginapp.adapters
 
+import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.loginapp.NewsTitle
+import com.example.loginapp.NewsData
+import com.example.loginapp.NewsContent
 import com.example.loginapp.databinding.NewsRecylcerLayoutBinding
 
-class NewsAdapter(private val newsList: ArrayList<NewsTitle>): RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
+class NewsAdapter(private val newsData: NewsData): RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
-    class NewsViewHolder(binding: NewsRecylcerLayoutBinding): RecyclerView.ViewHolder(binding.root) {
+    lateinit var context: Context
 
-        private val binding = binding
+    var onCardClick: ((NewsContent)-> Unit)? = null
 
-        fun bind(newsData: NewsTitle){
-            val (title, author, date) = newsData
+    private val favNewsArrayList: ArrayList<Int> = ArrayList()
 
+    interface ViewClickInterface{ fun expandNews(news: NewsContent)}
+
+    class NewsViewHolder(val binding: NewsRecylcerLayoutBinding): RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(newsData: NewsContent, category: String){
+            val (title, date) = newsData
+
+            binding.category.text = category
             binding.newsTitle.text = title
             binding.dateView.text = date
         }
@@ -27,11 +37,19 @@ class NewsAdapter(private val newsList: ArrayList<NewsTitle>): RecyclerView.Adap
     }
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
-        holder.bind(newsList[position])
+        Log.d("pos",position.toString())
+        holder.bind(newsData.data[position], newsData.category)
+        val fm = holder.binding.root.context
+        holder.binding.newsCard.setOnClickListener {
+
+            onCardClick?.invoke(newsData.data[position])
+
+        }
+
     }
 
     override fun getItemCount(): Int {
-        return newsList.size
+        return newsData.data.size
     }
 }
 

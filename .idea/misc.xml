@@ -24,11 +24,14 @@
         <entry key="app/src/main/res/drawable/profile_layout.xml" value="0.18125" />
         <entry key="app/src/main/res/drawable/user_detail_shape.xml" value="0.18125" />
         <entry key="app/src/main/res/layout/activity_home_screen.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_login_screen.xml" value="0.15087719298245614" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_account.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/fragment_detailed_news.xml" value="0.17" />
         <entry key="app/src/main/res/layout/fragment_favorites.xml" value="0.16510416666666666" />
+        <entry key="app/src/main/res/layout/fragment_news_feed.xml" value="0.21195652173913043" />
         <entry key="app/src/main/res/layout/news_recycler_update.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/news_recylcer_layout.xml" value="0.12" />
+        <entry key="app/src/main/res/layout/news_recylcer_layout.xml" value="0.25" />
         <entry key="app/src/main/res/menu/bottom_navigation.xml" value="0.16510416666666666" />
       </map>
     </option>
