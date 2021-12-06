@@ -6,14 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
 import com.example.loginapp.R
 import com.example.loginapp.adapters.SwipeViewAdapter
 import com.example.loginapp.databinding.ActivityHomeScreenBinding
-import com.example.loginapp.fragments.AccountFragment
-import com.example.loginapp.fragments.DetailedNewsFragment
-import com.example.loginapp.fragments.NewsFeedFragment
-import com.google.android.material.appbar.AppBarLayout
 
 class HomeScreenActivity : AppCompatActivity() {
 
@@ -55,7 +50,6 @@ class HomeScreenActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        Log.d("Backstack", supportFragmentManager.backStackEntryCount.toString())
         if(supportFragmentManager.backStackEntryCount < 1){
             val exitConfirm = AlertDialog.Builder(this)
             exitConfirm.setMessage("Do you want to exit?")
@@ -64,6 +58,7 @@ class HomeScreenActivity : AppCompatActivity() {
             exitConfirm.show()
         }
         else{
+            Log.d("Backstack", supportFragmentManager.getBackStackEntryAt(0).id.toString())
             super.onBackPressed()
         }
     }

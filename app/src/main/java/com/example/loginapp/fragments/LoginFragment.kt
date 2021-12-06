@@ -12,7 +12,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
-import com.example.loginapp.HomeScreenActivity
+import com.example.loginapp.activities.HomeScreenActivity
 import com.example.loginapp.Login
 import com.example.loginapp.R
 import com.example.loginapp.databinding.FragmentLoginBinding

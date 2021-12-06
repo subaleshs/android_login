@@ -1,6 +1,5 @@
 package com.example.loginapp.fragments
 
-import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -10,9 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
-import com.example.loginapp.HomeScreenActivity
-import com.example.loginapp.LoginScreenActivity
+import com.example.loginapp.activities.LoginScreenActivity
 import com.example.loginapp.R
 import com.example.loginapp.databinding.FragmentAccountBinding
 

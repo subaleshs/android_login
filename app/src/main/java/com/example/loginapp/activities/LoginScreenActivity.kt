@@ -1,11 +1,9 @@
 package com.example.loginapp.activities
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.loginapp.databinding.ActivityLoginScreenBinding
-import com.example.loginapp.databinding.FragmentLoginBinding
 
 class LoginScreenActivity : AppCompatActivity(){
 

@@ -1,6 +1,7 @@
 package com.example.loginapp.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -37,32 +38,26 @@ class NewsFeedFragment : Fragment() {
 
         val jsonString = getJSONString()
         val news = getNewsData(jsonString)
-
-
-//        Log.d("TYPE", news::class.simpleName.toString())
-        println(news)
-
-        val newsTitleArray = news.data
-        println(newsTitleArray)
         val newsAdapter = NewsAdapter(news)
 
         newsFragmentBinding.newsRecyclerLayout.adapter = newsAdapter
+        newsAdapter.onCardClick = {detailedNews: NewsContent ->
 
-        newsAdapter.onCardClick = {newsFed: NewsContent ->
+            val transaction = parentFragmentManager.beginTransaction()
+            val fragment = DetailedNewsFragment()
+            val newsBundle = Bundle()
+            val newsArray = ArrayList<String>()
 
-            println(newsFed)
-//            val viewPager2 = activity!!.findViewById<ViewPager2>(R.id.viewPagerBottomNav)
-//            viewPager2.currentItem = 3
-//            onNewsExpand?.invoke(newsFed)
+            newsArray.add(detailedNews.title)
+            newsArray.add(detailedNews.content)
+            newsBundle.putStringArrayList("news", newsArray)
+            fragment.arguments = newsBundle
 
-//            val transaction = parentFragmentManager.beginTransaction()
-//            println(parentFragment)
-//
-//            transaction.apply {
-//                replace(R.id.fragmentContainerView, DetailedNewsFragment())
-//                addToBackStack(null)
-//                commit()
-//            }
+            transaction.apply {
+                replace(R.id.fragmentContainerView, fragment)
+                addToBackStack(null)
+                commit()
+            }
 
         }
     }

@@ -10,10 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Loginapp">
         <activity
-            android:name=".HomeScreenActivity"
+            android:name=".activities.HomeScreenActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginScreenActivity"
+            android:name=".activities.LoginScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
