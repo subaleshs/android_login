@@ -4,7 +4,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import com.example.loginapp.R
 import com.example.loginapp.adapters.SwipeViewAdapter
@@ -54,7 +53,6 @@ class HomeScreenActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        Log.d("Backstack", supportFragmentManager.getBackStackEntryAt(0).id.toString())
         if(supportFragmentManager.backStackEntryCount < 1){
             val exitConfirm = AlertDialog.Builder(this)
             exitConfirm.setMessage("Do you want to exit?")

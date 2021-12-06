@@ -12,12 +12,7 @@ import com.example.loginapp.databinding.NewsRecylcerLayoutBinding
 class NewsAdapter(private val newsData: NewsData): RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
     lateinit var context: Context
-
     var onCardClick: ((NewsContent)-> Unit)? = null
-
-    private val favNewsArrayList: ArrayList<Int> = ArrayList()
-
-    interface ViewClickInterface{ fun expandNews(news: NewsContent)}
 
     class NewsViewHolder(val binding: NewsRecylcerLayoutBinding): RecyclerView.ViewHolder(binding.root) {
 
@@ -39,7 +34,6 @@ class NewsAdapter(private val newsData: NewsData): RecyclerView.Adapter<NewsAdap
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         Log.d("pos",position.toString())
         holder.bind(newsData.data[position], newsData.category)
-        val fm = holder.binding.root.context
         holder.binding.newsCard.setOnClickListener {
 
             onCardClick?.invoke(newsData.data[position])
