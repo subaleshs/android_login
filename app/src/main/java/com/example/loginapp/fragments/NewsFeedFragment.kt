@@ -55,7 +55,7 @@ class NewsFeedFragment : Fragment() {
 
             transaction.apply {
                 replace(R.id.fragmentContainerView, fragment)
-                addToBackStack(null)
+                addToBackStack("home")
                 commit()
             }
 

@@ -33,6 +33,10 @@ class HomeScreenActivity : AppCompatActivity() {
             viewPager.adapter = SwipeViewAdapter(supportFragmentManager, lifecycle)
 
             homeScreenActivityBinding.bottomNavigation.setOnItemSelectedListener {
+
+                if (supportFragmentManager.backStackEntryCount >= 1){
+                    supportFragmentManager.popBackStack()
+                }
                 when(it.itemId){
                     R.id.home -> {
                         viewPager.currentItem = 0
@@ -50,6 +54,7 @@ class HomeScreenActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        Log.d("Backstack", supportFragmentManager.getBackStackEntryAt(0).id.toString())
         if(supportFragmentManager.backStackEntryCount < 1){
             val exitConfirm = AlertDialog.Builder(this)
             exitConfirm.setMessage("Do you want to exit?")
@@ -58,7 +63,6 @@ class HomeScreenActivity : AppCompatActivity() {
             exitConfirm.show()
         }
         else{
-            Log.d("Backstack", supportFragmentManager.getBackStackEntryAt(0).id.toString())
             super.onBackPressed()
         }
     }
