@@ -13,6 +13,10 @@
     <color name="indigo_800">#283593</color>
     <color name="indigo_700">#303F9F</color>
     <color name="red_900">#B71C1C</color>
+    <color name="light_blue_300">#4FC3F7</color>
+    <color name="light_blue_400">#29B6F6</color>
+    <color name="light_blue_500">#03A9F4</color>
+    <color name="light_blue_600">#039BE5</color>
     <color name="red_700">#D32F2F</color>
     <color name="deep_purple_900">#311B92</color>
     <color name="indigo_100">#C5CAE9</color>
