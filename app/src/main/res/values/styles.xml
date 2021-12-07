@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="error_text" parent="TextAppearance.AppCompat">
-        <item name="android:textColor">@color/red</item>
+        <item name="android:textColor">@color/red_700</item>
         <item name="android:textSize">12dp</item>
     </style>
 </resources>

@@ -7,17 +7,16 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="primary">#0c1438</color>
-    <color name="secondary">#271a2b</color>
-    <color name="forgot_password_color">#631e03</color>
-    <color name="red">#DC143C</color>
-    <color name="link">#389c93</color>
-    <color name="news_title">#633932</color>
-    <color name="light_blue_grey">#c5d6ed</color>
-    <color name="violet_grey">#caa9d4</color>
-    <color name="tile_outline">#a4d0de</color>
-    <color name="expand_color">#f2edf7</color>
-    <color name="tile">#5f5370</color>
-    <color name="content">#828282</color>
+    <color name="indigo_900">#1A237E</color>
+    <color name="indigo_600">#3949AB</color>
+    <color name="indigo_400">#5C6BC0</color>
+    <color name="indigo_800">#283593</color>
+    <color name="indigo_700">#303F9F</color>
+    <color name="red_900">#B71C1C</color>
+    <color name="red_700">#D32F2F</color>
+    <color name="deep_purple_900">#311B92</color>
+    <color name="indigo_100">#C5CAE9</color>
+    <color name="blue_A100">#82B1FF</color>
+    <color name="gray_600">#757575</color>
 
 </resources>

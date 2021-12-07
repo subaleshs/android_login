@@ -30,7 +30,9 @@
         <entry key="app/src/main/res/layout/fragment_account.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_detailed_news.xml" value="0.17" />
         <entry key="app/src/main/res/layout/fragment_favorites.xml" value="0.16510416666666666" />
+        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.19780701754385965" />
         <entry key="app/src/main/res/layout/fragment_news_feed.xml" value="0.21195652173913043" />
+        <entry key="app/src/main/res/layout/fragment_password_reset.xml" value="0.26856884057971014" />
         <entry key="app/src/main/res/layout/news_recycler_update.xml" value="0.1" />
         <entry key="app/src/main/res/layout/news_recylcer_layout.xml" value="0.25" />
         <entry key="app/src/main/res/menu/bottom_navigation.xml" value="0.16510416666666666" />
