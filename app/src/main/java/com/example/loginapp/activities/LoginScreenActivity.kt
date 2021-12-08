@@ -32,14 +32,12 @@ class LoginScreenActivity : AppCompatActivity(){
     override fun onBackPressed() {
         val backStackCount = supportFragmentManager.backStackEntryCount
 
-        if (backStackCount == 0){
+        if (backStackCount == 0) {
             moveTaskToBack(true)
-        }
-        else{
+        } else {
             super.onBackPressed()
         }
     }
-
 
 }
 
