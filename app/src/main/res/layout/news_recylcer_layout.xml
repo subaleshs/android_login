@@ -1,82 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/newsCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardElevation="500dp"
-    android:layout_marginVertical="1dp"
+    android:layout_marginVertical="2dp"
     android:layout_marginHorizontal="3dp"
-    app:cardBackgroundColor="@color/blue_gray_800"
+    app:cardBackgroundColor="@color/gray_50"
     app:cardCornerRadius="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="10dp">
+        android:layout_height="match_parent">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/newsPictureCard"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:strokeColor="@color/white"
-            app:strokeWidth="3dp">
+            app:layout_constraintVertical_chainStyle="packed">
 
             <ImageView
                 android:id="@+id/newsPicture"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/breaking" />
+                android:src="@drawable/news"
+                android:scaleType="fitXY"
+                android:adjustViewBounds="true"/>
 
         </com.google.android.material.card.MaterialCardView>
 
-        <TextView
-            android:id="@+id/category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:layout_marginVertical="5dp"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@color/deep_purple_900"
-            app:layout_constraintEnd_toStartOf="@+id/dateView"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/newsPictureCard" />
 
-        <TextView
-            android:id="@+id/dateView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:layout_marginVertical="5dp"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@color/deep_purple_900"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/category"
-            app:layout_constraintTop_toBottomOf="@+id/newsPictureCard" />
 
         <TextView
             android:id="@+id/newsTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="15dp"
+            android:layout_marginHorizontal="10dp"
             android:text="TextView"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/category" />
+            app:layout_constraintTop_toBottomOf="@+id/newsPictureCard" />
+        <TextView
+            android:id="@+id/category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="5dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="2dp"
+            android:text="TextView"
+            android:textColor="@color/gray_600"
+            android:textSize="11sp"
+            app:layout_constraintEnd_toStartOf="@+id/dateView"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/newsTitle" />
+
+        <TextView
+            android:id="@+id/dateView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="2dp"
+            android:text="TextView"
+            android:textColor="@color/gray_600"
+            android:textSize="11sp"
+            app:layout_constraintEnd_toStartOf="@+id/favCheckBox"
+            app:layout_constraintStart_toEndOf="@+id/category"
+            app:layout_constraintTop_toBottomOf="@+id/newsTitle" />
 
         <CheckBox
             android:id="@+id/favCheckBox"
@@ -91,4 +91,4 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>
