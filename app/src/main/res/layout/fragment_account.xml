@@ -11,7 +11,7 @@
         android:id="@+id/userDetailCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/pink_a700"
+        app:cardBackgroundColor="@color/secondary"
         app:cardElevation="100dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/loginButtonView"

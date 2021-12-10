@@ -5,8 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.loginapp.NewsData
-import com.example.loginapp.NewsContent
+import com.example.loginapp.dataclasses.NewsData
+import com.example.loginapp.dataclasses.NewsContent
 import com.example.loginapp.R
 import com.example.loginapp.adapters.NewsAdapter
 import com.example.loginapp.databinding.FragmentNewsFeedBinding
