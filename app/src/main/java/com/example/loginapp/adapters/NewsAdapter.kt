@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.loginapp.dataclasses.NewsData
-import com.example.loginapp.dataclasses.NewsContent
+import com.example.loginapp.model.NewsData
+import com.example.loginapp.model.NewsContent
 import com.example.loginapp.R
 import com.example.loginapp.databinding.NewsRecylcerLayoutBinding
 
@@ -24,9 +24,9 @@ class NewsAdapter(private val newsData: NewsData) :
         fun bind(newsData: NewsContent, category: String, context: Context) {
             val (title, date, content, url) = newsData
 
-//            binding.category.text = category
+            binding.category.text = category
             binding.newsTitle.text = title
-//            binding.dateView.text = date
+            binding.dateView.text = date
             Glide.with(context).load(url)
                 .error(R.drawable.news)
                 .into(binding.newsPicture)

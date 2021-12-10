@@ -1,4 +1,4 @@
-package com.example.loginapp.dataclasses
+package com.example.loginapp.model
 
 
 data class NewsContent(
