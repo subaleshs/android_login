@@ -68,14 +68,15 @@
     </com.google.android.material.textfield.TextInputLayout>
 
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/loginButtonView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
         android:layout_marginEnd="60dp"
         android:layout_marginBottom="25dp"
-        android:text="@string/sign_up_button"/>
+        android:text="@string/sign_up_button"
+        style="@style/button"/>
 
 
 </LinearLayout>

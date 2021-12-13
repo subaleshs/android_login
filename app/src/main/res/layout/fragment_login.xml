@@ -49,14 +49,15 @@
     </com.google.android.material.textfield.TextInputLayout>
 
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/loginButtonView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
         android:layout_marginEnd="60dp"
         android:layout_marginBottom="25dp"
-        android:text="@string/login_button"/>
+        android:text="@string/login_button"
+        style="@style/button"/>
 
     <TextView
         android:id="@+id/forgotPasswordTextView"
@@ -65,6 +66,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginBottom="25dp"
         android:text="@string/forgot_password_text"
+        style="@style/text_size_login"
         android:textColor="@color/red_900"/>
 
     <TextView
@@ -72,6 +74,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text=""
+        style="@style/text_size_login"
         android:layout_marginStart="110dp"
         android:layout_marginBottom="50dp"/>
 
