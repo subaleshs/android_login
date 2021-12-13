@@ -15,7 +15,8 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="25dp"
         app:endIconMode="clear_text"
-        android:hint="@string/email_layout_hint">
+        android:hint="@string/email_layout_hint"
+        app:hintTextAppearance="@style/hint_text">
 
 
         <com.google.android.material.textfield.TextInputEditText
@@ -24,7 +25,8 @@
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:paddingTop="30dp"
-            tools:ignore="LabelFor" />
+            tools:ignore="LabelFor"
+            style="@style/text_size_login"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -37,7 +39,8 @@
         android:layout_marginBottom="25dp"
         android:hint="@string/password_layout_hint"
         app:passwordToggleEnabled="true"
-        android:inputType="textPassword">
+        android:inputType="textPassword"
+        app:hintTextAppearance="@style/hint_text">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/passwordTextView"
@@ -45,7 +48,8 @@
             android:layout_height="wrap_content"
             android:paddingTop="30dp"
             android:inputType="textPassword"
-            tools:ignore="LabelFor" />
+            tools:ignore="LabelFor"
+            style="@style/text_size_login"/>
     </com.google.android.material.textfield.TextInputLayout>
 
 
