@@ -6,12 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import com.example.loginapp.model.NewsData
 import com.example.loginapp.model.NewsContent
 import com.example.loginapp.R
 import com.example.loginapp.adapters.NewsAdapter
-import com.example.loginapp.api.NewsApi
+import com.example.loginapp.api.NewsApiInterface
 import com.example.loginapp.databinding.FragmentNewsFeedBinding
+import com.example.loginapp.viewmodel.NewsViewModel
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import retrofit2.Call
@@ -24,7 +26,7 @@ import retrofit2.Callback as Callback
 
 class NewsFeedFragment : Fragment() {
 
-
+    var newsAdapter = NewsAdapter()
     var onNewsExpand: ((NewsContent) -> Unit)? = null
     private lateinit var newsFragmentBinding: FragmentNewsFeedBinding
 
@@ -32,30 +34,19 @@ class NewsFeedFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         newsFragmentBinding = FragmentNewsFeedBinding.inflate(inflater, container, false)
-
         return newsFragmentBinding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val jsonString = getJSONString()
-        val news = getNewsData(jsonString)
-        val newsAdapter = NewsAdapter(news)
-
-        getNewsFromAPI("science")
-
+        viewModelInit()
         newsFragmentBinding.newsRecyclerLayout.adapter = newsAdapter
         newsAdapter.onCardClick = { detailedNews: NewsContent ->
-
             val transaction = parentFragmentManager.beginTransaction()
             val fragment = DetailedNewsFragment()
             val newsBundle = Bundle()
-            val newsArray = ArrayList<String>()
-
+            val newsArray = ArrayList<String?>()
             newsArray.add(detailedNews.title)
             newsArray.add(detailedNews.content)
             newsArray.add(detailedNews.readMoreUrl)
@@ -68,54 +59,21 @@ class NewsFeedFragment : Fragment() {
                 addToBackStack("home")
                 commit()
             }
-
         }
     }
 
-    private fun getNewsFromAPI(category: String){
-
-        val api = Retrofit.Builder().baseUrl("https://inshortsapi.vercel.app/").addConverterFactory(GsonConverterFactory.create()).client(getClient()).build().create(NewsApi::class.java)
-
-        val apiCall = api.getNews(category)
-
-        val result = apiCall.enqueue(object: Callback<NewsData>{
-            override fun onFailure(call: Call<NewsData>, t: Throwable) {
-                Toast.makeText(activity, "Failed", Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onResponse(call: Call<NewsData>, response: Response<NewsData>) {
-                val news = response.body()
-                print(7)
+    private fun viewModelInit() {
+        val viewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
+        viewModel.getLiveData().observe(this, {
+            if (it != null) {
+                newsAdapter.getNewsData(it)
+                newsAdapter.notifyDataSetChanged()
+                println("done")
+            } else {
+                Toast.makeText(context, "asdfasd", Toast.LENGTH_SHORT).show()
             }
         })
+
+        viewModel.getNewsfromAPI("all")
     }
-
-    private fun getClient(): OkHttpClient {
-        val builder = OkHttpClient.Builder()
-
-        return builder.build()
-    }
-
-
-    private fun getNewsData(json: String?): NewsData {
-        return Gson().fromJson(json, NewsData::class.java)
-    }
-
-    private fun getJSONString(): String? {
-
-        var json: String? = null
-
-        try {
-            val jsonFile = context?.assets?.open("news.json")
-            json = jsonFile?.bufferedReader()?.use { it.readText() }
-        } catch (exception: IOException) {
-            exception.printStackTrace()
-            return json
-        }
-
-        return json
-
-    }
-
-
 }

@@ -11,9 +11,14 @@ import com.example.loginapp.model.NewsContent
 import com.example.loginapp.R
 import com.example.loginapp.databinding.NewsRecylcerLayoutBinding
 
-class NewsAdapter(private val newsData: NewsData) :
+class NewsAdapter() :
     RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
+    private var newsData: NewsData? = null
+
+    fun getNewsData(news: NewsData?){
+        newsData = news
+    }
     var onCardClick: ((NewsContent) -> Unit)? = null
 
     lateinit var context: Context
@@ -43,18 +48,17 @@ class NewsAdapter(private val newsData: NewsData) :
     }
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
-        Log.d("pos", position.toString())
-        holder.bind(newsData.data[position], newsData.category, context)
+        holder.bind(newsData?.data?.get(position)!!, newsData?.category!!, context)
         holder.binding.newsCard.setOnClickListener {
 
-            onCardClick?.invoke(newsData.data[position])
+            onCardClick?.invoke(newsData?.data?.get(position)!!)
 
         }
 
     }
 
     override fun getItemCount(): Int {
-        return newsData.data.size
+        return newsData?.data?.size ?: 0
     }
 }
 
