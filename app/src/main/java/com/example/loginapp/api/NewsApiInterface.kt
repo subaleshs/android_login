@@ -5,7 +5,7 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface NewsApi {
+interface NewsApiInterface {
 
     @GET("news?")
     fun getNews(@Query("category") category: String): Call<NewsData>
