@@ -1,5 +1,7 @@
 package com.example.loginapp.fragments
 
+import android.net.ConnectivityManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -32,29 +34,50 @@ class NewsFeedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         newsFragmentBinding.swipeRefresh.setOnRefreshListener {
             Log.d("SWIPE", "Refreshedd")
         }
-        viewModelInit()
-        newsFragmentBinding.newsRecyclerLayout.adapter = newsAdapter
-        newsAdapter.onCardClick = { detailedNews: NewsContent ->
-            val transaction = parentFragmentManager.beginTransaction()
-            val fragment = DetailedNewsFragment()
-            val newsBundle = Bundle()
-            val newsArray = ArrayList<String?>()
-            newsArray.add(detailedNews.title)
-            newsArray.add(detailedNews.content)
-            newsArray.add(detailedNews.readMoreUrl)
-            newsArray.add(detailedNews.date)
-            newsArray.add(detailedNews.imageUrl)
-            newsBundle.putStringArrayList("news", newsArray)
-            fragment.arguments = newsBundle
-            transaction.apply {
-                replace(R.id.fragmentContainerView, fragment)
-                addToBackStack("home")
-                commit()
+
+        if (checkNetwork()){
+            newsFragmentBinding.noNetworkImage.visibility = View.INVISIBLE
+            newsFragmentBinding.noInternet.visibility = View.INVISIBLE
+
+            viewModelInit()
+            newsFragmentBinding.newsRecyclerLayout.adapter = newsAdapter
+            newsAdapter.onCardClick = { detailedNews: NewsContent ->
+                val transaction = parentFragmentManager.beginTransaction()
+                val fragment = DetailedNewsFragment()
+                val newsBundle = Bundle()
+                val newsArray = ArrayList<String?>()
+                newsArray.add(detailedNews.title)
+                newsArray.add(detailedNews.content)
+                newsArray.add(detailedNews.readMoreUrl)
+                newsArray.add(detailedNews.date)
+                newsArray.add(detailedNews.imageUrl)
+                newsBundle.putStringArrayList("news", newsArray)
+                fragment.arguments = newsBundle
+                transaction.apply {
+                    replace(R.id.fragmentContainerView, fragment)
+                    addToBackStack("home")
+                    commit()
+                }
             }
+        }
+        else{
+            newsFragmentBinding.noNetworkImage.visibility = View.VISIBLE
+            newsFragmentBinding.noInternet.visibility = View.VISIBLE
+        }
+    }
+
+    private fun checkNetwork(): Boolean {
+        val connectivityManager = activity?.getSystemService(AppCompatActivity.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            return connectivityManager.activeNetwork != null
+        }
+        else{
+            @Suppress("DEPRECATION")
+            return connectivityManager.activeNetworkInfo != null
         }
     }
 
