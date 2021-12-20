@@ -23,7 +23,6 @@ class DetailedNewsFragment : Fragment() {
         val newsDetail = arguments?.getStringArrayList("news")
         binding.newsTitleText.text = newsDetail?.get(0) ?: "title"
         binding.newsContent.text = newsDetail?.get(1) ?: "Content"
-
         context?.let { Glide.with(it).load(newsDetail?.get(4)).error(R.drawable.news).into(binding.newsImage) }
 
         val htmlATag = "<a href=\""+newsDetail?.get(2)+"\">Read More</a>"

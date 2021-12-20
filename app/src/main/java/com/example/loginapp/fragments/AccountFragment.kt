@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.example.loginapp.activities.LoginScreenActivity
 import com.example.loginapp.R
 import com.example.loginapp.databinding.FragmentAccountBinding
@@ -38,6 +39,11 @@ class AccountFragment() : Fragment() {
         accountFragmentBinding.userName.text = sharedPreferences.getString("username", "No Username")
         accountFragmentBinding.loginButtonView.setOnClickListener { showLogoutDialog()}
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as AppCompatActivity).supportActionBar?.title = "Account"
     }
 
     private fun showLogoutDialog(){
