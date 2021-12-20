@@ -1,33 +1,25 @@
 package com.example.loginapp.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.example.loginapp.model.NewsData
 import com.example.loginapp.model.NewsContent
 import com.example.loginapp.R
 import com.example.loginapp.adapters.NewsAdapter
-import com.example.loginapp.api.NewsApiInterface
 import com.example.loginapp.databinding.FragmentNewsFeedBinding
 import com.example.loginapp.viewmodel.NewsViewModel
-import com.google.gson.Gson
-import okhttp3.OkHttpClient
-import retrofit2.Call
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.io.IOException
-import retrofit2.Callback as Callback
 
 
 class NewsFeedFragment : Fragment() {
 
-    var newsAdapter = NewsAdapter()
-    var onNewsExpand: ((NewsContent) -> Unit)? = null
+    private var newsAdapter = NewsAdapter()
+//    var onNewsExpand: ((NewsContent) -> Unit)? = null
     private lateinit var newsFragmentBinding: FragmentNewsFeedBinding
 
     override fun onCreateView(
@@ -40,6 +32,10 @@ class NewsFeedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        newsFragmentBinding.swipeRefresh.setOnRefreshListener {
+            Log.d("SWIPE", "Refreshedd")
+        }
         viewModelInit()
         newsFragmentBinding.newsRecyclerLayout.adapter = newsAdapter
         newsAdapter.onCardClick = { detailedNews: NewsContent ->
@@ -60,6 +56,11 @@ class NewsFeedFragment : Fragment() {
                 commit()
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as AppCompatActivity).supportActionBar?.title = "Home"
     }
 
     private fun viewModelInit() {

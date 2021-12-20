@@ -30,7 +30,6 @@ class HomeScreenActivity : AppCompatActivity() {
 
             val viewPager = homeScreenActivityBinding.viewPagerBottomNav
             viewPager.adapter = SwipeViewAdapter(supportFragmentManager, lifecycle)
-
             homeScreenActivityBinding.bottomNavigation.setOnItemSelectedListener {
 
                 if (supportFragmentManager.backStackEntryCount >= 1){
