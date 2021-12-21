@@ -19,7 +19,7 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/newsPictureCard"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:elevation="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -31,9 +31,9 @@
                 android:id="@+id/newsPicture"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/news"
+                android:adjustViewBounds="true"
                 android:scaleType="fitXY"
-                android:adjustViewBounds="true"/>
+                android:src="@drawable/news" />
 
         </com.google.android.material.card.MaterialCardView>
 
