@@ -48,13 +48,8 @@ class NewsFeedFragment : Fragment() {
                 val transaction = parentFragmentManager.beginTransaction()
                 val fragment = DetailedNewsFragment()
                 val newsBundle = Bundle()
-                val newsArray = ArrayList<String?>()
-                newsArray.add(detailedNews.title)
-                newsArray.add(detailedNews.content)
-                newsArray.add(detailedNews.readMoreUrl)
-                newsArray.add(detailedNews.date)
-                newsArray.add(detailedNews.imageUrl)
-                newsBundle.putStringArrayList("news", newsArray)
+
+                newsBundle.putParcelable("full_news", detailedNews)
                 fragment.arguments = newsBundle
                 transaction.apply {
                     replace(R.id.fragmentContainerView, fragment)
