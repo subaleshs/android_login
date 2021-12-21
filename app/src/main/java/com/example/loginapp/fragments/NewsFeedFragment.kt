@@ -35,7 +35,9 @@ class NewsFeedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         newsFragmentBinding.swipeRefresh.setOnRefreshListener {
-            Log.d("SWIPE", "Refreshedd")
+            viewModelInit()
+            newsFragmentBinding.newsRecyclerLayout.adapter = newsAdapter
+            newsFragmentBinding.swipeRefresh.isRefreshing = false
         }
 
         if (checkNetwork()){
@@ -89,10 +91,17 @@ class NewsFeedFragment : Fragment() {
                 newsAdapter.notifyDataSetChanged()
                 println("done")
             } else {
-                Toast.makeText(context, "asdfasd", Toast.LENGTH_SHORT).show()
+                if (checkNetwork()){
+                    newsFragmentBinding.noNetworkImage.visibility = View.VISIBLE
+                    newsFragmentBinding.noInternet.visibility = View.VISIBLE
+                }
+                else{
+                    newsFragmentBinding.noNetworkImage.visibility = View.VISIBLE
+                    newsFragmentBinding.noInternet.visibility = View.VISIBLE
+                }
             }
         })
 
-        viewModel.getNewsfromAPI("entertainment")
+        viewModel.getNewsfromAPI("all")
     }
 }

@@ -28,10 +28,12 @@ class DetailedNewsFragment : Fragment() {
         binding.newsContent.text = newsDetail?.content ?: "Content"
         context?.let { Glide.with(it).load(newsDetail?.imageUrl).error(R.drawable.news).into(binding.newsImage) }
 
-        val htmlATag = "<a href=\""+newsDetail?.readMoreUrl+"\">Read More</a>"
-        println(htmlATag)
-        binding.readMoreLink.text = HtmlCompat.fromHtml(htmlATag,HtmlCompat.FROM_HTML_MODE_LEGACY)
-        binding.readMoreLink.movementMethod = LinkMovementMethod.getInstance()
+        if (newsDetail?.readMoreUrl != null){
+            val htmlATag = "<a href=\""+newsDetail?.readMoreUrl+"\">Read More</a>"
+            println(htmlATag)
+            binding.readMoreLink.text = HtmlCompat.fromHtml(htmlATag,HtmlCompat.FROM_HTML_MODE_LEGACY)
+            binding.readMoreLink.movementMethod = LinkMovementMethod.getInstance()
+        }
         return binding.root
     }
 
