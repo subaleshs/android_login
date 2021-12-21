@@ -98,6 +98,6 @@ class NewsFeedFragment : Fragment() {
             }
         })
 
-        viewModel.getNewsfromAPI("all")
+        viewModel.getNewsfromAPI("entertainment")
     }
 }

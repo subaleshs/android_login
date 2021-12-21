@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.example.loginapp.model.NewsData
 import com.example.loginapp.model.NewsContent
 import com.example.loginapp.R
+import com.example.loginapp.databinding.NewFeedBinding
 import com.example.loginapp.databinding.NewsRecylcerLayoutBinding
 
 class NewsAdapter() :
@@ -52,7 +53,6 @@ class NewsAdapter() :
         holder.binding.newsCard.setOnClickListener {
 
             onCardClick?.invoke(newsData?.data?.get(position)!!)
-
         }
 
     }
