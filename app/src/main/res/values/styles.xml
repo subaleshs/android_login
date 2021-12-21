@@ -25,4 +25,11 @@
         <item name="android:textSize">15sp</item>
     </style>
 
+    <style name="no_internet_text">
+        <item name="android:textColor">@color/red_700</item>
+        <item name="textAllCaps">true</item>
+        <item name="android:text">@string/network_error</item>
+        <item name="android:textSize">30sp</item>
+    </style>
+
 </resources>

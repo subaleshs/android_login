@@ -52,7 +52,6 @@ class NewsAdapter() :
         holder.binding.newsCard.setOnClickListener {
 
             onCardClick?.invoke(newsData?.data?.get(position)!!)
-
         }
 
     }
