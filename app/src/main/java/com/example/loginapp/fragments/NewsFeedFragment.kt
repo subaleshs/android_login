@@ -21,7 +21,8 @@ import com.example.loginapp.viewmodel.NewsViewModel
 class NewsFeedFragment : Fragment() {
 
     private var newsAdapter = NewsAdapter()
-//    var onNewsExpand: ((NewsContent) -> Unit)? = null
+
+    //    var onNewsExpand: ((NewsContent) -> Unit)? = null
     private lateinit var newsFragmentBinding: FragmentNewsFeedBinding
 
     override fun onCreateView(
@@ -40,7 +41,7 @@ class NewsFeedFragment : Fragment() {
             newsFragmentBinding.swipeRefresh.isRefreshing = false
         }
 
-        if (checkNetwork()){
+        if (checkNetwork()) {
             newsFragmentBinding.noNetworkImage.visibility = View.INVISIBLE
             newsFragmentBinding.noInternet.visibility = View.INVISIBLE
 
@@ -59,20 +60,20 @@ class NewsFeedFragment : Fragment() {
                     commit()
                 }
             }
-        }
-        else{
+        } else {
             newsFragmentBinding.noNetworkImage.visibility = View.VISIBLE
             newsFragmentBinding.noInternet.visibility = View.VISIBLE
+            newsFragmentBinding.newsRecyclerLayout.visibility = View.INVISIBLE
         }
     }
 
     private fun checkNetwork(): Boolean {
-        val connectivityManager = activity?.getSystemService(AppCompatActivity.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val connectivityManager =
+            activity?.getSystemService(AppCompatActivity.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return connectivityManager.activeNetwork != null
-        }
-        else{
+        } else {
             @Suppress("DEPRECATION")
             return connectivityManager.activeNetworkInfo != null
         }
@@ -91,13 +92,29 @@ class NewsFeedFragment : Fragment() {
                 newsAdapter.notifyDataSetChanged()
                 println("done")
             } else {
-                if (checkNetwork()){
+                if (checkNetwork()) {
+                    newsFragmentBinding.noNetworkImage.setImageResource(R.drawable.tiny_people_examining_operating_system_error_warning_web_page_isolated_flat_illustration_74855_11104)
+                    newsFragmentBinding.noInternet.text = "Please refresh"
+                    if (newsFragmentBinding.noNetworkImage.visibility == View.VISIBLE){
+                        newsFragmentBinding.noNetworkImage.visibility = View.INVISIBLE
+                        newsFragmentBinding.noInternet.visibility = View.INVISIBLE
+                        newsFragmentBinding.newsRecyclerLayout.visibility = View.VISIBLE
+                    }
+                    else{
+                        newsFragmentBinding.noNetworkImage.visibility = View.VISIBLE
+                        newsFragmentBinding.noInternet.visibility = View.VISIBLE
+                        newsFragmentBinding.newsRecyclerLayout.visibility = View.INVISIBLE
+                    }
+
+                    Log.d("it", it.toString())
+
+                } else {
+                    newsFragmentBinding.noNetworkImage.setImageResource(R.drawable.wireless)
+                    newsFragmentBinding.noInternet.setText(R.string.network_error)
                     newsFragmentBinding.noNetworkImage.visibility = View.VISIBLE
                     newsFragmentBinding.noInternet.visibility = View.VISIBLE
-                }
-                else{
-                    newsFragmentBinding.noNetworkImage.visibility = View.VISIBLE
-                    newsFragmentBinding.noInternet.visibility = View.VISIBLE
+                    newsFragmentBinding.newsRecyclerLayout.visibility = View.INVISIBLE
+                    Log.d("count", "wer")
                 }
             }
         })
