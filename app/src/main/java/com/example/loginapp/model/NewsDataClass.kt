@@ -14,6 +14,8 @@ data class NewsContent(
 
 data class NewsData(
     val category: String?,
-    val data: ArrayList<NewsContent>?
+    val data: ArrayList<NewsContent>?,
+    val success: Boolean,
+    val error: String?
 )
 

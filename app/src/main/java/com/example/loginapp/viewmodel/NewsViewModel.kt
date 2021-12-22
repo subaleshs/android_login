@@ -24,7 +24,12 @@ class NewsViewModel : ViewModel() {
 
         val result = apiCall.enqueue(object : Callback<NewsData> {
             override fun onResponse(call: Call<NewsData>, response: Response<NewsData>) {
-                news.value = response.body()
+                if (response.body()?.success == true){
+                    news.value = response.body()
+                }
+                else{
+                    news.value = null
+                }
             }
 
             override fun onFailure(call: Call<NewsData>, t: Throwable) {
