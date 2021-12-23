@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,11 +11,13 @@
         android:id="@+id/emailTextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="25dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="25dp"
         android:hint="@string/email_layout_hint"
-        app:hintTextAppearance="@style/hint_text">
+        app:hintTextAppearance="@style/hint_text"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
 
         <EditText
@@ -33,13 +35,15 @@
         android:id="@+id/passwordTextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="25dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="25dp"
         android:hint="@string/password_layout_hint"
         app:passwordToggleEnabled="true"
         android:inputType="textPassword"
-        app:hintTextAppearance="@style/hint_text">
+        app:hintTextAppearance="@style/hint_text"
+        app:layout_constraintTop_toBottomOf="@+id/emailTextInputLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <EditText
             android:id="@+id/passwordTextView"
@@ -55,13 +59,15 @@
         android:id="@+id/confirmPasswordTextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="25dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="25dp"
         android:hint="@string/confirm_password_hint"
         app:passwordToggleEnabled="true"
         android:inputType="textPassword"
-        app:hintTextAppearance="@style/hint_text">
+        app:hintTextAppearance="@style/hint_text"
+        app:layout_constraintTop_toBottomOf="@+id/passwordTextInputLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <EditText
             android:id="@+id/confirmPasswordTextView"
@@ -78,11 +84,13 @@
         android:id="@+id/loginButtonView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginEnd="60dp"
-        android:layout_marginBottom="25dp"
+        android:layout_marginHorizontal="60dp"
+        android:layout_marginVertical="25dp"
         android:text="@string/sign_up_button"
-        style="@style/button"/>
+        style="@style/button"
+        app:layout_constraintTop_toBottomOf="@+id/confirmPasswordTextInputLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
