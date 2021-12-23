@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.loginapp.activities.LoginScreenActivity
 import com.example.loginapp.R
 import com.example.loginapp.databinding.FragmentAccountBinding
+import com.google.firebase.auth.FirebaseAuth
 
 
 class AccountFragment() : Fragment() {
@@ -36,7 +37,8 @@ class AccountFragment() : Fragment() {
 
         sharedPreferences = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE)
         accountFragmentBinding.profileImage.setImageResource(R.drawable.profile)
-        accountFragmentBinding.userName.text = sharedPreferences.getString("username", "No Username")
+        val email = sharedPreferences.getString("email", "No Username")
+        accountFragmentBinding.userName.text = email?.split('@')?.get(0) ?: "No Username"
         accountFragmentBinding.loginButtonView.setOnClickListener { showLogoutDialog()}
 
     }
@@ -59,7 +61,7 @@ class AccountFragment() : Fragment() {
         val loginDetailEditor = sharedPreferences.edit()
         loginDetailEditor.clear()
         loginDetailEditor.apply()
-
+        FirebaseAuth.getInstance().signOut()
         val activityIntent = Intent(activity, LoginScreenActivity::class.java)
         startActivity(activityIntent)
     }

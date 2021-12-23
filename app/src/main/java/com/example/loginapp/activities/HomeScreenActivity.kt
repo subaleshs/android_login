@@ -8,15 +8,22 @@ import androidx.appcompat.app.AlertDialog
 import com.example.loginapp.R
 import com.example.loginapp.adapters.SwipeViewAdapter
 import com.example.loginapp.databinding.ActivityHomeScreenBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class HomeScreenActivity : AppCompatActivity() {
 
     private lateinit var homeScreenActivityBinding: ActivityHomeScreenBinding
+    private lateinit var auth: FirebaseAuth
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val loginSharedPreferences: SharedPreferences= getSharedPreferences("user", MODE_PRIVATE)
         val appContext = applicationContext
+        auth = Firebase.auth
+
 
         if (!loginSharedPreferences.contains("email") && !loginSharedPreferences.contains("password")){
 
@@ -50,6 +57,15 @@ class HomeScreenActivity : AppCompatActivity() {
             }
         }
     }
+//
+//    public override fun onStart() {
+//        super.onStart()
+//        // Check if user is signed in (non-null) and update UI accordingly.
+//        val currentUser = auth.currentUser
+//        if(currentUser != null){
+//            reload();
+//        }
+//    }
 
     override fun onBackPressed() {
         if(supportFragmentManager.backStackEntryCount < 1){

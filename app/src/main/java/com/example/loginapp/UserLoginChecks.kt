@@ -1,8 +1,12 @@
 package com.example.loginapp
 
 import android.text.TextUtils
+import android.util.Log
 import android.util.Patterns
 import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class Login(email: String, password: String){
 
@@ -48,6 +52,15 @@ class Login(email: String, password: String){
         returns Boolean: true on successful authentication else false.
          */
 
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(userEmail, userPassword)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful){
+                    Log.d("login", task::class.simpleName.toString())
+                }
+                else{
+                    Log.d("fail", task.toString())
+                }
+            }
         return if (userEmail == "sam@gmail.com" ){
 
             if (userPassword == "password"){
