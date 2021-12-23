@@ -29,7 +29,7 @@ class AccountFragment() : Fragment() {
         // Inflate the layout for this fragment
         accountFragmentBinding = FragmentAccountBinding.inflate(inflater, container, false)
 
-        return  accountFragmentBinding.root
+        return accountFragmentBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,7 +39,7 @@ class AccountFragment() : Fragment() {
         accountFragmentBinding.profileImage.setImageResource(R.drawable.profile)
         val email = sharedPreferences.getString("email", "No Username")
         accountFragmentBinding.userName.text = email?.split('@')?.get(0) ?: "No Username"
-        accountFragmentBinding.loginButtonView.setOnClickListener { showLogoutDialog()}
+        accountFragmentBinding.loginButtonView.setOnClickListener { showLogoutDialog() }
 
     }
 
@@ -48,12 +48,12 @@ class AccountFragment() : Fragment() {
         (activity as AppCompatActivity).supportActionBar?.title = "Account"
     }
 
-    private fun showLogoutDialog(){
+    private fun showLogoutDialog() {
 
         val logoutConfirmAlert = AlertDialog.Builder(requireActivity())
         logoutConfirmAlert.setMessage("Press Confirm to Logout")
-        logoutConfirmAlert.setPositiveButton("Confirm"){ _, _ -> logOut() }
-        logoutConfirmAlert.setNegativeButton("Cancel"){ dialog, _ -> dialog.dismiss() }
+        logoutConfirmAlert.setPositiveButton("Confirm") { _, _ -> logOut() }
+        logoutConfirmAlert.setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
         logoutConfirmAlert.show()
     }
 

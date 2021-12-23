@@ -3,9 +3,11 @@ package com.example.loginapp.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.example.loginapp.databinding.ActivityLoginScreenBinding
+import com.google.firebase.auth.FirebaseAuth
 
-class LoginScreenActivity : AppCompatActivity(){
+class LoginScreenActivity : AppCompatActivity() {
 
     private lateinit var loginActivityBinding: ActivityLoginScreenBinding
 
@@ -14,12 +16,11 @@ class LoginScreenActivity : AppCompatActivity(){
 
         super.onCreate(savedInstanceState)
         val loginDetailsPreferences = getSharedPreferences("user", MODE_PRIVATE)
-        if (loginDetailsPreferences.contains("email") && loginDetailsPreferences.contains("password")){
+        if (FirebaseAuth.getInstance().currentUser != null) {
 
             val activityIntent = Intent(this, HomeScreenActivity::class.java)
             startActivity(activityIntent)
-        }
-        else{
+        } else {
 
             loginActivityBinding = ActivityLoginScreenBinding.inflate(layoutInflater)
 

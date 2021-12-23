@@ -20,17 +20,16 @@ class HomeScreenActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val loginSharedPreferences: SharedPreferences= getSharedPreferences("user", MODE_PRIVATE)
+        val loginSharedPreferences: SharedPreferences = getSharedPreferences("user", MODE_PRIVATE)
         val appContext = applicationContext
         auth = Firebase.auth
 
 
-        if (!loginSharedPreferences.contains("email") && !loginSharedPreferences.contains("password")){
+        if (!loginSharedPreferences.contains("email") && !loginSharedPreferences.contains("password")) {
 
             val activityIntent = Intent(appContext, LoginScreenActivity::class.java)
             startActivity(activityIntent)
-        }
-        else{
+        } else {
 
             homeScreenActivityBinding = ActivityHomeScreenBinding.inflate(layoutInflater)
             setContentView(homeScreenActivityBinding.root)
@@ -39,14 +38,14 @@ class HomeScreenActivity : AppCompatActivity() {
             viewPager.adapter = SwipeViewAdapter(supportFragmentManager, lifecycle)
             homeScreenActivityBinding.bottomNavigation.setOnItemSelectedListener {
 
-                if (supportFragmentManager.backStackEntryCount >= 1){
+                if (supportFragmentManager.backStackEntryCount >= 1) {
                     supportFragmentManager.popBackStack()
                 }
-                when(it.itemId){
+                when (it.itemId) {
                     R.id.home -> {
                         viewPager.currentItem = 0
                     }
-                    R.id.favorites ->{
+                    R.id.favorites -> {
                         viewPager.currentItem = 1
                     }
                     R.id.account -> {
@@ -68,14 +67,13 @@ class HomeScreenActivity : AppCompatActivity() {
 //    }
 
     override fun onBackPressed() {
-        if(supportFragmentManager.backStackEntryCount < 1){
+        if (supportFragmentManager.backStackEntryCount < 1) {
             val exitConfirm = AlertDialog.Builder(this)
             exitConfirm.setMessage("Do you want to exit?")
-            exitConfirm.setPositiveButton("Confirm"){ _, _ -> finishAffinity() }
-            exitConfirm.setNegativeButton("Cancel"){ dialog, _ -> dialog.cancel() }
+            exitConfirm.setPositiveButton("Confirm") { _, _ -> finishAffinity() }
+            exitConfirm.setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
             exitConfirm.show()
-        }
-        else{
+        } else {
             super.onBackPressed()
         }
     }

@@ -56,11 +56,6 @@ class LoginFragment : Fragment() {
 
             val loginClass = Login(userEmailAddress, userPassword)
 
-//            if (loginClass.checkLoginField(loginFragmentBinding.emailTextInputLayout, loginFragmentBinding.passwordTextInputLayout)) {
-//                if (loginClass.authenticateUser(loginFragmentBinding.emailTextInputLayout, loginFragmentBinding.passwordTextInputLayout)) {
-//                    changeToHomeScreen( userEmailAddress, userPassword)
-//                }
-//            }
             if (loginClass.checkLoginField(
                     loginFragmentBinding.emailTextInputLayout,
                     loginFragmentBinding.passwordTextInputLayout
@@ -98,12 +93,16 @@ class LoginFragment : Fragment() {
         FirebaseAuth.getInstance().signInWithEmailAndPassword(userEmailAddress, userPassword)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    changeToHomeScreen(FirebaseAuth.getInstance().currentUser?.email, FirebaseAuth.getInstance().currentUser?.uid)
+                    changeToHomeScreen(
+                        FirebaseAuth.getInstance().currentUser?.email,
+                        FirebaseAuth.getInstance().currentUser?.uid
+                    )
 //                    Log.d("logs", FirebaseAuth.getInstance().currentUser.toString())
                 } else {
                     loginFragmentBinding.loginErrorText.visibility = View.VISIBLE
                     loginFragmentBinding.emailTextInputLayout.error = " "
                     loginFragmentBinding.passwordTextInputLayout.error = " "
+
                 }
             }
     }

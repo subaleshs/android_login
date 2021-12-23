@@ -16,9 +16,10 @@ class NewsAdapter() :
 
     private var newsData: NewsData? = null
 
-    fun getNewsData(news: NewsData?){
+    fun getNewsData(news: NewsData?) {
         newsData = news
     }
+
     var onCardClick: ((NewsContent) -> Unit)? = null
 
     lateinit var context: Context
