@@ -33,6 +33,7 @@ class SignUpFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        signUpFragmentBinding.progressBarView.visibility = View.INVISIBLE
         signUpFragmentBinding.emailTextView.addTextChangedListener {
             signUpFragmentBinding.emailTextInputLayout.error = null
         }
@@ -82,17 +83,19 @@ class SignUpFragment : Fragment() {
      * Adds new user with [email] and [password].
      */
     private fun registerUser(email: String, password: String) {
-
+        signUpFragmentBinding.progressBarView.visibility = View.VISIBLE
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     Toast.makeText(activity, "new user", Toast.LENGTH_SHORT).show()
+                    signUpFragmentBinding.progressBarView.visibility = View.INVISIBLE
                     changeToHomeScreen(
                         FirebaseAuth.getInstance().currentUser?.email,
                         FirebaseAuth.getInstance().currentUser?.uid
                     )
 
                 } else {
+                    signUpFragmentBinding.progressBarView.visibility = View.INVISIBLE
                     Log.d("exp", it.exception.toString())
                     showAlert(it.exception?.message)
                 }
