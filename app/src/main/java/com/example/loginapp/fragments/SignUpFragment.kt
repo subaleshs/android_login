@@ -60,7 +60,7 @@ class SignUpFragment : Fragment() {
         }
 
         signUpFragmentBinding.signUpButtonView.setOnClickListener {
-            val email: String = signUpFragmentBinding.emailTextView.text.toString()
+            val email: String = signUpFragmentBinding.emailTextView.text.toString().trim()
             val password: String = signUpFragmentBinding.passwordTextView.text.toString()
             val confirmPassword: String =
                 signUpFragmentBinding.confirmPasswordTextView.text.toString()
