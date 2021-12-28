@@ -25,7 +25,7 @@ class SignUpFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         signUpFragmentBinding = FragmentSignupBinding.inflate(inflater, container, false)
         return signUpFragmentBinding.root
     }
@@ -78,7 +78,11 @@ class SignUpFragment : Fragment() {
         }
     }
 
+    /**
+     * Adds new user with [email] and [password].
+     */
     private fun registerUser(email: String, password: String) {
+
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
@@ -95,28 +99,34 @@ class SignUpFragment : Fragment() {
             }
     }
 
+    /**
+     * Shows alert with [message] when exception occur on firebase auth.
+     */
     private fun showAlert(message: String?) {
+
         try {
             val builder = AlertDialog.Builder(activity!!)
             builder.setMessage(message)
-            builder.setPositiveButton("cancel"){
-                dialog, _ -> dialog.dismiss()
+            builder.setPositiveButton("cancel") { dialog, _ ->
+                dialog.dismiss()
             }
             builder.show()
-        }catch (e: NullPointerException){
+        } catch (e: NullPointerException) {
             Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
 
         }
     }
 
+    /**
+     * Checks whether fields are empty or not using [email], [password] and [confirmPassword] values.
+     * @return Boolean value indicating empty or non-empty.
+     */
     private fun checkForEmptyFields(
         email: String,
         password: String,
         confirmPassword: String
     ): Boolean {
-        /*
-        Function checks whether fields are empty or not
-         */
+
         if (TextUtils.isEmpty(email) && TextUtils.isEmpty(password) && TextUtils.isEmpty(
                 confirmPassword
             )
@@ -139,11 +149,10 @@ class SignUpFragment : Fragment() {
         return true
     }
 
+    /**
+     * Switch from login activity to home screen activity and saves [emailAddress] and [uid] in shared preference.
+     */
     private fun changeToHomeScreen(emailAddress: String?, uid: String?) {
-        /*
-        Method to switch to home screen
-         */
-
         val loginSharedPreferences = activity?.getSharedPreferences(
             "user",
             AppCompatActivity.MODE_PRIVATE
