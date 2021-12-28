@@ -67,20 +67,7 @@ class SignUpFragment : Fragment() {
                 Log.d("pass0", "$password $confirmPassword")
 
                 if (password == confirmPassword) {
-                    FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener {
-                            if (it.isSuccessful) {
-                                Toast.makeText(activity, "new user", Toast.LENGTH_SHORT).show()
-                                changeToHomeScreen(
-                                    FirebaseAuth.getInstance().currentUser?.email,
-                                    FirebaseAuth.getInstance().currentUser?.uid
-                                )
-
-                            } else {
-                                Toast.makeText(activity, it.exception?.message, Toast.LENGTH_SHORT)
-                                    .show()
-                            }
-                        }
+                    registerUser(email, password)
                 } else {
                     signUpFragmentBinding.confirmPasswordTextInputLayout.error =
                         "Passwords don't match"
@@ -89,6 +76,23 @@ class SignUpFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun registerUser(email: String, password: String) {
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Toast.makeText(activity, "new user", Toast.LENGTH_SHORT).show()
+                    changeToHomeScreen(
+                        FirebaseAuth.getInstance().currentUser?.email,
+                        FirebaseAuth.getInstance().currentUser?.uid
+                    )
+
+                } else {
+                    Toast.makeText(activity, it.exception?.message, Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
     }
 
     private fun checkForEmptyFields(
