@@ -8,7 +8,6 @@
     <string name="login_button">LOGIN</string>
     <string name="sign_up_button">SIGN UP</string>
     <string name="errorText">Invalid login credentials</string>
-    <string name="main_banner">COMPANY Ltd.</string>
     <string name="forgot_password_text">Forgot Password?</string>
     <string name="user_image_description">User profile image</string>
     <string name="hello">Hello</string>
@@ -16,12 +15,11 @@
     <string name="auto_logout">Logout automatically after 10sec</string>
     <string name="user_name_placeholder">Username</string>
     <string name="profile_pic_description">User profile photo</string>
-    <string name="next_text">Next</string>
+    <string name="send_mail">Send Email</string>
     <string name="password_reset">Enter your email address</string>
     <string name="home_title">Home</string>
     <string name="fav_title">Favorites</string>
     <string name="account_title">Account</string>
     <string name="network_error">No Internet</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
