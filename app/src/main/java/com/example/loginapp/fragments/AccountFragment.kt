@@ -28,7 +28,6 @@ class AccountFragment() : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         accountFragmentBinding = FragmentAccountBinding.inflate(inflater, container, false)
-
         return accountFragmentBinding.root
     }
 

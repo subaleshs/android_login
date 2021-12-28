@@ -56,15 +56,6 @@ class HomeScreenActivity : AppCompatActivity() {
             }
         }
     }
-//
-//    public override fun onStart() {
-//        super.onStart()
-//        // Check if user is signed in (non-null) and update UI accordingly.
-//        val currentUser = auth.currentUser
-//        if(currentUser != null){
-//            reload();
-//        }
-//    }
 
     override fun onBackPressed() {
         if (supportFragmentManager.backStackEntryCount < 1) {

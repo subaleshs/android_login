@@ -4,11 +4,8 @@ import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.loginapp.model.NewsContent
@@ -95,12 +92,11 @@ class NewsFeedFragment : Fragment() {
                 if (checkNetwork()) {
                     newsFragmentBinding.noNetworkImage.setImageResource(R.drawable.tiny_people_examining_operating_system_error_warning_web_page_isolated_flat_illustration_74855_11104)
                     newsFragmentBinding.noInternet.text = "Please refresh"
-                    if (newsFragmentBinding.noNetworkImage.visibility == View.VISIBLE){
+                    if (newsFragmentBinding.noNetworkImage.visibility == View.VISIBLE) {
                         newsFragmentBinding.noNetworkImage.visibility = View.INVISIBLE
                         newsFragmentBinding.noInternet.visibility = View.INVISIBLE
                         newsFragmentBinding.newsRecyclerLayout.visibility = View.VISIBLE
-                    }
-                    else{
+                    } else {
                         newsFragmentBinding.noNetworkImage.visibility = View.VISIBLE
                         newsFragmentBinding.noInternet.visibility = View.VISIBLE
                         newsFragmentBinding.newsRecyclerLayout.visibility = View.INVISIBLE
