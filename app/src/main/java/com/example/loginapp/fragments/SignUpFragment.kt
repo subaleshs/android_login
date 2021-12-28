@@ -9,14 +9,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
-import com.example.loginapp.R
 import com.example.loginapp.activities.HomeScreenActivity
 import com.example.loginapp.databinding.FragmentSignupBinding
 import com.google.firebase.auth.FirebaseAuth
+import java.lang.NullPointerException
 
 class SignUpFragment : Fragment() {
 
@@ -89,10 +89,24 @@ class SignUpFragment : Fragment() {
                     )
 
                 } else {
-                    Toast.makeText(activity, it.exception?.message, Toast.LENGTH_SHORT)
-                        .show()
+                    Log.d("exp", it.exception.toString())
+                    showAlert(it.exception?.message)
                 }
             }
+    }
+
+    private fun showAlert(message: String?) {
+        try {
+            val builder = AlertDialog.Builder(activity!!)
+            builder.setMessage(message)
+            builder.setPositiveButton("cancel"){
+                dialog, _ -> dialog.dismiss()
+            }
+            builder.show()
+        }catch (e: NullPointerException){
+            Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+
+        }
     }
 
     private fun checkForEmptyFields(
