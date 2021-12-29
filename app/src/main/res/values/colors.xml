@@ -8,11 +8,12 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <!-- primary color (day)-->
-    <color name="ming">#3e6d6b</color>
-    <color name="primary_ming_dark">#0f4240</color>
+    <color name="primary">#1d2b56</color>
+    <color name="primary_dark">#00002d</color>
     <!-- Secondary color (day)-->
-    <color name="secondary">#609991</color>
-    <color name="secondary_dark">#326b64</color>
+    <color name="secondary">#001947</color>
+    <color name="secondary_dark">#000036</color>
+    <color name="login_background">#eefffe</color>
 
     <color name="detailed_news_title">#30364b</color>
     <color name="detailed_content">#f0ffff</color>

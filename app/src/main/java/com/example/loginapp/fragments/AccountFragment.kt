@@ -34,9 +34,10 @@ class AccountFragment() : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sharedPreferences = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE)
+        val authFirebase = FirebaseAuth.getInstance()
+//        sharedPreferences = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE)
         accountFragmentBinding.profileImage.setImageResource(R.drawable.profile)
-        val email = sharedPreferences.getString("email", "No Username")
+        val email = authFirebase.currentUser?.email
         accountFragmentBinding.userName.text = email?.split('@')?.get(0) ?: "No Username"
         accountFragmentBinding.loginButtonView.setOnClickListener { showLogoutDialog() }
 

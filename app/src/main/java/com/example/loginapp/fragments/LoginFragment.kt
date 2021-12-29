@@ -37,6 +37,7 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        loginFragmentBinding.progressBarView.visibility = View.INVISIBLE
         loginFragmentBinding.loginErrorText.visibility = View.INVISIBLE
         loginFragmentBinding.emailTextView.addTextChangedListener {
             loginFragmentBinding.emailTextInputLayout.error = null
@@ -90,15 +91,18 @@ class LoginFragment : Fragment() {
     }
 
     private fun authenticateUser(userEmailAddress: String, userPassword: String) {
+        loginFragmentBinding.progressBarView.visibility = View.VISIBLE
         FirebaseAuth.getInstance().signInWithEmailAndPassword(userEmailAddress, userPassword)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
+                    loginFragmentBinding.progressBarView.visibility = View.INVISIBLE
                     changeToHomeScreen(
                         FirebaseAuth.getInstance().currentUser?.email,
                         FirebaseAuth.getInstance().currentUser?.uid
                     )
 //                    Log.d("logs", FirebaseAuth.getInstance().currentUser.toString())
                 } else {
+                    loginFragmentBinding.progressBarView.visibility = View.INVISIBLE
                     loginFragmentBinding.loginErrorText.visibility = View.VISIBLE
                     loginFragmentBinding.emailTextInputLayout.error = " "
                     loginFragmentBinding.passwordTextInputLayout.error = " "
@@ -112,14 +116,14 @@ class LoginFragment : Fragment() {
         Method to switch to home screen
          */
 
-        val loginSharedPreferences = activity?.getSharedPreferences(
-            "user",
-            AppCompatActivity.MODE_PRIVATE
-        )
-        val loginEditor = loginSharedPreferences?.edit()
-        loginEditor?.putString("email", emailAddress)
-        loginEditor?.putString("uid", uid)
-        loginEditor?.apply()
+//        val loginSharedPreferences = activity?.getSharedPreferences(
+//            "user",
+//            AppCompatActivity.MODE_PRIVATE
+//        )
+//        val loginEditor = loginSharedPreferences?.edit()
+//        loginEditor?.putString("email", emailAddress)
+//        loginEditor?.putString("uid", uid)
+//        loginEditor?.apply()
 
         val activityIntent = Intent(activity, HomeScreenActivity::class.java)
         startActivity(activityIntent)

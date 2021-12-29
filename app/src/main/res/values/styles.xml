@@ -32,4 +32,9 @@
         <item name="android:textSize">30sp</item>
     </style>
 
+    <style name="form_card">
+        <item name="android:background">@color/login_background</item>
+        <item name="android:elevation">10dp</item>
+    </style>
+
 </resources>

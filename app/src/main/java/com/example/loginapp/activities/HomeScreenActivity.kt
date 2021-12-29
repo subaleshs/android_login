@@ -20,14 +20,10 @@ class HomeScreenActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val loginSharedPreferences: SharedPreferences = getSharedPreferences("user", MODE_PRIVATE)
-        val appContext = applicationContext
-        auth = Firebase.auth
 
+        if (FirebaseAuth.getInstance().currentUser == null) {
 
-        if (!loginSharedPreferences.contains("email") && !loginSharedPreferences.contains("password")) {
-
-            val activityIntent = Intent(appContext, LoginScreenActivity::class.java)
+            val activityIntent = Intent(applicationContext, LoginScreenActivity::class.java)
             startActivity(activityIntent)
         } else {
 

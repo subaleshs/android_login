@@ -6,7 +6,9 @@
     <string name="confirm_password_hint">Confirm password</string>
     <string name="password_edittext_hint">Enter your password</string>
     <string name="login_button">LOGIN</string>
-    <string name="sign_up_button">SIGN UP</string>
+    <string name="sign_up_button">Sign Up</string>
+    <string name="account_create">Create Account</string>
+    <string name="signup_welcome">Join the world of news</string>
     <string name="errorText">Invalid login credentials</string>
     <string name="forgot_password_text">Forgot Password?</string>
     <string name="user_image_description">User profile image</string>
