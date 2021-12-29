@@ -58,11 +58,10 @@ class PasswordResetFragment : Fragment() {
                                 builder.show()
                             }else{
                                 passwordResetFragmentBinding.progressBarView.visibility = View.INVISIBLE
-                                builder.setMessage(it.exception?.message)
-                                builder.setPositiveButton("Ok"){
-                                        dialog, _ -> dialog.dismiss()
-                                }
-                                builder.show()
+                                    val alertDialog = androidx.appcompat.app.AlertDialog.Builder(context!!).setTitle("ERROR")
+                                        .setMessage(it.exception?.message)
+                                        .setPositiveButton(android.R.string.ok) { _, _ -> }
+                                        .setIcon(android.R.drawable.ic_dialog_alert).show()
                             }
                         }
                 }else{

@@ -11,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.example.loginapp.NetworkChecks
 import com.example.loginapp.activities.HomeScreenActivity
@@ -99,40 +98,30 @@ class SignUpFragment : Fragment() {
                     } else {
                         signUpFragmentBinding.progressBarView.visibility = View.INVISIBLE
                         Log.d("exp", it.exception.toString())
-                        showAlert(it.exception?.message)
+                        showAlert("Error", it.exception?.message)
                     }
                 }
         }else{
-            try {
-                AlertDialog.Builder(context!!).setTitle("No Internet Connection")
-                    .setMessage("Please check your internet connection and try again")
-                    .setPositiveButton(android.R.string.ok) { _, _ -> }
-                    .setIcon(android.R.drawable.ic_dialog_alert).show()
-            } catch (e: NullPointerException) {
-                Toast.makeText(
-                    activity,
-                    "Please check your internet connection and try again",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+            showAlert("No Internet Connection", "Please check your internet connection and try again")
         }
     }
 
     /**
      * Shows alert with [message] when exception occur on firebase auth.
      */
-    private fun showAlert(message: String?) {
+    private fun showAlert(title: String, message: String?) {
 
         try {
-            val builder = AlertDialog.Builder(activity!!)
-            builder.setMessage(message)
-            builder.setPositiveButton("cancel") { dialog, _ ->
-                dialog.dismiss()
-            }
-            builder.show()
+            val alertDialog = AlertDialog.Builder(context!!).setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(android.R.string.ok) { _, _ -> }
+                .setIcon(android.R.drawable.ic_dialog_alert).show()
         } catch (e: NullPointerException) {
-            Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
-
+            Toast.makeText(
+                activity,
+                message,
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -172,15 +161,6 @@ class SignUpFragment : Fragment() {
      * Switch from login activity to home screen activity and saves [emailAddress] and [uid] in shared preference.
      */
     private fun changeToHomeScreen(emailAddress: String?, uid: String?) {
-        val loginSharedPreferences = activity?.getSharedPreferences(
-            "user",
-            AppCompatActivity.MODE_PRIVATE
-        )
-        val loginEditor = loginSharedPreferences?.edit()
-        loginEditor?.putString("email", emailAddress)
-        loginEditor?.putString("uid", uid)
-        loginEditor?.apply()
-
         val activityIntent = Intent(activity, HomeScreenActivity::class.java)
         startActivity(activityIntent)
         activity?.finish()

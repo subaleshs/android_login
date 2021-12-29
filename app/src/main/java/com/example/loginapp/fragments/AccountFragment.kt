@@ -18,8 +18,6 @@ import com.google.firebase.auth.FirebaseAuth
 
 class AccountFragment() : Fragment() {
 
-    private lateinit var sharedPreferences: SharedPreferences
-
     private lateinit var accountFragmentBinding: FragmentAccountBinding
 
     override fun onCreateView(
@@ -58,9 +56,6 @@ class AccountFragment() : Fragment() {
     }
 
     private fun logOut() {
-        val loginDetailEditor = sharedPreferences.edit()
-        loginDetailEditor.clear()
-        loginDetailEditor.apply()
         FirebaseAuth.getInstance().signOut()
         val activityIntent = Intent(activity, LoginScreenActivity::class.java)
         startActivity(activityIntent)

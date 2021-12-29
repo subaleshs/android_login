@@ -11,7 +11,7 @@ class NetworkChecks {
     fun isNetworkConnected(activity: Activity?): Boolean {
 
         val connectivityManager = activity?.getSystemService(AppCompatActivity.CONNECTIVITY_SERVICE) as ConnectivityManager
-        if (connectivityManager == null){
+        if (connectivityManager != null){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 val activeNetwork = connectivityManager.activeNetwork
                 val networkCapabilities = connectivityManager.getNetworkCapabilities(activeNetwork)
@@ -21,7 +21,8 @@ class NetworkChecks {
                 @Suppress("DEPRECATION")
                 return connectivityManager.activeNetworkInfo != null
             }
+        }else{
+            return false
         }
-       return false
     }
 }
