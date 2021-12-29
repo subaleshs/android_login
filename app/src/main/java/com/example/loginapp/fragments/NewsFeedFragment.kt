@@ -8,6 +8,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.example.loginapp.NetworkChecks
 import com.example.loginapp.model.NewsContent
 import com.example.loginapp.R
 import com.example.loginapp.adapters.NewsAdapter
@@ -38,7 +39,7 @@ class NewsFeedFragment : Fragment() {
             newsFragmentBinding.swipeRefresh.isRefreshing = false
         }
 
-        if (checkNetwork()) {
+        if (NetworkChecks().isNetworkConnected(activity)) {
             newsFragmentBinding.noNetworkImage.visibility = View.INVISIBLE
             newsFragmentBinding.noInternet.visibility = View.INVISIBLE
 
@@ -64,18 +65,6 @@ class NewsFeedFragment : Fragment() {
         }
     }
 
-    private fun checkNetwork(): Boolean {
-        val connectivityManager =
-            activity?.getSystemService(AppCompatActivity.CONNECTIVITY_SERVICE) as ConnectivityManager
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            return connectivityManager.activeNetwork != null
-        } else {
-            @Suppress("DEPRECATION")
-            return connectivityManager.activeNetworkInfo != null
-        }
-    }
-
     override fun onResume() {
         super.onResume()
         (activity as AppCompatActivity).supportActionBar?.title = "Home"
@@ -89,7 +78,7 @@ class NewsFeedFragment : Fragment() {
                 newsAdapter.notifyDataSetChanged()
                 println("done")
             } else {
-                if (checkNetwork()) {
+                if (NetworkChecks().isNetworkConnected(activity)) {
                     newsFragmentBinding.noNetworkImage.setImageResource(R.drawable.tiny_people_examining_operating_system_error_warning_web_page_isolated_flat_illustration_74855_11104)
                     newsFragmentBinding.noInternet.text = "Please refresh"
                     if (newsFragmentBinding.noNetworkImage.visibility == View.VISIBLE) {

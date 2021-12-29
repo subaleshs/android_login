@@ -9,10 +9,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
+import com.example.loginapp.NetworkChecks
 import com.example.loginapp.databinding.FragmentPasswordResetBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.ktx.Firebase
+import java.lang.NullPointerException
 
 class PasswordResetFragment : Fragment() {
 
@@ -39,28 +42,43 @@ class PasswordResetFragment : Fragment() {
                 passwordResetFragmentBinding.emailTextInputLayout.error = "Valid email required."
             }
             else{
-                passwordResetFragmentBinding.progressBarView.visibility = View.VISIBLE
-                FirebaseAuth.getInstance().sendPasswordResetEmail(userEmail)
-                    .addOnCompleteListener {
-                        val builder = AlertDialog.Builder(context)
-                        if (it.isSuccessful){
-                            builder.setMessage("Email send successfully.")
-                            builder.setPositiveButton("Ok"){
-                                dialog, _ ->
-                                dialog.dismiss()
+                if (NetworkChecks().isNetworkConnected(activity)){
+                    passwordResetFragmentBinding.progressBarView.visibility = View.VISIBLE
+                    FirebaseAuth.getInstance().sendPasswordResetEmail(userEmail)
+                        .addOnCompleteListener {
+                            val builder = AlertDialog.Builder(context)
+                            if (it.isSuccessful){
+                                builder.setMessage("Email send successfully.")
+                                builder.setPositiveButton("Ok"){
+                                        dialog, _ ->
+                                    dialog.dismiss()
+                                    passwordResetFragmentBinding.progressBarView.visibility = View.INVISIBLE
+                                    parentFragmentManager.popBackStack()
+                                }
+                                builder.show()
+                            }else{
                                 passwordResetFragmentBinding.progressBarView.visibility = View.INVISIBLE
-                                parentFragmentManager.popBackStack()
+                                builder.setMessage(it.exception?.message)
+                                builder.setPositiveButton("Ok"){
+                                        dialog, _ -> dialog.dismiss()
+                                }
+                                builder.show()
                             }
-                            builder.show()
-                        }else{
-                            passwordResetFragmentBinding.progressBarView.visibility = View.INVISIBLE
-                            builder.setMessage(it.exception?.message)
-                            builder.setPositiveButton("Ok"){
-                                dialog, _ -> dialog.dismiss()
-                            }
-                            builder.show()
                         }
+                }else{
+                    try {
+                        androidx.appcompat.app.AlertDialog.Builder(context!!).setTitle("No Internet Connection")
+                            .setMessage("Please check your internet connection and try again")
+                            .setPositiveButton(android.R.string.ok) { _, _ -> }
+                            .setIcon(android.R.drawable.ic_dialog_alert).show()
+                    } catch (e: NullPointerException) {
+                        Toast.makeText(
+                            activity,
+                            "Please check your internet connection and try again",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
+                }
             }
         }
     }

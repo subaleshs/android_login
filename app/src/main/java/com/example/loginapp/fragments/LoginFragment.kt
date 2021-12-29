@@ -2,6 +2,9 @@ package com.example.loginapp.fragments
 
 import android.content.Intent
 import android.graphics.Color
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
@@ -11,13 +14,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.content.getSystemService
 import androidx.core.widget.addTextChangedListener
 import com.example.loginapp.activities.HomeScreenActivity
 import com.example.loginapp.Login
+import com.example.loginapp.NetworkChecks
 import com.example.loginapp.R
 import com.example.loginapp.databinding.FragmentLoginBinding
 import com.google.firebase.auth.FirebaseAuth
+import java.lang.NullPointerException
 
 class LoginFragment : Fragment() {
 
@@ -52,17 +61,32 @@ class LoginFragment : Fragment() {
 
         loginFragmentBinding.loginButtonView.setOnClickListener {
 
-            val userEmailAddress = loginFragmentBinding.emailTextView.text.toString()
-            val userPassword = loginFragmentBinding.passwordTextView.text.toString()
+            if (NetworkChecks().isNetworkConnected(activity)) {
+                val userEmailAddress = loginFragmentBinding.emailTextView.text.toString()
+                val userPassword = loginFragmentBinding.passwordTextView.text.toString()
 
-            val loginClass = Login(userEmailAddress, userPassword)
+                val loginClass = Login(userEmailAddress, userPassword)
 
-            if (loginClass.checkLoginField(
-                    loginFragmentBinding.emailTextInputLayout,
-                    loginFragmentBinding.passwordTextInputLayout
-                )
-            ) {
-                authenticateUser(userEmailAddress, userPassword)
+                if (loginClass.checkLoginField(
+                        loginFragmentBinding.emailTextInputLayout,
+                        loginFragmentBinding.passwordTextInputLayout
+                    )
+                ) {
+                    authenticateUser(userEmailAddress, userPassword)
+                }
+            } else {
+                try {
+                    AlertDialog.Builder(context!!).setTitle("No Internet Connection")
+                        .setMessage("Please check your internet connection and try again")
+                        .setPositiveButton(android.R.string.ok) { _, _ -> }
+                        .setIcon(android.R.drawable.ic_dialog_alert).show()
+                } catch (e: NullPointerException) {
+                    Toast.makeText(
+                        activity,
+                        "Please check your internet connection and try again",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
 
@@ -115,16 +139,6 @@ class LoginFragment : Fragment() {
         /*
         Method to switch to home screen
          */
-
-//        val loginSharedPreferences = activity?.getSharedPreferences(
-//            "user",
-//            AppCompatActivity.MODE_PRIVATE
-//        )
-//        val loginEditor = loginSharedPreferences?.edit()
-//        loginEditor?.putString("email", emailAddress)
-//        loginEditor?.putString("uid", uid)
-//        loginEditor?.apply()
-
         val activityIntent = Intent(activity, HomeScreenActivity::class.java)
         startActivity(activityIntent)
         activity?.finish()

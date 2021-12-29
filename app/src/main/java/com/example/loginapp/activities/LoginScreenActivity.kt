@@ -15,7 +15,6 @@ class LoginScreenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        val loginDetailsPreferences = getSharedPreferences("user", MODE_PRIVATE)
         if (FirebaseAuth.getInstance().currentUser != null) {
 
             val activityIntent = Intent(this, HomeScreenActivity::class.java)
