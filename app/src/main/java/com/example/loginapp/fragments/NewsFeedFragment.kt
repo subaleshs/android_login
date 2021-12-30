@@ -20,7 +20,6 @@ class NewsFeedFragment : Fragment() {
 
     private var newsAdapter = NewsAdapter()
 
-    //    var onNewsExpand: ((NewsContent) -> Unit)? = null
     private lateinit var newsFragmentBinding: FragmentNewsFeedBinding
 
     override fun onCreateView(
@@ -67,7 +66,7 @@ class NewsFeedFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        (activity as AppCompatActivity).supportActionBar?.title = "Home"
+        (activity as AppCompatActivity).supportActionBar?.setTitle(R.string.home_title)
     }
 
     private fun viewModelInit() {
@@ -76,11 +75,10 @@ class NewsFeedFragment : Fragment() {
             if (it != null) {
                 newsAdapter.getNewsData(it)
                 newsAdapter.notifyDataSetChanged()
-                println("done")
             } else {
                 if (NetworkChecks().isNetworkConnected(activity)) {
                     newsFragmentBinding.noNetworkImage.setImageResource(R.drawable.tiny_people_examining_operating_system_error_warning_web_page_isolated_flat_illustration_74855_11104)
-                    newsFragmentBinding.noInternet.text = "Please refresh"
+                    newsFragmentBinding.noInternet.setText(R.string.refresh_message)
                     if (newsFragmentBinding.noNetworkImage.visibility == View.VISIBLE) {
                         newsFragmentBinding.noNetworkImage.visibility = View.INVISIBLE
                         newsFragmentBinding.noInternet.visibility = View.INVISIBLE

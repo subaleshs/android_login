@@ -43,15 +43,15 @@ class AccountFragment() : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        (activity as AppCompatActivity).supportActionBar?.title = "Account"
+        (activity as AppCompatActivity).supportActionBar?.setTitle(R.string.account_title)
     }
 
     private fun showLogoutDialog() {
 
         val logoutConfirmAlert = AlertDialog.Builder(requireActivity())
-        logoutConfirmAlert.setMessage("Press Confirm to Logout")
-        logoutConfirmAlert.setPositiveButton("Confirm") { _, _ -> logOut() }
-        logoutConfirmAlert.setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
+        logoutConfirmAlert.setMessage(R.string.logout_confirm)
+        logoutConfirmAlert.setPositiveButton(R.string.confirm) { _, _ -> logOut() }
+        logoutConfirmAlert.setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
         logoutConfirmAlert.show()
     }
 

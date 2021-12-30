@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.addTextChangedListener
 import com.example.loginapp.NetworkChecks
+import com.example.loginapp.R
 import com.example.loginapp.activities.HomeScreenActivity
 import com.example.loginapp.databinding.FragmentSignupBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -98,11 +99,11 @@ class SignUpFragment : Fragment() {
                     } else {
                         signUpFragmentBinding.progressBarView.visibility = View.INVISIBLE
                         Log.d("exp", it.exception.toString())
-                        showAlert("Error", it.exception?.message)
+                        showAlert(getString(R.string.error), it.exception?.message)
                     }
                 }
         }else{
-            showAlert("No Internet Connection", "Please check your internet connection and try again")
+            showAlert(getString(R.string.no_internet), getString(R.string.no_internet_message))
         }
     }
 

@@ -2,13 +2,9 @@ package com.example.loginapp.fragments
 
 import android.content.Intent
 import android.graphics.Color
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.os.Build
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,9 +12,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.core.content.getSystemService
 import androidx.core.widget.addTextChangedListener
 import com.example.loginapp.activities.HomeScreenActivity
 import com.example.loginapp.Login
@@ -76,14 +69,14 @@ class LoginFragment : Fragment() {
                 }
             } else {
                 try {
-                    AlertDialog.Builder(context!!).setTitle("No Internet Connection")
-                        .setMessage("Please check your internet connection and try again")
+                    AlertDialog.Builder(context!!).setTitle(R.string.no_internet)
+                        .setMessage(R.string.no_internet_message)
                         .setPositiveButton(android.R.string.ok) { _, _ -> }
                         .setIcon(android.R.drawable.ic_dialog_alert).show()
                 } catch (e: NullPointerException) {
                     Toast.makeText(
                         activity,
-                        "Please check your internet connection and try again",
+                        getString(R.string.no_internet),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -120,11 +113,7 @@ class LoginFragment : Fragment() {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     loginFragmentBinding.progressBarView.visibility = View.INVISIBLE
-                    changeToHomeScreen(
-                        FirebaseAuth.getInstance().currentUser?.email,
-                        FirebaseAuth.getInstance().currentUser?.uid
-                    )
-//                    Log.d("logs", FirebaseAuth.getInstance().currentUser.toString())
+                    changeToHomeScreen()
                 } else {
                     loginFragmentBinding.progressBarView.visibility = View.INVISIBLE
                     loginFragmentBinding.loginErrorText.visibility = View.VISIBLE
@@ -135,7 +124,7 @@ class LoginFragment : Fragment() {
             }
     }
 
-    private fun changeToHomeScreen(emailAddress: String?, uid: String?) {
+    private fun changeToHomeScreen() {
         /*
         Method to switch to home screen
          */
@@ -152,7 +141,7 @@ class LoginFragment : Fragment() {
          */
 
         val linkColor = Color.parseColor("#3ea2c7")
-        val signUpValue = "Need new account? Sign Up"
+        val signUpValue = getString(R.string.signup_message)
         val spanSignUp = SpannableString(signUpValue)
         spanSignUp.setSpan(
             ForegroundColorSpan(linkColor),
