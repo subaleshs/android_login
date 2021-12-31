@@ -17,7 +17,7 @@ class NewsViewModel : ViewModel() {
         return  news
     }
 
-    fun getNewsfromAPI(category: String) {
+    fun getNewsFromAPI(category: String) {
         val retrofitInstance = RetrofitInstance.getRetrofit()
         val api = retrofitInstance.create(NewsApiInterface::class.java)
         val apiCall = api.getNews(category)

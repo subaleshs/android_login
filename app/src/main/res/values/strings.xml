@@ -35,6 +35,7 @@
     <string name="signup_message">Need new account? Sign Up</string>
     <string name="refresh_message">Please refresh</string>
     <string name="email_error">Valid email required.</string>
+    <string name="password_error">Valid Password Required.</string>
     <string name="email_send_success">Email send successfully.</string>
     <string name="ok">Ok</string>
     <string name="error">ERROR</string>

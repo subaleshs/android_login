@@ -1,6 +1,5 @@
 package com.example.loginapp.fragments
 
-import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -102,6 +101,6 @@ class NewsFeedFragment : Fragment() {
             }
         })
 
-        viewModel.getNewsfromAPI("all")
+        viewModel.getNewsFromAPI("all")
     }
 }
