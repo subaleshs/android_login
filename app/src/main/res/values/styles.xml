@@ -24,7 +24,7 @@
         <item name="android:paddingStart">10dp</item>
         <item name="android:drawablePadding">20dp</item>
         <item name="android:textAlignment">viewStart</item>
-        <item name="android:layout_marginTop">1dp</item>
+        <item name="android:layout_marginTop">3dp</item>
         <item name="android:background">@drawable/account_button_shape</item>
         <item name="android:textColor">@color/blue_gray_dark</item>
     </style>

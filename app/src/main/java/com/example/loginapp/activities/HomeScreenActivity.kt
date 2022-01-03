@@ -1,7 +1,6 @@
 package com.example.loginapp.activities
 
 import android.content.Intent
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
@@ -9,14 +8,10 @@ import com.example.loginapp.R
 import com.example.loginapp.adapters.SwipeViewAdapter
 import com.example.loginapp.databinding.ActivityHomeScreenBinding
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 
 class HomeScreenActivity : AppCompatActivity() {
 
     private lateinit var homeScreenActivityBinding: ActivityHomeScreenBinding
-    private lateinit var auth: FirebaseAuth
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,9 +51,9 @@ class HomeScreenActivity : AppCompatActivity() {
     override fun onBackPressed() {
         if (supportFragmentManager.backStackEntryCount < 1) {
             val exitConfirm = AlertDialog.Builder(this)
-            exitConfirm.setMessage("Do you want to exit?")
-            exitConfirm.setPositiveButton("Confirm") { _, _ -> finishAffinity() }
-            exitConfirm.setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
+            exitConfirm.setMessage(R.string.exit_dialog_message)
+            exitConfirm.setPositiveButton(R.string.confirm) { _, _ -> finishAffinity() }
+            exitConfirm.setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
             exitConfirm.show()
         } else {
             super.onBackPressed()

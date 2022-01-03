@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import com.example.loginapp.NetworkChecks
+import com.example.loginapp.R
 import com.example.loginapp.databinding.FragmentPasswordResetBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.ktx.Firebase
@@ -39,7 +40,7 @@ class PasswordResetFragment : Fragment() {
         passwordResetFragmentBinding.sendEmailButtonView.setOnClickListener {
             val userEmail = passwordResetFragmentBinding.emailTextView.text.toString().trim()
             if (TextUtils.isEmpty(userEmail) or !Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()){
-                passwordResetFragmentBinding.emailTextInputLayout.error = "Valid email required."
+                passwordResetFragmentBinding.emailTextInputLayout.error = getString(R.string.email_error)
             }
             else{
                 if (NetworkChecks().isNetworkConnected(activity)){
@@ -48,8 +49,8 @@ class PasswordResetFragment : Fragment() {
                         .addOnCompleteListener {
                             val builder = AlertDialog.Builder(context)
                             if (it.isSuccessful){
-                                builder.setMessage("Email send successfully.")
-                                builder.setPositiveButton("Ok"){
+                                builder.setMessage(R.string.email_send_success)
+                                builder.setPositiveButton(R.string.ok){
                                         dialog, _ ->
                                     dialog.dismiss()
                                     passwordResetFragmentBinding.progressBarView.visibility = View.INVISIBLE
@@ -58,7 +59,7 @@ class PasswordResetFragment : Fragment() {
                                 builder.show()
                             }else{
                                 passwordResetFragmentBinding.progressBarView.visibility = View.INVISIBLE
-                                    val alertDialog = androidx.appcompat.app.AlertDialog.Builder(context!!).setTitle("ERROR")
+                                    val alertDialog = androidx.appcompat.app.AlertDialog.Builder(context!!).setTitle(R.string.error)
                                         .setMessage(it.exception?.message)
                                         .setPositiveButton(android.R.string.ok) { _, _ -> }
                                         .setIcon(android.R.drawable.ic_dialog_alert).show()
@@ -66,14 +67,14 @@ class PasswordResetFragment : Fragment() {
                         }
                 }else{
                     try {
-                        androidx.appcompat.app.AlertDialog.Builder(context!!).setTitle("No Internet Connection")
-                            .setMessage("Please check your internet connection and try again")
+                        androidx.appcompat.app.AlertDialog.Builder(context!!).setTitle(R.string.no_internet)
+                            .setMessage(R.string.no_internet_message)
                             .setPositiveButton(android.R.string.ok) { _, _ -> }
                             .setIcon(android.R.drawable.ic_dialog_alert).show()
                     } catch (e: NullPointerException) {
                         Toast.makeText(
                             activity,
-                            "Please check your internet connection and try again",
+                            getString(R.string.no_internet_message),
                             Toast.LENGTH_SHORT
                         ).show()
                     }

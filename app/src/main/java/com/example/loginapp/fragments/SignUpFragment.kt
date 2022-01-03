@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.addTextChangedListener
 import com.example.loginapp.NetworkChecks
+import com.example.loginapp.R
 import com.example.loginapp.activities.HomeScreenActivity
 import com.example.loginapp.databinding.FragmentSignupBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -90,19 +91,16 @@ class SignUpFragment : Fragment() {
                     if (it.isSuccessful) {
                         Toast.makeText(activity, "new user", Toast.LENGTH_SHORT).show()
                         signUpFragmentBinding.progressBarView.visibility = View.INVISIBLE
-                        changeToHomeScreen(
-                            FirebaseAuth.getInstance().currentUser?.email,
-                            FirebaseAuth.getInstance().currentUser?.uid
-                        )
+                        changeToHomeScreen()
 
                     } else {
                         signUpFragmentBinding.progressBarView.visibility = View.INVISIBLE
                         Log.d("exp", it.exception.toString())
-                        showAlert("Error", it.exception?.message)
+                        showAlert(getString(R.string.error), it.exception?.message)
                     }
                 }
         }else{
-            showAlert("No Internet Connection", "Please check your internet connection and try again")
+            showAlert(getString(R.string.no_internet), getString(R.string.no_internet_message))
         }
     }
 
@@ -112,7 +110,7 @@ class SignUpFragment : Fragment() {
     private fun showAlert(title: String, message: String?) {
 
         try {
-            val alertDialog = AlertDialog.Builder(context!!).setTitle(title)
+            AlertDialog.Builder(context!!).setTitle(title)
                 .setMessage(message)
                 .setPositiveButton(android.R.string.ok) { _, _ -> }
                 .setIcon(android.R.drawable.ic_dialog_alert).show()
@@ -139,17 +137,17 @@ class SignUpFragment : Fragment() {
                 confirmPassword
             )
         ) {
-            signUpFragmentBinding.emailTextInputLayout.error = "Valid Email Required."
-            signUpFragmentBinding.passwordTextInputLayout.error = "Valid Password Required."
-            signUpFragmentBinding.confirmPasswordTextInputLayout.error = "Valid Password Required."
+            signUpFragmentBinding.emailTextInputLayout.error = getString(R.string.email_error)
+            signUpFragmentBinding.passwordTextInputLayout.error = getString(R.string.password_error)
+            signUpFragmentBinding.confirmPasswordTextInputLayout.error = getString(R.string.password_error)
             return false
         } else if (TextUtils.isEmpty(email) || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
 
-            signUpFragmentBinding.emailTextInputLayout.error = "Valid Email Required."
+            signUpFragmentBinding.emailTextInputLayout.error = getString(R.string.email_error)
             return false
         } else if (TextUtils.isEmpty(password)) {
 
-            signUpFragmentBinding.passwordTextInputLayout.error = "Valid Password Required"
+            signUpFragmentBinding.passwordTextInputLayout.error = getString(R.string.password_error)
             return false
 
         }
@@ -158,9 +156,9 @@ class SignUpFragment : Fragment() {
     }
 
     /**
-     * Switch from login activity to home screen activity and saves [emailAddress] and [uid] in shared preference.
+     * Switch from login activity to home screen activity
      */
-    private fun changeToHomeScreen(emailAddress: String?, uid: String?) {
+    private fun changeToHomeScreen() {
         val activityIntent = Intent(activity, HomeScreenActivity::class.java)
         startActivity(activityIntent)
         activity?.finish()

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">La verdad</string>
+    <string name="email_layout_hint">Correo electrónico</string>
+    <string name="email_edittext_hint">Ingrese su dirección de correo electrónico</string>
+    <string name="password_layout_hint">Contraseña</string>
+    <string name="confirm_password_hint">Confirmar contraseña</string>
+    <string name="password_edittext_hint">Ingresa tu contraseña</string>
+    <string name="login_button">ACCESO</string>
+    <string name="sign_up_button">Inscribirse</string>
+    <string name="account_create">Crear una cuenta</string>
+    <string name="signup_welcome">Súmate al mundo de las noticias</string>
+    <string name="errorText">Credenciales de acceso invalidos</string>
+    <string name="forgot_password_text">¿Has olvidado tu contraseña?</string>
+    <string name="user_image_description">Imagen de perfil de usuario</string>
+    <string name="hello">Hola</string>
+    <string name="logout_button">CERRAR SESIÓN</string>
+    <string name="auto_logout">Cerrar sesión automáticamente después de 10 segundos</string>
+    <string name="user_name_placeholder">Nombre de usuario</string>
+    <string name="profile_pic_description">Foto de perfil de usuario</string>
+    <string name="send_mail">Enviar correo electrónico</string>
+    <string name="password_reset">Ingrese su dirección de correo electrónico</string>
+    <string name="home_title">Casa</string>
+    <string name="fav_title">Favoritos</string>
+    <string name="account_title">Cuenta</string>
+    <string name="network_error">Sin internet</string>
+    <string name="reset_password">Restablecer la contraseña</string>
+    <string name="edit_profile">Editar perfil</string>
+    <string name="hello_blank_fragment">Hola fragmento en blanco</string>
+    <string name="exit_dialog_message">¿Quieres salir?</string>
+    <string name="confirm">Confirmar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="logout_confirm">Presione Confirmar para cerrar sesión</string>
+    <string name="no_internet">Sin conexión a Internet</string>
+    <string name="no_internet_message">Comprueba tu conexión a Internet e inténtalo de nuevo.</string>
+    <string name="signup_message">¿Necesitas una nueva cuenta? Inscribirse</string>
+    <string name="refresh_message">Porfavor refresca</string>
+    <string name="email_error">Se requiere un correo válido.</string>
+    <string name="password_error">Se requiere una contraseña válida.</string>
+    <string name="email_send_success">El correo electrónico se envió correctamente.</string>
+    <string name="ok">OK</string>
+    <string name="error">ERROR</string>
+    <string name="change_language">Cambiar idioma</string>
+    <string name="refresh">Porfavor refresca</string>
+</resources>

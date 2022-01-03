@@ -35,7 +35,6 @@ class AccountFragment() : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         accountFragmentBinding = FragmentAccountBinding.inflate(inflater, container, false)
         return accountFragmentBinding.root
     }
@@ -44,7 +43,6 @@ class AccountFragment() : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val authFirebase = FirebaseAuth.getInstance()
-//        sharedPreferences = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE)
         accountFragmentBinding.profileImage.setImageResource(R.drawable.profile)
         val email = authFirebase.currentUser?.email
         accountFragmentBinding.userName.text = email?.split('@')?.get(0) ?: "No Username"
@@ -105,15 +103,15 @@ class AccountFragment() : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        (activity as AppCompatActivity).supportActionBar?.title = "Account"
+        (activity as AppCompatActivity).supportActionBar?.setTitle(R.string.account_title)
     }
 
     private fun showLogoutDialog() {
 
         val logoutConfirmAlert = AlertDialog.Builder(requireActivity())
-        logoutConfirmAlert.setMessage("Press Confirm to Logout")
-        logoutConfirmAlert.setPositiveButton("Confirm") { _, _ -> logOut() }
-        logoutConfirmAlert.setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
+        logoutConfirmAlert.setMessage(R.string.logout_confirm)
+        logoutConfirmAlert.setPositiveButton(R.string.confirm) { _, _ -> logOut() }
+        logoutConfirmAlert.setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
         logoutConfirmAlert.show()
     }
 
