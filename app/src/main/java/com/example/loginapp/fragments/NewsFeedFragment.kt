@@ -60,7 +60,7 @@ class NewsFeedFragment : Fragment() {
         }
 
         newsFragmentBinding.swipeRefresh.setOnRefreshListener {
-            viewModel.getNewsfromAPI("all")
+            viewModel.getNewsFromAPI("all")
             newsFragmentBinding.newsRecyclerLayout.adapter = newsAdapter
             newsFragmentBinding.swipeRefresh.isRefreshing = false
         }
@@ -103,6 +103,6 @@ class NewsFeedFragment : Fragment() {
             }
         })
 
-       viewModel.getNewsfromAPI("all")
+       viewModel.getNewsFromAPI("all")
     }
 }
