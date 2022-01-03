@@ -24,7 +24,6 @@ class AccountFragment() : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         accountFragmentBinding = FragmentAccountBinding.inflate(inflater, container, false)
         return accountFragmentBinding.root
     }
@@ -33,7 +32,6 @@ class AccountFragment() : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val authFirebase = FirebaseAuth.getInstance()
-//        sharedPreferences = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE)
         accountFragmentBinding.profileImage.setImageResource(R.drawable.profile)
         val email = authFirebase.currentUser?.email
         accountFragmentBinding.userName.text = email?.split('@')?.get(0) ?: "No Username"
