@@ -39,4 +39,5 @@
     <string name="email_send_success">Email send successfully.</string>
     <string name="ok">Ok</string>
     <string name="error">ERROR</string>
+    <string name="change_language">Change Language</string>
 </resources>

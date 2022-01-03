@@ -40,4 +40,5 @@
     <string name="email_send_success">El correo electrónico se envió correctamente.</string>
     <string name="ok">OK</string>
     <string name="error">ERROR</string>
+        <string name="change_language">Cambiar idioma</string>
 </resources>
