@@ -1,6 +1,5 @@
 package com.example.loginapp.fragments
 
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -31,17 +30,14 @@ class NewsFeedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        newsFragmentBinding.swipeRefresh.setOnRefreshListener {
-            viewModelInit()
-            newsFragmentBinding.newsRecyclerLayout.adapter = newsAdapter
-            newsFragmentBinding.swipeRefresh.isRefreshing = false
-        }
+        val viewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
+
 
         if (NetworkChecks().isNetworkConnected(activity)) {
             newsFragmentBinding.noNetworkImage.visibility = View.INVISIBLE
             newsFragmentBinding.noInternet.visibility = View.INVISIBLE
-
-            viewModelInit()
+            newsFragmentBinding.progressBarView.visibility = View.VISIBLE
+            viewModelInit(viewModel)
             newsFragmentBinding.newsRecyclerLayout.adapter = newsAdapter
             newsAdapter.onCardClick = { detailedNews: NewsContent ->
                 val transaction = parentFragmentManager.beginTransaction()
@@ -61,23 +57,29 @@ class NewsFeedFragment : Fragment() {
             newsFragmentBinding.noInternet.visibility = View.VISIBLE
             newsFragmentBinding.newsRecyclerLayout.visibility = View.INVISIBLE
         }
+
+        newsFragmentBinding.swipeRefresh.setOnRefreshListener {
+            viewModel.getNewsfromAPI("all")
+            newsFragmentBinding.newsRecyclerLayout.adapter = newsAdapter
+            newsFragmentBinding.swipeRefresh.isRefreshing = false
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        (activity as AppCompatActivity).supportActionBar?.setTitle(R.string.home_title)
+        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.home_title)
     }
 
-    private fun viewModelInit() {
-        val viewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
+    private fun viewModelInit(viewModel: NewsViewModel) {
         viewModel.getLiveData().observe(this, {
             if (it != null) {
+                newsFragmentBinding.progressBarView.visibility = View.INVISIBLE
                 newsAdapter.getNewsData(it)
                 newsAdapter.notifyDataSetChanged()
             } else {
                 if (NetworkChecks().isNetworkConnected(activity)) {
                     newsFragmentBinding.noNetworkImage.setImageResource(R.drawable.tiny_people_examining_operating_system_error_warning_web_page_isolated_flat_illustration_74855_11104)
-                    newsFragmentBinding.noInternet.setText(R.string.refresh_message)
+                    newsFragmentBinding.noInternet.text = getString(R.string.refresh)
                     if (newsFragmentBinding.noNetworkImage.visibility == View.VISIBLE) {
                         newsFragmentBinding.noNetworkImage.visibility = View.INVISIBLE
                         newsFragmentBinding.noInternet.visibility = View.INVISIBLE
@@ -96,11 +98,11 @@ class NewsFeedFragment : Fragment() {
                     newsFragmentBinding.noNetworkImage.visibility = View.VISIBLE
                     newsFragmentBinding.noInternet.visibility = View.VISIBLE
                     newsFragmentBinding.newsRecyclerLayout.visibility = View.INVISIBLE
-                    Log.d("count", "wer")
                 }
             }
         })
 
-        viewModel.getNewsFromAPI("all")
+        viewModel.getNewsfromAPI("all")
+
     }
 }
