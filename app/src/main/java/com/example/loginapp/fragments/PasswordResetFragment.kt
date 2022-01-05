@@ -3,7 +3,6 @@ package com.example.loginapp.fragments
 import android.app.AlertDialog
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,7 +14,6 @@ import com.example.loginapp.NetworkChecks
 import com.example.loginapp.R
 import com.example.loginapp.databinding.FragmentPasswordResetBinding
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.ktx.Firebase
 import java.lang.NullPointerException
 
 class PasswordResetFragment : Fragment() {
@@ -27,7 +25,7 @@ class PasswordResetFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         passwordResetFragmentBinding = FragmentPasswordResetBinding.inflate(inflater, container, false)
-        return  passwordResetFragmentBinding.root
+        return passwordResetFragmentBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,35 +37,35 @@ class PasswordResetFragment : Fragment() {
 
         passwordResetFragmentBinding.sendEmailButtonView.setOnClickListener {
             val userEmail = passwordResetFragmentBinding.emailTextView.text.toString().trim()
-            if (TextUtils.isEmpty(userEmail) or !Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()){
+            if (TextUtils.isEmpty(userEmail) or !Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()) {
                 passwordResetFragmentBinding.emailTextInputLayout.error = getString(R.string.email_error)
-            }
-            else{
-                if (NetworkChecks().isNetworkConnected(activity)){
+            } else {
+                if (NetworkChecks.isNetworkConnected(activity)) {
                     passwordResetFragmentBinding.progressBarView.visibility = View.VISIBLE
                     FirebaseAuth.getInstance().sendPasswordResetEmail(userEmail)
                         .addOnCompleteListener {
                             val builder = AlertDialog.Builder(context)
-                            if (it.isSuccessful){
+                            if (it.isSuccessful) {
                                 builder.setMessage(R.string.email_send_success)
-                                builder.setPositiveButton(R.string.ok){
-                                        dialog, _ ->
+                                builder.setPositiveButton(R.string.ok) { dialog, _ ->
                                     dialog.dismiss()
                                     passwordResetFragmentBinding.progressBarView.visibility = View.INVISIBLE
                                     parentFragmentManager.popBackStack()
                                 }
                                 builder.show()
-                            }else{
+                            } else {
                                 passwordResetFragmentBinding.progressBarView.visibility = View.INVISIBLE
-                                    val alertDialog = androidx.appcompat.app.AlertDialog.Builder(context!!).setTitle(R.string.error)
+                                AlertDialog.Builder(context!!)
+                                        .setTitle(R.string.error)
                                         .setMessage(it.exception?.message)
                                         .setPositiveButton(android.R.string.ok) { _, _ -> }
                                         .setIcon(android.R.drawable.ic_dialog_alert).show()
                             }
                         }
-                }else{
+                } else {
                     try {
-                        androidx.appcompat.app.AlertDialog.Builder(context!!).setTitle(R.string.no_internet)
+                        androidx.appcompat.app.AlertDialog.Builder(context!!)
+                            .setTitle(R.string.no_internet)
                             .setMessage(R.string.no_internet_message)
                             .setPositiveButton(android.R.string.ok) { _, _ -> }
                             .setIcon(android.R.drawable.ic_dialog_alert).show()

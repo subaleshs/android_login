@@ -33,7 +33,7 @@ class NewsFeedFragment : Fragment() {
         val viewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
 
 
-        if (NetworkChecks().isNetworkConnected(activity)) {
+        if (NetworkChecks.isNetworkConnected(activity)) {
             newsFragmentBinding.noNetworkImage.visibility = View.INVISIBLE
             newsFragmentBinding.noInternet.visibility = View.INVISIBLE
             newsFragmentBinding.progressBarView.visibility = View.VISIBLE
@@ -77,7 +77,7 @@ class NewsFeedFragment : Fragment() {
                 newsAdapter.getNewsData(it)
                 newsAdapter.notifyDataSetChanged()
             } else {
-                if (NetworkChecks().isNetworkConnected(activity)) {
+                if (NetworkChecks.isNetworkConnected(activity)) {
                     newsFragmentBinding.noNetworkImage.setImageResource(R.drawable.tiny_people_examining_operating_system_error_warning_web_page_isolated_flat_illustration_74855_11104)
                     newsFragmentBinding.noInternet.text = getString(R.string.refresh)
                     if (newsFragmentBinding.noNetworkImage.visibility == View.VISIBLE) {
@@ -101,6 +101,6 @@ class NewsFeedFragment : Fragment() {
                 }
             }
         })
-       viewModel.getNewsFromAPI("all")
+        viewModel.getNewsFromAPI("all")
     }
 }

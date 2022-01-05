@@ -84,7 +84,7 @@ class SignUpFragment : Fragment() {
      * Adds new user with [email] and [password].
      */
     private fun registerUser(email: String, password: String) {
-        if (NetworkChecks().isNetworkConnected(activity)){
+        if (NetworkChecks.isNetworkConnected(activity)){
             signUpFragmentBinding.progressBarView.visibility = View.VISIBLE
             FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener {
