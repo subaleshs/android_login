@@ -16,12 +16,14 @@ import com.example.loginapp.NetworkChecks
 import com.example.loginapp.R
 import com.example.loginapp.activities.HomeScreenActivity
 import com.example.loginapp.databinding.FragmentSignupBinding
+import com.example.loginapp.repositories.AuthRepository
 import com.google.firebase.auth.FirebaseAuth
 import java.lang.NullPointerException
 
 class SignUpFragment : Fragment() {
 
     private lateinit var signUpFragmentBinding: FragmentSignupBinding
+    val auth = AuthRepository()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -69,7 +71,27 @@ class SignUpFragment : Fragment() {
                 Log.d("pass0", "$password $confirmPassword")
 
                 if (password == confirmPassword) {
-                    registerUser(email, password)
+                    if (NetworkChecks.isNetworkConnected(activity)) {
+                        signUpFragmentBinding.progressBarView.visibility = View.VISIBLE
+                        auth.userSignUp(email, password)
+                    } else {
+                        showAlert(
+                            getString(R.string.no_internet),
+                            getString(R.string.no_internet_message)
+                        )
+                    }
+
+                    auth.onSuccess = {
+                        Toast.makeText(activity, "new user", Toast.LENGTH_SHORT).show()
+                        signUpFragmentBinding.progressBarView.visibility = View.INVISIBLE
+                        changeToHomeScreen()
+                    }
+
+                    auth.onFailure = {
+                        signUpFragmentBinding.progressBarView.visibility = View.INVISIBLE
+                        Log.d("exp", it.toString())
+                        showAlert(getString(R.string.error), it)
+                    }
                 } else {
                     signUpFragmentBinding.confirmPasswordTextInputLayout.error =
                         "Passwords don't match"
@@ -81,45 +103,15 @@ class SignUpFragment : Fragment() {
     }
 
     /**
-     * Adds new user with [email] and [password].
-     */
-    private fun registerUser(email: String, password: String) {
-        if (NetworkChecks.isNetworkConnected(activity)){
-            signUpFragmentBinding.progressBarView.visibility = View.VISIBLE
-            FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        Toast.makeText(activity, "new user", Toast.LENGTH_SHORT).show()
-                        signUpFragmentBinding.progressBarView.visibility = View.INVISIBLE
-                        changeToHomeScreen()
-
-                    } else {
-                        signUpFragmentBinding.progressBarView.visibility = View.INVISIBLE
-                        Log.d("exp", it.exception.toString())
-                        showAlert(getString(R.string.error), it.exception?.message)
-                    }
-                }
-        }else{
-            showAlert(getString(R.string.no_internet), getString(R.string.no_internet_message))
-        }
-    }
-
-    /**
      * Shows alert with [message] when exception occur on firebase auth.
      */
     private fun showAlert(title: String, message: String?) {
 
-        try {
-            AlertDialog.Builder(context!!).setTitle(title)
+        context?.let {
+            AlertDialog.Builder(it).setTitle(title)
                 .setMessage(message)
                 .setPositiveButton(android.R.string.ok) { _, _ -> }
                 .setIcon(android.R.drawable.ic_dialog_alert).show()
-        } catch (e: NullPointerException) {
-            Toast.makeText(
-                activity,
-                message,
-                Toast.LENGTH_SHORT
-            ).show()
         }
     }
 
@@ -139,7 +131,8 @@ class SignUpFragment : Fragment() {
         ) {
             signUpFragmentBinding.emailTextInputLayout.error = getString(R.string.email_error)
             signUpFragmentBinding.passwordTextInputLayout.error = getString(R.string.password_error)
-            signUpFragmentBinding.confirmPasswordTextInputLayout.error = getString(R.string.password_error)
+            signUpFragmentBinding.confirmPasswordTextInputLayout.error =
+                getString(R.string.password_error)
             return false
         } else if (TextUtils.isEmpty(email) || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
 

@@ -20,14 +20,8 @@ object NewsRepository {
 
         val result = apiCall.enqueue(object : Callback<NewsData> {
             override fun onResponse(call: Call<NewsData>, response: Response<NewsData>) {
-                if (response.body()?.success == true) {
-                    newsLiveData.postValue(response.body())
-                    onSuccess?.invoke(response.body())
-                } else {
-                    newsLiveData.value = null
-                }
+                onSuccess?.invoke(response.body())
             }
-
             override fun onFailure(call: Call<NewsData>, t: Throwable) {
                 newsLiveData.value = null
             }
