@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,7 +19,7 @@ import com.example.loginapp.Login
 import com.example.loginapp.NetworkChecks
 import com.example.loginapp.R
 import com.example.loginapp.databinding.FragmentLoginBinding
-import com.google.firebase.auth.FirebaseAuth
+import com.example.loginapp.repositories.AuthRepository
 import java.lang.NullPointerException
 
 class LoginFragment : Fragment() {
@@ -28,7 +29,7 @@ class LoginFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         loginFragmentBinding = FragmentLoginBinding.inflate(inflater, container, false)
 
@@ -38,6 +39,8 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val auth = AuthRepository()
 
         loginFragmentBinding.progressBarView.visibility = View.INVISIBLE
         loginFragmentBinding.loginErrorText.visibility = View.INVISIBLE
@@ -54,7 +57,7 @@ class LoginFragment : Fragment() {
 
         loginFragmentBinding.loginButtonView.setOnClickListener {
 
-            if (NetworkChecks().isNetworkConnected(activity)) {
+            if (NetworkChecks.isNetworkConnected(activity)) {
                 val userEmailAddress = loginFragmentBinding.emailTextView.text.toString()
                 val userPassword = loginFragmentBinding.passwordTextView.text.toString()
 
@@ -65,21 +68,29 @@ class LoginFragment : Fragment() {
                         loginFragmentBinding.passwordTextInputLayout
                     )
                 ) {
-                    authenticateUser(userEmailAddress, userPassword)
+                    loginFragmentBinding.progressBarView.visibility = View.VISIBLE
+                    auth.userLogin(userEmailAddress, userPassword)
+                }
+
+                auth.onAuthSuccess = {
+                    loginFragmentBinding.progressBarView.visibility = View.INVISIBLE
+                    changeToHomeScreen()
+                }
+
+                auth.onAuthFail = {
+                    loginFragmentBinding.progressBarView.visibility = View.INVISIBLE
+                    loginFragmentBinding.loginErrorText.visibility = View.VISIBLE
+                    loginFragmentBinding.emailTextInputLayout.error = " "
+                    loginFragmentBinding.passwordTextInputLayout.error = " "
                 }
             } else {
-                try {
-                    AlertDialog.Builder(context!!).setTitle(R.string.no_internet)
+                context?.let {
+                    AlertDialog.Builder(it).setTitle(R.string.no_internet)
                         .setMessage(R.string.no_internet_message)
                         .setPositiveButton(android.R.string.ok) { _, _ -> }
                         .setIcon(android.R.drawable.ic_dialog_alert).show()
-                } catch (e: NullPointerException) {
-                    Toast.makeText(
-                        activity,
-                        getString(R.string.no_internet),
-                        Toast.LENGTH_SHORT
-                    ).show()
                 }
+
             }
         }
 
@@ -107,26 +118,9 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun authenticateUser(userEmailAddress: String, userPassword: String) {
-        loginFragmentBinding.progressBarView.visibility = View.VISIBLE
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(userEmailAddress, userPassword)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    loginFragmentBinding.progressBarView.visibility = View.INVISIBLE
-                    changeToHomeScreen()
-                } else {
-                    loginFragmentBinding.progressBarView.visibility = View.INVISIBLE
-                    loginFragmentBinding.loginErrorText.visibility = View.VISIBLE
-                    loginFragmentBinding.emailTextInputLayout.error = " "
-                    loginFragmentBinding.passwordTextInputLayout.error = " "
-
-                }
-            }
-    }
-
     private fun changeToHomeScreen() {
-        /*
-        Method to switch to home screen
+        /**
+         * Method to switch to home screen
          */
         val activityIntent = Intent(activity, HomeScreenActivity::class.java)
         startActivity(activityIntent)
@@ -136,8 +130,8 @@ class LoginFragment : Fragment() {
 
     private fun showSignUpText(signUpTextView: TextView) {
 
-        /*
-        Method sets the sign up text in main activity
+        /**
+         * Method sets the sign up text in main activity
          */
 
         val linkColor = Color.parseColor("#3ea2c7")

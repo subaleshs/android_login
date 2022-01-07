@@ -7,6 +7,10 @@ import retrofit2.http.Query
 
 interface NewsApiInterface {
 
+    companion object {
+        const val BASE_URL = "https://inshortsapi.vercel.app/"
+    }
+
     @GET("news?")
     fun getNews(@Query("category") category: String): Call<NewsData>
 }

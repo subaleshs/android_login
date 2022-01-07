@@ -6,7 +6,7 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 
-class NetworkChecks {
+object NetworkChecks {
 
     fun isNetworkConnected(activity: Activity?): Boolean {
 
@@ -15,7 +15,8 @@ class NetworkChecks {
             val activeNetwork = connectivityManager.activeNetwork
             val networkCapabilities = connectivityManager.getNetworkCapabilities(activeNetwork)
             return networkCapabilities != null && networkCapabilities.hasCapability(
-                NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                NetworkCapabilities.NET_CAPABILITY_INTERNET
+            )
         } else {
             @Suppress("DEPRECATION")
             return connectivityManager.activeNetworkInfo != null

@@ -1,40 +1,21 @@
 package com.example.loginapp.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.loginapp.api.NewsApiInterface
-import com.example.loginapp.api.RetrofitInstance
 import com.example.loginapp.model.NewsData
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.loginapp.repositories.NewsRepository
 
 class NewsViewModel : ViewModel() {
-    val news = MutableLiveData<NewsData?>()
+    var news = MutableLiveData<NewsData?>()
 
     fun getLiveData(): MutableLiveData<NewsData?> {
-        return  news
+        return news
     }
 
-    fun getNewsFromAPI(category: String) {
-        val retrofitInstance = RetrofitInstance.getRetrofit()
-        val api = retrofitInstance.create(NewsApiInterface::class.java)
-        val apiCall = api.getNews(category)
-
-        val result = apiCall.enqueue(object : Callback<NewsData> {
-            override fun onResponse(call: Call<NewsData>, response: Response<NewsData>) {
-                if (response.body()?.success == true){
-                    news.value = response.body()
-                }
-                else{
-                    news.value = null
-                }
-            }
-
-            override fun onFailure(call: Call<NewsData>, t: Throwable) {
-                news.value = null
-            }
-        })
+    fun getNewsFromRepo(category: String) {
+        NewsRepository.getFullNews(category)
+        NewsRepository.onSuccess = {
+            news.postValue(it)
+        }
     }
 }

@@ -1,7 +1,6 @@
 package com.example.loginapp.adapters
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +10,7 @@ import com.example.loginapp.model.NewsContent
 import com.example.loginapp.R
 import com.example.loginapp.databinding.NewsRecylcerLayoutBinding
 
-class NewsAdapter() :
+class NewsAdapter :
     RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
     private var newsData: NewsData? = null
@@ -42,8 +41,7 @@ class NewsAdapter() :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
 
-        val viewBinding =
-            NewsRecylcerLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val viewBinding = NewsRecylcerLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         context = parent.context
         return NewsViewHolder(viewBinding)
     }

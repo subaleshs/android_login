@@ -4,21 +4,18 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class RetrofitInstance {
+object RetrofitInstance {
 
-    companion object {
+    private val retrofit = Retrofit.Builder().baseUrl(NewsApiInterface.BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .client(getClient())
+        .build()
 
-        const val BASE_URL = "https://inshortsapi.vercel.app/"
+    private fun getClient(): OkHttpClient {
+        return OkHttpClient.Builder().build()
+    }
 
-        fun getRetrofit(): Retrofit {
-            return Retrofit.Builder().baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(getClient())
-                .build()
-        }
-
-        private fun getClient(): OkHttpClient {
-            return  OkHttpClient.Builder().build()
-        }
+    fun <T> createApiService(serviceClass: Class<T>): T {
+        return retrofit.create(serviceClass)
     }
 }

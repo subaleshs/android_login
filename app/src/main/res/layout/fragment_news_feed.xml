@@ -34,7 +34,7 @@
         android:id="@+id/noNetworkImage"
         android:layout_width="match_parent"
         android:layout_height="137dp"
-        android:src="@drawable/wireless"
+        android:src="@drawable/no_internet"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
