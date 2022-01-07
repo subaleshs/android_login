@@ -13,7 +13,7 @@
     <!-- Secondary color (day)-->
     <color name="secondary">#001947</color>
     <color name="secondary_dark">#000036</color>
-    <color name="login_background">#eefffe</color>
+    <color name="login_background">#d6d1d6</color>
 
     <color name="detailed_news_title">#30364b</color>
     <color name="detailed_content">#f0ffff</color>
