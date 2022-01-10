@@ -12,13 +12,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.addTextChangedListener
-import com.example.loginapp.NetworkChecks
+import com.example.loginapp.utils.NetworkChecks
 import com.example.loginapp.R
 import com.example.loginapp.activities.HomeScreenActivity
 import com.example.loginapp.databinding.FragmentSignupBinding
 import com.example.loginapp.repositories.AuthRepository
-import com.google.firebase.auth.FirebaseAuth
-import java.lang.NullPointerException
 
 class SignUpFragment : Fragment() {
 
