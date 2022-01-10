@@ -7,18 +7,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.loginapp.adapters.FavoritesAdapter
+import com.example.loginapp.adapters.FavouritesAdapter
 import com.example.loginapp.databinding.FragmentFavouritesBinding
 import com.example.loginapp.model.NewsContent
 import com.example.loginapp.utils.SavePreference
 import com.google.firebase.auth.FirebaseAuth
 
-class FavoritesFragment : Fragment() {
+class FavouritesFragment : Fragment() {
 
     private lateinit var favouriteFragmentBinding: FragmentFavouritesBinding
     private lateinit var favourites: MutableList<NewsContent>
     lateinit var editPreferences: SavePreference
-    private val favAdapter = FavoritesAdapter()
+    private val favAdapter = FavouritesAdapter()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

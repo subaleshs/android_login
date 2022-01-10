@@ -1,5 +1,7 @@
 package com.example.loginapp.fragments
 
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -7,12 +9,14 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.example.loginapp.NetworkChecks
+import com.example.loginapp.utils.NetworkChecks
 import com.example.loginapp.model.NewsContent
 import com.example.loginapp.R
 import com.example.loginapp.adapters.NewsAdapter
 import com.example.loginapp.databinding.FragmentNewsFeedBinding
+import com.example.loginapp.utils.SavePreference
 import com.example.loginapp.viewmodel.NewsViewModel
+import com.google.firebase.auth.FirebaseAuth
 
 
 class NewsFeedFragment : Fragment() {
@@ -32,8 +36,6 @@ class NewsFeedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val viewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
-
-
         if (NetworkChecks.isNetworkConnected(activity)) {
             hideErrorImage()
             newsFragmentBinding.progressBarView.visibility = View.VISIBLE
@@ -72,6 +74,7 @@ class NewsFeedFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.home_title)
+        newsAdapter.notifyDataSetChanged()
     }
 
     private fun viewModelInit(viewModel: NewsViewModel) {

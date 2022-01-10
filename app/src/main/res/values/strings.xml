@@ -41,4 +41,5 @@
     <string name="error">ERROR</string>
     <string name="change_language">Change Language</string>
     <string name="refresh">Please refresh</string>
+    <string name="no_fav">No favourites</string>
 </resources>
