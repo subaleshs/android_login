@@ -3,7 +3,6 @@ package com.example.loginapp.fragments
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -79,7 +78,7 @@ class NewsFeedFragment : Fragment() {
 
     private fun viewModelInit(viewModel: NewsViewModel) {
         if (NetworkChecks.isNetworkConnected(activity)) {
-            viewModel.getLiveData().observe(this, {
+            viewModel.getNewsLiveData().observe(this, {
                 println("$it  vp")
                 if (it != null && it.success) {
                     hideErrorImage()
