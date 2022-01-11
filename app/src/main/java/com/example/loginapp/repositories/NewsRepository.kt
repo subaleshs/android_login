@@ -1,8 +1,8 @@
 package com.example.loginapp.repositories
 
 import androidx.lifecycle.MutableLiveData
-import com.example.loginapp.api.NewsApiInterface
-import com.example.loginapp.api.RetrofitInstance
+import com.example.loginapp.network.NewsApiInterface
+import com.example.loginapp.network.RetrofitInstance
 import com.example.loginapp.model.NewsData
 import retrofit2.Call
 import retrofit2.Callback

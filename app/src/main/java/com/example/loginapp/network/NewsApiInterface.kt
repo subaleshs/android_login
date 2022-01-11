@@ -1,4 +1,4 @@
-package com.example.loginapp.api
+package com.example.loginapp.network
 
 import com.example.loginapp.model.NewsData
 import retrofit2.Call
