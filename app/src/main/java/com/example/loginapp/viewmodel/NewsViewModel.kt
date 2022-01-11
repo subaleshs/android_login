@@ -8,7 +8,7 @@ import com.example.loginapp.repositories.NewsRepository
 class NewsViewModel : ViewModel() {
     var news = MutableLiveData<NewsData?>()
 
-    fun getLiveData(): MutableLiveData<NewsData?> {
+    fun getNewsLiveData(): MutableLiveData<NewsData?> {
         return news
     }
 

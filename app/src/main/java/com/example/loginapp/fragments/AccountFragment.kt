@@ -20,6 +20,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.viewpager2.widget.ViewPager2
 import com.example.loginapp.activities.LoginScreenActivity
 import com.example.loginapp.R
 import com.example.loginapp.databinding.FragmentAccountBinding
@@ -66,6 +67,9 @@ class AccountFragment() : Fragment() {
             else{
                 ActivityCompat.requestPermissions(activity!!, arrayOf(android.Manifest.permission.CAMERA), 111)
             }
+        accountFragmentBinding.favoritesButton.setOnClickListener {
+            val viewPager = requireActivity().findViewById<ViewPager2>(R.id.viewPagerBottomNav)
+            viewPager.currentItem = 1
         }
 
     }

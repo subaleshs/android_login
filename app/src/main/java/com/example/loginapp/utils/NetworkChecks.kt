@@ -1,4 +1,4 @@
-package com.example.loginapp
+package com.example.loginapp.utils
 
 import android.app.Activity
 import android.net.ConnectivityManager

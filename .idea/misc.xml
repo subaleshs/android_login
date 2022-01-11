@@ -29,7 +29,10 @@
         <entry key="..\:/Android/android_login/app/src/main/res/mipmap-anydpi-v26/ic_truth.xml" value="0.2703125" />
         <entry key="app/src/main/res/drawable/account_button_shape.xml" value="0.2894736842105263" />
         <entry key="app/src/main/res/drawable/button_shape.xml" value="0.2894736842105263" />
+        <entry key="app/src/main/res/drawable/favourite_toggle_btn.xml" value="0.2894736842105263" />
         <entry key="app/src/main/res/drawable/ic_edit.xml" value="0.18125" />
+        <entry key="app/src/main/res/drawable/ic_favorite_border.xml" value="0.2894736842105263" />
+        <entry key="app/src/main/res/drawable/ic_favorite_button.xml" value="0.2894736842105263" />
         <entry key="app/src/main/res/drawable/ic_favorites.xml" value="0.18125" />
         <entry key="app/src/main/res/drawable/login_button_shape.xml" value="0.2894736842105263" />
         <entry key="app/src/main/res/drawable/news_tile.xml" value="0.16447368421052633" />
@@ -41,6 +44,7 @@
         <entry key="app/src/main/res/layout/fragment_account.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_detailed_news.xml" value="0.17" />
         <entry key="app/src/main/res/layout/fragment_favorites.xml" value="0.16510416666666666" />
+        <entry key="app/src/main/res/layout/fragment_favourites.xml" value="0.2463768115942029" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.19780701754385965" />
         <entry key="app/src/main/res/layout/fragment_news_feed.xml" value="0.21195652173913043" />
         <entry key="app/src/main/res/layout/fragment_password_reset.xml" value="0.26856884057971014" />

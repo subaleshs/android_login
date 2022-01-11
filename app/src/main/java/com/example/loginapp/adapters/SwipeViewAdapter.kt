@@ -5,8 +5,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.loginapp.fragments.AccountFragment
-import com.example.loginapp.fragments.DetailedNewsFragment
-import com.example.loginapp.fragments.FavoritesFragment
+import com.example.loginapp.fragments.FavouritesFragment
 import com.example.loginapp.fragments.NewsFeedFragment
 
 private const val numberOfTabs =3
@@ -20,7 +19,7 @@ class SwipeViewAdapter(
     override fun createFragment(position: Int): Fragment {
         return when(position){
             0->NewsFeedFragment()
-            1->FavoritesFragment()
+            1->FavouritesFragment()
             else->AccountFragment()
         }
 

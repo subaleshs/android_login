@@ -5,22 +5,19 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.addTextChangedListener
 import com.example.loginapp.activities.HomeScreenActivity
 import com.example.loginapp.Login
-import com.example.loginapp.NetworkChecks
+import com.example.loginapp.utils.NetworkChecks
 import com.example.loginapp.R
 import com.example.loginapp.databinding.FragmentLoginBinding
 import com.example.loginapp.repositories.AuthRepository
-import java.lang.NullPointerException
 
 class LoginFragment : Fragment() {
 
