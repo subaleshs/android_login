@@ -5,7 +5,7 @@ import android.util.Log
 import com.example.loginapp.model.NewsContent
 import com.google.gson.Gson
 
-class SavePreference(private val preferences: SharedPreferences) {
+class EditPreference(private val preferences: SharedPreferences) {
 
     fun getPreference(): MutableList<NewsContent> {
         val favJson = preferences.getString("Favourite", null)
@@ -18,5 +18,9 @@ class SavePreference(private val preferences: SharedPreferences) {
         val json = Gson().toJson(favNews)
         preferencesEditor.putString("Favourite", json)
         preferencesEditor.apply()
+    }
+
+    fun checkPreferenceExist(): Boolean {
+        return preferences.contains("Favourite")
     }
 }

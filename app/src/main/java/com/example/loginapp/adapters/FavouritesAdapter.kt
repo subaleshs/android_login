@@ -8,15 +8,16 @@ import com.bumptech.glide.Glide
 import com.example.loginapp.R
 import com.example.loginapp.databinding.NewsRecylcerLayoutBinding
 import com.example.loginapp.model.NewsContent
-import com.example.loginapp.utils.SavePreference
+import com.example.loginapp.utils.EditPreference
 import com.google.firebase.auth.FirebaseAuth
 
 class FavouritesAdapter: RecyclerView.Adapter<FavouritesAdapter.FavoritesViewHolder>() {
 
-    private var favoritesArray: MutableList<NewsContent> = arrayListOf()
+    private var favouritesArray: MutableList<NewsContent> = arrayListOf()
+    var emptyFavourites: (()->Unit)? = null
 
-    fun getFavNews(favArray: MutableList<NewsContent>) {
-        favoritesArray = favArray
+    fun getFavNews(favouritesArray: MutableList<NewsContent>) {
+        this.favouritesArray = favouritesArray
     }
 
     class FavoritesViewHolder(val binding: NewsRecylcerLayoutBinding): RecyclerView.ViewHolder(binding.root){
@@ -43,18 +44,21 @@ class FavouritesAdapter: RecyclerView.Adapter<FavouritesAdapter.FavoritesViewHol
         holder: FavoritesViewHolder,
         position: Int
     ) {
-        holder.bind(favoritesArray[position])
+        holder.bind(favouritesArray[position])
 
         holder.binding.favCheckBox.setOnClickListener {
-            favoritesArray.removeAt(position)
+            favouritesArray.removeAt(position)
+            if (favouritesArray.size ==0) {
+                emptyFavourites?.invoke()
+            }
             notifyDataSetChanged()
             val preference = holder.binding.root.context.getSharedPreferences(FirebaseAuth.getInstance().currentUser?.uid.toString(), MODE_PRIVATE)
-            val editPreference = SavePreference(preference)
-            editPreference.addPreference(favoritesArray)
+            val editPreference = EditPreference(preference)
+            editPreference.addPreference(favouritesArray)
         }
     }
 
     override fun getItemCount(): Int {
-        return favoritesArray.size
+        return favouritesArray.size
     }
 }

@@ -11,17 +11,17 @@ import com.example.loginapp.model.NewsData
 import com.example.loginapp.model.NewsContent
 import com.example.loginapp.R
 import com.example.loginapp.databinding.NewsRecylcerLayoutBinding
-import com.example.loginapp.utils.SavePreference
+import com.example.loginapp.utils.EditPreference
 import com.google.firebase.auth.FirebaseAuth
 
 class
 NewsAdapter :
     RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
-    var favNews: MutableList<NewsContent> = arrayListOf()
+    var favouritesNews: MutableList<NewsContent> = arrayListOf()
     private var newsData: NewsData? = null
     lateinit var preference: SharedPreferences
-    lateinit var editPreference: SavePreference
+    lateinit var editPreference: EditPreference
 
     fun getNewsData(news: NewsData?) {
         newsData = news
@@ -58,8 +58,10 @@ NewsAdapter :
             FirebaseAuth.getInstance().currentUser?.uid.toString(),
             MODE_PRIVATE
         )
-        editPreference = SavePreference(preference)
-        favNews = editPreference.getPreference()
+        editPreference = EditPreference(preference)
+        if (editPreference.checkPreferenceExist()) {
+            favouritesNews = editPreference.getPreference()
+        }
         return NewsViewHolder(viewBinding)
     }
 
@@ -67,20 +69,20 @@ NewsAdapter :
         holder.bind(
             newsData?.data?.let { it[position] },
             newsData?.category ?: "N/A",
-            editPreference.getPreference()
+            favouritesNews
         )
-        if (preference.contains("Favourite")) {
-            favNews = editPreference.getPreference()
+        if (editPreference.checkPreferenceExist()) {
+            favouritesNews = editPreference.getPreference()
         }
         holder.binding.favCheckBox.setOnClickListener {
 
             val news = newsData?.data?.get(position)
             if (holder.binding.favCheckBox.isChecked) {
-                news?.let { favNews.add(it) }
-                editPreference.addPreference(favNews)
+                news?.let { favouritesNews.add(it) }
+                editPreference.addPreference(favouritesNews)
             } else {
-                favNews.removeAt(favNews.indexOf(news))
-                editPreference.addPreference(favNews)
+                favouritesNews.removeAt(favouritesNews.indexOf(news))
+                editPreference.addPreference(favouritesNews)
             }
         }
         holder.binding.newsCard.setOnClickListener {

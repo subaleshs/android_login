@@ -1,7 +1,5 @@
 package com.example.loginapp.fragments
 
-import android.content.Context.MODE_PRIVATE
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AlertDialog
@@ -13,10 +11,7 @@ import com.example.loginapp.model.NewsContent
 import com.example.loginapp.R
 import com.example.loginapp.adapters.NewsAdapter
 import com.example.loginapp.databinding.FragmentNewsFeedBinding
-import com.example.loginapp.utils.SavePreference
 import com.example.loginapp.viewmodel.NewsViewModel
-import com.google.firebase.auth.FirebaseAuth
-
 
 class NewsFeedFragment : Fragment() {
 
