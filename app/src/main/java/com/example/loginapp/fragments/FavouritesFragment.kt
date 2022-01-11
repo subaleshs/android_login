@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.loginapp.R
 import com.example.loginapp.adapters.FavouritesAdapter
 import com.example.loginapp.databinding.FragmentFavouritesBinding
 import com.example.loginapp.model.NewsContent
@@ -55,6 +56,19 @@ class FavouritesFragment : Fragment() {
 
         favAdapter.emptyFavourites = {
             favouriteFragmentBinding.noFavoritesText.visibility = View.VISIBLE
+        }
+
+        favAdapter.expandNews = {
+            val transaction = parentFragmentManager.beginTransaction()
+            val fragment = DetailedNewsFragment()
+            val newsBundle = Bundle()
+            newsBundle.putParcelable("full_news", it)
+            fragment.arguments = newsBundle
+            transaction.apply {
+                replace(R.id.fragmentContainerView, fragment)
+                addToBackStack("home")
+                commit()
+            }
         }
     }
 

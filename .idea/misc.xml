@@ -32,6 +32,7 @@
         <entry key="app/src/main/res/drawable/favourite_toggle_btn.xml" value="0.2894736842105263" />
         <entry key="app/src/main/res/drawable/ic_edit.xml" value="0.18125" />
         <entry key="app/src/main/res/drawable/ic_favorite_border.xml" value="0.2894736842105263" />
+        <entry key="app/src/main/res/drawable/ic_favorite_button.xml" value="0.2894736842105263" />
         <entry key="app/src/main/res/drawable/ic_favorites.xml" value="0.18125" />
         <entry key="app/src/main/res/drawable/login_button_shape.xml" value="0.2894736842105263" />
         <entry key="app/src/main/res/drawable/news_tile.xml" value="0.16447368421052633" />

@@ -15,6 +15,7 @@ class FavouritesAdapter: RecyclerView.Adapter<FavouritesAdapter.FavoritesViewHol
 
     private var favouritesArray: MutableList<NewsContent> = arrayListOf()
     var emptyFavourites: (()->Unit)? = null
+    var expandNews: ((NewsContent)->Unit)? = null
 
     fun getFavNews(favouritesArray: MutableList<NewsContent>) {
         this.favouritesArray = favouritesArray
@@ -55,6 +56,10 @@ class FavouritesAdapter: RecyclerView.Adapter<FavouritesAdapter.FavoritesViewHol
             val preference = holder.binding.root.context.getSharedPreferences(FirebaseAuth.getInstance().currentUser?.uid.toString(), MODE_PRIVATE)
             val editPreference = EditPreference(preference)
             editPreference.addPreference(favouritesArray)
+        }
+
+        holder.binding.newsCard.setOnClickListener {
+            expandNews?.invoke(favouritesArray[position])
         }
     }
 

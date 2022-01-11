@@ -79,10 +79,10 @@
         <CheckBox
             android:id="@+id/favCheckBox"
             android:layout_width="32dp"
-            android:layout_height="33dp"
+            android:layout_height="32dp"
             android:layout_marginStart="15dp"
             android:text=""
-            android:button="@drawable/ic_favorites"
+            android:button="@drawable/ic_favorite_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/dateView"
             app:layout_constraintHorizontal_bias="0"
