@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.viewpager2.widget.ViewPager2
 import com.example.loginapp.activities.LoginScreenActivity
 import com.example.loginapp.R
 import com.example.loginapp.databinding.FragmentAccountBinding
@@ -36,6 +37,11 @@ class AccountFragment() : Fragment() {
         val email = authFirebase.currentUser?.email
         accountFragmentBinding.userName.text = email?.split('@')?.get(0) ?: "No Username"
         accountFragmentBinding.loginButtonView.setOnClickListener { showLogoutDialog() }
+
+        accountFragmentBinding.favoritesButton.setOnClickListener {
+            val viewPager = requireActivity().findViewById<ViewPager2>(R.id.viewPagerBottomNav)
+            viewPager.currentItem = 1
+        }
 
     }
 

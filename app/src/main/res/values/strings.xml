@@ -20,7 +20,7 @@
     <string name="send_mail">Send Email</string>
     <string name="password_reset">Enter your email address</string>
     <string name="home_title">Home</string>
-    <string name="fav_title">Favorites</string>
+    <string name="fav_title">Favourites</string>
     <string name="account_title">Account</string>
     <string name="network_error">No Internet</string>
     <string name="reset_password">Reset Password</string>
