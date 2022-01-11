@@ -12,24 +12,30 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.ViewModelProvider
 import com.example.loginapp.utils.NetworkChecks
 import com.example.loginapp.R
 import com.example.loginapp.activities.HomeScreenActivity
 import com.example.loginapp.databinding.FragmentSignupBinding
-import com.example.loginapp.repositories.AuthRepository
+import com.example.loginapp.viewmodel.AuthViewModel
 
 class SignUpFragment : Fragment() {
 
     private lateinit var signUpFragmentBinding: FragmentSignupBinding
-    val auth = AuthRepository()
+
+    //    val auth = AuthRepository()
+    lateinit var viewModel: AuthViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         signUpFragmentBinding = FragmentSignupBinding.inflate(inflater, container, false)
+        viewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
+        viewModelObserve()
         return signUpFragmentBinding.root
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -71,7 +77,7 @@ class SignUpFragment : Fragment() {
                 if (password == confirmPassword) {
                     if (NetworkChecks.isNetworkConnected(activity)) {
                         signUpFragmentBinding.progressBarView.visibility = View.VISIBLE
-                        auth.userSignUp(email, password)
+                        viewModel.signUp(email, password)
                     } else {
                         showAlert(
                             getString(R.string.no_internet),
@@ -79,17 +85,6 @@ class SignUpFragment : Fragment() {
                         )
                     }
 
-                    auth.onSuccess = {
-                        Toast.makeText(activity, "new user", Toast.LENGTH_SHORT).show()
-                        signUpFragmentBinding.progressBarView.visibility = View.INVISIBLE
-                        changeToHomeScreen()
-                    }
-
-                    auth.onFailure = {
-                        signUpFragmentBinding.progressBarView.visibility = View.INVISIBLE
-                        Log.d("exp", it.toString())
-                        showAlert(getString(R.string.error), it)
-                    }
                 } else {
                     signUpFragmentBinding.confirmPasswordTextInputLayout.error =
                         "Passwords don't match"
@@ -98,6 +93,17 @@ class SignUpFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun viewModelObserve() {
+        viewModel.getUserViewModel().observe(this, {
+            if (it != null) {
+                changeToHomeScreen()
+            } else {
+                signUpFragmentBinding.progressBarView.visibility = View.INVISIBLE
+                showAlert(getString(R.string.error), it)
+            }
+        })
     }
 
     /**
