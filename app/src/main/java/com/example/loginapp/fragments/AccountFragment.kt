@@ -49,29 +49,34 @@ class AccountFragment() : Fragment() {
         accountFragmentBinding.userName.text = email?.split('@')?.get(0) ?: "No Username"
         accountFragmentBinding.loginButtonView.setOnClickListener { showLogoutDialog() }
 
-        val result = this.registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
-            if (result.resultCode == Activity.RESULT_OK){
-                val imgBitmap = result.data?.extras?.get("data") as Bitmap
-                accountFragmentBinding.profileImage.setImageBitmap(imgBitmap)
-            }else{
-                Log.d("failcam", "fail")
+        val result =
+            this.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    val imgBitmap = result.data?.extras?.get("data") as Bitmap
+                    accountFragmentBinding.profileImage.setImageBitmap(imgBitmap)
+                } else {
+                    Log.d("failcam", "fail")
+                }
             }
-        }
         val takePic = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
 
         accountFragmentBinding.profileImage.setOnClickListener {
             if (checkCamPermission()) {
                 result.launch(takePic)
+            } else {
+                ActivityCompat.requestPermissions(
+                    activity!!,
+                    arrayOf(android.Manifest.permission.CAMERA),
+                    111
+                )
             }
-            else{
-                ActivityCompat.requestPermissions(activity!!, arrayOf(android.Manifest.permission.CAMERA), 111)
+            accountFragmentBinding.favoritesButton.setOnClickListener {
+                val viewPager = requireActivity().findViewById<ViewPager2>(R.id.viewPagerBottomNav)
+                viewPager.currentItem = 1
             }
-        accountFragmentBinding.favoritesButton.setOnClickListener {
-            val viewPager = requireActivity().findViewById<ViewPager2>(R.id.viewPagerBottomNav)
-            viewPager.currentItem = 1
-        }
 
+        }
     }
 
     private fun performCrop(imageUri: Uri?, p: ActivityResultLauncher<Intent>) {
@@ -89,8 +94,8 @@ class AccountFragment() : Fragment() {
             cropIntent.putExtra("return-data", true)
             p.launch(cropIntent)
 
-        }catch (e: ActivityNotFoundException) {
-           Log.d("crop","This device doesn't support the crop action!")
+        } catch (e: ActivityNotFoundException) {
+            Log.d("crop", "This device doesn't support the crop action!")
         }
 
 
@@ -98,8 +103,11 @@ class AccountFragment() : Fragment() {
 
     private fun checkCamPermission(): Boolean {
         return try {
-            ActivityCompat.checkSelfPermission(activity!!, android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
-        }catch (exception: NullPointerException){
+            ActivityCompat.checkSelfPermission(
+                activity!!,
+                android.Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED
+        } catch (exception: NullPointerException) {
             false
         }
     }
