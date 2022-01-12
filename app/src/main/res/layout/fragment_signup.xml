@@ -49,7 +49,7 @@
         app:layout_constraintTop_toBottomOf="@id/signUpWelcomeText">
 
 
-        <EditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/emailTextView"
             style="@style/text_size_login"
             android:layout_width="match_parent"
@@ -75,7 +75,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailTextInputLayout">
 
-        <EditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/passwordTextView"
             style="@style/text_size_login"
             android:layout_width="match_parent"
@@ -100,7 +100,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordTextInputLayout">
 
-        <EditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/confirmPasswordTextView"
             style="@style/text_size_login"
             android:layout_width="match_parent"
