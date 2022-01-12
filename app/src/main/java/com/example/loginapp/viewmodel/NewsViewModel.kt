@@ -13,9 +13,13 @@ class NewsViewModel : ViewModel() {
     }
 
     fun getNewsFromRepo(category: String) {
+
         NewsRepository.getFullNews(category)
         NewsRepository.onSuccess = {
             news.postValue(it)
+        }
+        NewsRepository.onFailureListener = {
+            news.postValue(null)
         }
     }
 }

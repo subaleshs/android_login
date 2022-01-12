@@ -2,6 +2,7 @@ package com.example.loginapp.network
 
 import com.example.loginapp.model.NewsData
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -12,5 +13,5 @@ interface NewsApiInterface {
     }
 
     @GET("news?")
-    fun getNews(@Query("category") category: String): Call<NewsData>
+    suspend fun getNews(@Query("category") category: String): Response<NewsData>
 }
