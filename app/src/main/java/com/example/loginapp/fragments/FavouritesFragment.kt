@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import com.example.loginapp.R
 import com.example.loginapp.adapters.FavouritesAdapter
 import com.example.loginapp.databinding.FragmentFavouritesBinding
@@ -74,6 +75,7 @@ class FavouritesFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        (activity as AppCompatActivity).supportActionBar?.setTitle(R.string.fav_title)
         val sharedPreferences = context?.getSharedPreferences(
             FirebaseAuth.getInstance().currentUser?.uid.toString(),
             MODE_PRIVATE
