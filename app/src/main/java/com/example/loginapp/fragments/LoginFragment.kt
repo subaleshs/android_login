@@ -108,7 +108,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun viewModelObserve() {
-        viewModel.getUserViewModel().observe(this, {
+        viewModel.getUserLiveData().observe(this, {
             if (it != null) {
                 changeToHomeScreen()
             } else {

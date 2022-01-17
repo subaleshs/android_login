@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.View
 import com.example.loginapp.R
 import com.example.loginapp.network.FirebaseAuthentication
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
@@ -19,44 +21,24 @@ class AuthRepository {
     var onMailFailure: ((String?) -> Unit)? = null
     private val firebaseAuthInstance = FirebaseAuthentication.getFirebaseAuthInstance()
 
-    fun userLogin(email: String, password: String) {
-        firebaseAuthInstance.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener {
-                if (it.isSuccessful) {
-                    onAuthSuccess?.invoke(firebaseAuthInstance.currentUser)
-                } else {
-                    onAuthFail?.invoke(firebaseAuthInstance.currentUser)
-                }
-            }
-    }
+//    fun userLogin(email: String, password: String) {
+//        firebaseAuthInstance.signInWithEmailAndPassword(email, password)
+//            .addOnCompleteListener {
+//                if (it.isSuccessful) {
+//                    onAuthSuccess?.invoke(firebaseAuthInstance.currentUser)
+//                } else {
+//                    onAuthFail?.invoke(firebaseAuthInstance.currentUser)
+//                }
+//            }
+//    }
 
-    fun userSignUp(email: String, password: String) {
-        firebaseAuthInstance.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener {
-                if (it.isSuccessful) {
-                    onSuccess?.invoke(firebaseAuthInstance.currentUser)
+    fun userLogin(email: String, password: String): Task<AuthResult> = firebaseAuthInstance.signInWithEmailAndPassword(email, password)
 
-                } else {
-//                    it.exception?.message.let { it1 -> onFailure?.invoke(it1) }
-                    onFailure?.invoke(firebaseAuthInstance.currentUser)
-                }
-            }
-    }
+    fun userSignUp(email: String, password: String): Task<AuthResult> = firebaseAuthInstance.createUserWithEmailAndPassword(email, password)
 
-    fun sendResetPasswordMail(email: String) {
-        firebaseAuthInstance.sendPasswordResetEmail(email)
-            .addOnCompleteListener {
-                if (it.isSuccessful) {
-                    onMailSuccess?.invoke(it.exception?.message)
-                } else {
-                    onMailFailure?.invoke(it.exception?.message)
-                }
-            }
-    }
+    fun sendResetPasswordMail(email: String): Task<Void> = firebaseAuthInstance.sendPasswordResetEmail(email)
 
-    fun userLogOUt() {
-        firebaseAuthInstance.signOut()
-    }
+    fun userLogOUt() = firebaseAuthInstance.signOut()
 
     fun currentUser() = firebaseAuthInstance.currentUser
 

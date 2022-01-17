@@ -61,7 +61,7 @@ class AccountFragment : Fragment() {
     }
 
     private fun logOut() {
-        FirebaseAuth.getInstance().signOut()
+        viewModel.logOut()
         val activityIntent = Intent(activity, LoginScreenActivity::class.java)
         startActivity(activityIntent)
     }

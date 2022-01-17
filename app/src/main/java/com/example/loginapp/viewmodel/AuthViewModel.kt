@@ -2,18 +2,19 @@ package com.example.loginapp.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.loginapp.R
 import com.example.loginapp.repositories.AuthRepository
 import com.google.firebase.auth.FirebaseUser
 
-class AuthViewModel: ViewModel() {
+class AuthViewModel : ViewModel() {
 
-    private val userViewModel = MutableLiveData<FirebaseUser?>()
+    private val userLiveData = MutableLiveData<FirebaseUser?>()
     private val userLoggedOut = MutableLiveData<Boolean>()
     private val exceptionMessageLiveData = MutableLiveData<String?>()
     private val authenticationRepository = AuthRepository()
 
-    fun getUserViewModel(): MutableLiveData<FirebaseUser?> {
-        return userViewModel
+    fun getUserLiveData(): MutableLiveData<FirebaseUser?> {
+        return userLiveData
     }
 
     fun getExceptionMessage(): MutableLiveData<String?> {
@@ -21,34 +22,35 @@ class AuthViewModel: ViewModel() {
     }
 
     fun logIn(userEmail: String, userPassword: String) {
-        authenticationRepository.userLogin(userEmail,userPassword)
-        authenticationRepository.onAuthSuccess = {
-            userViewModel.postValue(it)
-        }
-        authenticationRepository.onAuthFail = {
-            userViewModel.postValue(it)
-
+        val authentication = authenticationRepository.userLogin(userEmail, userPassword)
+        authentication.addOnCompleteListener {
+            if (authentication.isSuccessful) {
+                userLiveData.postValue(authenticationRepository.currentUser())
+            } else {
+                userLiveData.postValue(authenticationRepository.currentUser())
+            }
         }
     }
 
     fun signUp(userEmail: String, userPassword: String) {
-        authenticationRepository.userSignUp(userEmail,userPassword)
-        authenticationRepository.onSuccess = {
-            userViewModel.postValue(it)
-        }
-        authenticationRepository.onFailure = {
-            userViewModel.postValue(it)
-
+        val newUserRegistrationTask = authenticationRepository.userSignUp(userEmail, userPassword)
+        newUserRegistrationTask.addOnCompleteListener {
+            if (newUserRegistrationTask.isSuccessful) {
+                userLiveData.postValue(authenticationRepository.currentUser())
+            } else {
+                exceptionMessageLiveData.postValue(newUserRegistrationTask.exception?.message)
+            }
         }
     }
 
     fun resetPassword(email: String) {
-        authenticationRepository.sendResetPasswordMail(email)
-        authenticationRepository.onMailSuccess = {
-            exceptionMessageLiveData.postValue(it)
-        }
-        authenticationRepository.onMailFailure = {
-            exceptionMessageLiveData.postValue(it)
+        val resetPasswordTask = authenticationRepository.sendResetPasswordMail(email)
+        resetPasswordTask.addOnCompleteListener {
+            if (resetPasswordTask.isSuccessful) {
+                exceptionMessageLiveData.postValue(null)
+            } else {
+                exceptionMessageLiveData.postValue(resetPasswordTask.exception?.message)
+            }
         }
     }
 
@@ -56,5 +58,7 @@ class AuthViewModel: ViewModel() {
         return authenticationRepository.currentUser()
     }
 
-    fun logOut() = userLoggedOut.postValue(true)
+    fun logOut() {
+        authenticationRepository.userLogOUt()
+    }
 }

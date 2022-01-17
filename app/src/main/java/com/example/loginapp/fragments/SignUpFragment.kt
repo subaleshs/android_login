@@ -96,13 +96,15 @@ class SignUpFragment : Fragment() {
     }
 
     private fun viewModelObserve() {
-        viewModel.getUserViewModel().observe(this, {
+        viewModel.getUserLiveData().observe(this, {
             if (it != null) {
                 changeToHomeScreen()
-            } else {
-                signUpFragmentBinding.progressBarView.visibility = View.INVISIBLE
-                showAlert(getString(R.string.error), it)
             }
+        })
+
+        viewModel.getExceptionMessage().observe(this, {
+            signUpFragmentBinding.progressBarView.visibility = View.INVISIBLE
+            showAlert(getString(R.string.error), it)
         })
     }
 
