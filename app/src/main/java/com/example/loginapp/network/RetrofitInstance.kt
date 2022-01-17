@@ -1,4 +1,4 @@
-package com.example.loginapp.api
+package com.example.loginapp.network
 
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit

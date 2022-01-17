@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.ViewModelProvider
 import com.example.loginapp.databinding.ActivityLoginScreenBinding
+import com.example.loginapp.viewmodel.AuthViewModel
 import com.google.firebase.auth.FirebaseAuth
 import java.util.jar.Manifest
 
@@ -23,6 +25,8 @@ class LoginScreenActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.CAMERA), 111)
         }
         if (FirebaseAuth.getInstance().currentUser != null) {
+        val viewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
+        if (viewModel.getCurrentUser() != null) {
 
             val activityIntent = Intent(this, HomeScreenActivity::class.java)
             startActivity(activityIntent)

@@ -12,16 +12,18 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.ViewModelProvider
 import com.example.loginapp.activities.HomeScreenActivity
 import com.example.loginapp.Login
 import com.example.loginapp.utils.NetworkChecks
 import com.example.loginapp.R
 import com.example.loginapp.databinding.FragmentLoginBinding
-import com.example.loginapp.repositories.AuthRepository
+import com.example.loginapp.viewmodel.AuthViewModel
 
 class LoginFragment : Fragment() {
 
     private lateinit var loginFragmentBinding: FragmentLoginBinding
+    lateinit var viewModel: AuthViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,15 +31,14 @@ class LoginFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         loginFragmentBinding = FragmentLoginBinding.inflate(inflater, container, false)
-
+        viewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
+        viewModelObserve()
         return loginFragmentBinding.root
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val auth = AuthRepository()
 
         loginFragmentBinding.progressBarView.visibility = View.INVISIBLE
         loginFragmentBinding.loginErrorText.visibility = View.INVISIBLE
@@ -66,20 +67,11 @@ class LoginFragment : Fragment() {
                     )
                 ) {
                     loginFragmentBinding.progressBarView.visibility = View.VISIBLE
-                    auth.userLogin(userEmailAddress, userPassword)
+                    viewModel.logIn(userEmailAddress, userPassword)
+
+
                 }
 
-                auth.onAuthSuccess = {
-                    loginFragmentBinding.progressBarView.visibility = View.INVISIBLE
-                    changeToHomeScreen()
-                }
-
-                auth.onAuthFail = {
-                    loginFragmentBinding.progressBarView.visibility = View.INVISIBLE
-                    loginFragmentBinding.loginErrorText.visibility = View.VISIBLE
-                    loginFragmentBinding.emailTextInputLayout.error = " "
-                    loginFragmentBinding.passwordTextInputLayout.error = " "
-                }
             } else {
                 context?.let {
                     AlertDialog.Builder(it).setTitle(R.string.no_internet)
@@ -115,6 +107,18 @@ class LoginFragment : Fragment() {
         }
     }
 
+    private fun viewModelObserve() {
+        viewModel.getUserLiveData().observe(this, {
+            if (it != null) {
+                changeToHomeScreen()
+            } else {
+                loginFragmentBinding.progressBarView.visibility = View.INVISIBLE
+                loginFragmentBinding.loginErrorText.visibility = View.VISIBLE
+                loginFragmentBinding.emailTextInputLayout.error = " "
+                loginFragmentBinding.passwordTextInputLayout.error = " "
+            }
+        })
+    }
     private fun changeToHomeScreen() {
         /**
          * Method to switch to home screen

@@ -20,32 +20,35 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.loginapp.activities.LoginScreenActivity
 import com.example.loginapp.R
 import com.example.loginapp.databinding.FragmentAccountBinding
+import com.example.loginapp.viewmodel.AuthViewModel
 import com.google.firebase.auth.FirebaseAuth
 import java.lang.NullPointerException
 
 
-class AccountFragment() : Fragment() {
+class AccountFragment : Fragment() {
 
     private lateinit var accountFragmentBinding: FragmentAccountBinding
+    lateinit var viewModel: AuthViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         accountFragmentBinding = FragmentAccountBinding.inflate(inflater, container, false)
+        viewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
         return accountFragmentBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val authFirebase = FirebaseAuth.getInstance()
         accountFragmentBinding.profileImage.setImageResource(R.drawable.profile)
-        val email = authFirebase.currentUser?.email
+        val email = viewModel.getCurrentUser()?.email
         accountFragmentBinding.userName.text = email?.split('@')?.get(0) ?: "No Username"
         accountFragmentBinding.loginButtonView.setOnClickListener { showLogoutDialog() }
 
@@ -128,7 +131,7 @@ class AccountFragment() : Fragment() {
     }
 
     private fun logOut() {
-        FirebaseAuth.getInstance().signOut()
+        viewModel.logOut()
         val activityIntent = Intent(activity, LoginScreenActivity::class.java)
         startActivity(activityIntent)
     }

@@ -10,7 +10,7 @@
     style="@style/form_card"
     tools:context=".fragments.LoginFragment">
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/loginImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -51,6 +51,7 @@
         android:layout_marginTop="10dp"
         android:hint="@string/password_layout_hint"
         android:inputType="textPassword"
+        app:errorIconDrawable="@null"
         app:hintTextAppearance="@style/hint_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,8 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:paddingTop="30dp"
-            tools:ignore="LabelFor" />
+            android:paddingTop="30dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
