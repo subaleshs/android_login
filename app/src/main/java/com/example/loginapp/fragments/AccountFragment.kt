@@ -1,13 +1,10 @@
 package com.example.loginapp.fragments
 
 import android.app.Activity
-import android.content.ActivityNotFoundException
-import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
+import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.net.Uri
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -15,7 +12,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -26,14 +22,18 @@ import com.example.loginapp.activities.LoginScreenActivity
 import com.example.loginapp.R
 import com.example.loginapp.databinding.FragmentAccountBinding
 import com.example.loginapp.viewmodel.AuthViewModel
-import com.google.firebase.auth.FirebaseAuth
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
 import java.lang.NullPointerException
 
 
 class AccountFragment : Fragment() {
 
     private lateinit var accountFragmentBinding: FragmentAccountBinding
-    lateinit var viewModel: AuthViewModel
+    private lateinit var viewModel: AuthViewModel
+    private var sharedPreferences: SharedPreferences? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,13 +41,14 @@ class AccountFragment : Fragment() {
     ): View {
         accountFragmentBinding = FragmentAccountBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
+        sharedPreferences = activity?.getSharedPreferences(viewModel.getCurrentUser()?.uid.toString(), Context.MODE_PRIVATE)
         return accountFragmentBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        accountFragmentBinding.profileImage.setImageResource(R.drawable.profile)
+        loadImage()
         val email = viewModel.getCurrentUser()?.email
         accountFragmentBinding.userName.text = email?.split('@')?.get(0) ?: "No Username"
         accountFragmentBinding.loginButtonView.setOnClickListener { showLogoutDialog() }
@@ -57,6 +58,8 @@ class AccountFragment : Fragment() {
                 if (result.resultCode == Activity.RESULT_OK) {
                     val imgBitmap = result.data?.extras?.get("data") as Bitmap
                     accountFragmentBinding.profileImage.setImageBitmap(imgBitmap)
+                    Log.d("test",result?.data?.extras?.keySet().toString())
+                    saveImage(imgBitmap)
                 } else {
                     Log.d("failcam", "fail")
                 }
@@ -82,26 +85,51 @@ class AccountFragment : Fragment() {
         }
     }
 
-    private fun performCrop(imageUri: Uri?, p: ActivityResultLauncher<Intent>) {
-        try {
-            val cropIntent = Intent("com.android.camera.action.CROP")
-            cropIntent.setDataAndType(imageUri, "image/*")
-            cropIntent.putExtra("crop", "true")
-            // indicate aspect of desired crop
-            cropIntent.putExtra("aspectX", 2)
-            cropIntent.putExtra("aspectY", 1)
-            // indicate output X and Y
-            cropIntent.putExtra("outputX", 256)
-            cropIntent.putExtra("outputY", 256)
-            // retrieve data on return
-            cropIntent.putExtra("return-data", true)
-            p.launch(cropIntent)
+    private fun loadImage() {
+        if (sharedPreferences?.contains("path") == true) {
+            val imageName = viewModel.getCurrentUser()?.uid.toString()+".jpg"
+            val path = sharedPreferences?.getString("path", null)
+            try {
+                val file = File(path, imageName)
+                val image = BitmapFactory.decodeStream(FileInputStream(file))
+                accountFragmentBinding.profileImage.setImageBitmap(image)
+            } catch (e: FileNotFoundException) {
+                accountFragmentBinding.profileImage.setImageResource(R.drawable.profile)
+            }
+        } else {
+            accountFragmentBinding.profileImage.setImageResource(R.drawable.profile)
+        }
+    }
 
-        } catch (e: ActivityNotFoundException) {
-            Log.d("crop", "This device doesn't support the crop action!")
+    private fun saveImage(image: Bitmap) {
+        val directory = context?.getDir("images", Context.MODE_PRIVATE)
+        val imageName = viewModel.getCurrentUser()?.uid.toString()+".jpg"
+        try {
+            val file = File(directory,imageName)
+            val fileOutputStream = FileOutputStream(file)
+            image.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream)
+            fileOutputStream.flush()
+            fileOutputStream.close()
+        } catch (exception: Exception) {
+            AlertDialog.Builder(activity!!).setTitle(R.string.error)
+                .setMessage("File not found")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(R.string.ok){
+                    _,_ ->
+                }.show()
         }
 
-
+        if (sharedPreferences?.contains("path") == false) {
+            val editor = sharedPreferences?.edit()
+            editor?.putString("path", directory?.absolutePath)
+            editor?.apply()
+        } else {
+            if (sharedPreferences?.getString("path", null) == directory?.absolutePath) {
+                val editor = sharedPreferences?.edit()
+                editor?.putString("path", directory?.absolutePath)
+                editor?.apply()
+            }
+        }
     }
 
     private fun checkCamPermission(): Boolean {

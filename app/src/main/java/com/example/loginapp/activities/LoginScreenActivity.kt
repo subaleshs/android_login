@@ -21,10 +21,17 @@ class LoginScreenActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
 
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.CAMERA), 111)
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.CAMERA),
+                111
+            )
         }
-        if (FirebaseAuth.getInstance().currentUser != null) {
         val viewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
         if (viewModel.getCurrentUser() != null) {
 
@@ -37,7 +44,6 @@ class LoginScreenActivity : AppCompatActivity() {
             setContentView(loginActivityBinding.root)
 
         }
-
     }
 
     override fun onBackPressed() {

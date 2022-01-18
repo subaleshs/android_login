@@ -96,7 +96,7 @@ class NewsFeedFragment : Fragment() {
                     showRefreshImage()
                 }
             })
-            viewModel.getNewsFromRepo("all")
+            viewModel.getNewsFromRepo("national")
         } else {
             showNoInternetImage()
         }
