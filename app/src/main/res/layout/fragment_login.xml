@@ -38,8 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
-            android:paddingTop="30dp"
-            tools:ignore="LabelFor" />
+            android:paddingTop="30dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

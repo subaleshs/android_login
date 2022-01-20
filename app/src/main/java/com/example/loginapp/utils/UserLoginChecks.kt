@@ -1,4 +1,4 @@
-package com.example.loginapp
+package com.example.loginapp.utils
 
 import android.text.TextUtils
 import android.util.Patterns

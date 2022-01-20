@@ -4,13 +4,11 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.loginapp.databinding.ActivityLoginScreenBinding
 import com.example.loginapp.viewmodel.AuthViewModel
-import com.google.firebase.auth.FirebaseAuth
-import java.util.jar.Manifest
+
 
 class LoginScreenActivity : AppCompatActivity() {
 

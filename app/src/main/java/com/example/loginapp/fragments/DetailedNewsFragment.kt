@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
 import com.bumptech.glide.Glide
 import com.example.loginapp.R
@@ -20,7 +19,7 @@ class DetailedNewsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentDetailedNewsBinding.inflate(inflater, container, false)
         val newsDetail = arguments?.getParcelable<NewsContent>("full_news")
@@ -29,7 +28,7 @@ class DetailedNewsFragment : Fragment() {
         context?.let { Glide.with(it).load(newsDetail?.imageUrl).error(R.drawable.news).into(binding.newsImage) }
 
         if (newsDetail?.readMoreUrl != null){
-            val htmlATag = "<a href=\""+newsDetail?.readMoreUrl+"\">Read More</a>"
+            val htmlATag = "<a href=\""+newsDetail.readMoreUrl+"\">Read More</a>"
             println(htmlATag)
             binding.readMoreLink.text = HtmlCompat.fromHtml(htmlATag,HtmlCompat.FROM_HTML_MODE_LEGACY)
             binding.readMoreLink.movementMethod = LinkMovementMethod.getInstance()

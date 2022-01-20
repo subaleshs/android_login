@@ -14,7 +14,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import com.example.loginapp.activities.HomeScreenActivity
-import com.example.loginapp.Login
+import com.example.loginapp.utils.Login
 import com.example.loginapp.utils.NetworkChecks
 import com.example.loginapp.R
 import com.example.loginapp.databinding.FragmentLoginBinding
