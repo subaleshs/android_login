@@ -32,6 +32,7 @@
         <entry key="app/src/main/res/drawable/button_shape.xml" value="0.2894736842105263" />
         <entry key="app/src/main/res/drawable/favourite_toggle_btn.xml" value="0.2894736842105263" />
         <entry key="app/src/main/res/drawable/ic_account_circle.xml" value="0.2894736842105263" />
+        <entry key="app/src/main/res/drawable/ic_baseline_add_photo.xml" value="0.33489583333333334" />
         <entry key="app/src/main/res/drawable/ic_edit.xml" value="0.18125" />
         <entry key="app/src/main/res/drawable/ic_favorite_border.xml" value="0.2894736842105263" />
         <entry key="app/src/main/res/drawable/ic_favorite_button.xml" value="0.2894736842105263" />
@@ -43,7 +44,7 @@
         <entry key="app/src/main/res/layout/activity_home_screen.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_login_screen.xml" value="0.15087719298245614" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22" />
-        <entry key="app/src/main/res/layout/fragment_account.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_account.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_detailed_news.xml" value="0.17" />
         <entry key="app/src/main/res/layout/fragment_favorites.xml" value="0.16510416666666666" />
         <entry key="app/src/main/res/layout/fragment_favourites.xml" value="0.2463768115942029" />

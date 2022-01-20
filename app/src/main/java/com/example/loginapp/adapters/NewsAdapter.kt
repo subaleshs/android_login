@@ -11,6 +11,7 @@ import com.example.loginapp.model.NewsData
 import com.example.loginapp.model.NewsContent
 import com.example.loginapp.R
 import com.example.loginapp.databinding.NewsRecylcerLayoutBinding
+import com.example.loginapp.db.FavouritesEntity
 import com.example.loginapp.utils.EditPreference
 import com.google.firebase.auth.FirebaseAuth
 
@@ -80,6 +81,7 @@ NewsAdapter :
             if (holder.binding.favCheckBox.isChecked) {
                 news?.let { favouritesNews.add(it) }
                 editPreference.addPreference(favouritesNews)
+                val fav = news?.let { it1 -> FavouritesEntity(it1) }
             } else {
                 favouritesNews.removeAt(favouritesNews.indexOf(news))
                 editPreference.addPreference(favouritesNews)
