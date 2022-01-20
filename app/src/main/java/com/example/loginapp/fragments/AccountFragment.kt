@@ -93,7 +93,7 @@ class AccountFragment : Fragment() {
                 val file = File(path, imageName)
                 val image = BitmapFactory.decodeStream(FileInputStream(file))
                 accountFragmentBinding.profileImage.setImageBitmap(image)
-            } catch (e: FileNotFoundException) {
+            } catch (exception: FileNotFoundException) {
                 accountFragmentBinding.profileImage.setImageResource(R.drawable.profile)
             }
         } else {
@@ -112,7 +112,7 @@ class AccountFragment : Fragment() {
             fileOutputStream.close()
         } catch (exception: Exception) {
             AlertDialog.Builder(activity!!).setTitle(R.string.error)
-                .setMessage("File not found")
+                .setMessage("Image not found")
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setPositiveButton(R.string.ok){
                     _,_ ->

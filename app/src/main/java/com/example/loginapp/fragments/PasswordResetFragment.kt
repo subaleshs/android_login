@@ -13,7 +13,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.loginapp.utils.NetworkChecks
 import com.example.loginapp.R
 import com.example.loginapp.databinding.FragmentPasswordResetBinding
-import com.example.loginapp.repositories.AuthRepository
 import com.example.loginapp.viewmodel.AuthViewModel
 
 class PasswordResetFragment : Fragment() {
