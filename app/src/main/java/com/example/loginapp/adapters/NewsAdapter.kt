@@ -11,6 +11,8 @@ import com.example.loginapp.model.NewsData
 import com.example.loginapp.model.NewsContent
 import com.example.loginapp.R
 import com.example.loginapp.databinding.NewsRecylcerLayoutBinding
+import com.example.loginapp.model.Articles
+import com.example.loginapp.model.News
 import com.example.loginapp.utils.EditPreference
 import com.google.firebase.auth.FirebaseAuth
 
@@ -18,16 +20,16 @@ class
 NewsAdapter :
     RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
-    var favouritesNews: MutableList<NewsContent> = arrayListOf()
-    private var newsData: NewsData? = null
+    var favouritesNews: MutableList<Articles> = arrayListOf()
+    private var newsData: News? = null
     lateinit var preference: SharedPreferences
     lateinit var editPreference: EditPreference
 
-    fun getNewsData(news: NewsData?) {
+    fun getNewsData(news: News?) {
         newsData = news
     }
 
-    var onCardClick: ((NewsContent) -> Unit)? = null
+    var onCardClick: ((Articles) -> Unit)? = null
 
     lateinit var context: Context
 
@@ -35,14 +37,13 @@ NewsAdapter :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(
-            newsData: NewsContent?,
-            category: String,
-            favourites: MutableList<NewsContent>
+            newsData: Articles?,
+            favourites: MutableList<Articles>
         ) {
-            binding.category.text = category
+            binding.category.text = "category"
             binding.newsTitle.text = newsData?.title
-            binding.dateView.text = newsData?.date
-            Glide.with(binding.root.context).load(newsData?.imageUrl)
+            binding.dateView.text = newsData?.publishedAt
+            Glide.with(binding.root.context).load(newsData?.urlToImage)
                 .error(R.drawable.news)
                 .into(binding.newsPicture)
             binding.favCheckBox.isChecked = favourites.contains(newsData)
@@ -67,8 +68,7 @@ NewsAdapter :
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         holder.bind(
-            newsData?.data?.let { it[position] },
-            newsData?.category ?: "N/A",
+            newsData?.articles?.let { it[position] },
             favouritesNews
         )
         if (editPreference.checkPreferenceExist()) {
@@ -76,7 +76,7 @@ NewsAdapter :
         }
         holder.binding.favCheckBox.setOnClickListener {
 
-            val news = newsData?.data?.get(position)
+            val news = newsData?.articles?.get(position)
             if (holder.binding.favCheckBox.isChecked) {
                 news?.let { favouritesNews.add(it) }
                 editPreference.addPreference(favouritesNews)
@@ -87,14 +87,14 @@ NewsAdapter :
         }
         holder.binding.newsCard.setOnClickListener {
 
-            newsData?.data?.get(position)?.let { onCardClick?.invoke(it) }
+            newsData?.articles?.get(position)?.let { onCardClick?.invoke(it) }
 
         }
 
     }
 
     override fun getItemCount(): Int {
-        return newsData?.data?.size ?: 0
+        return newsData?.articles?.size ?: 0
     }
 }
 

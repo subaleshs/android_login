@@ -2,6 +2,7 @@ package com.example.loginapp.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
+import kotlinx.android.parcel.RawValue
 
 @Parcelize
 data class NewsContent(
@@ -27,8 +28,9 @@ data class News(
     val articles: ArrayList<Articles>?,
 )
 
+@Parcelize
 data class Articles(
-    val source: Source,
+    val source: @RawValue Source,
     val author: String?,
     val title: String?,
     val description: String?,
@@ -36,7 +38,7 @@ data class Articles(
     val urlToImage: String?,
     val publishedAt: String?,
     val content: String?,
-)
+): Parcelable
 
 data class Source(
     val id: String?,

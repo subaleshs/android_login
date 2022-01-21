@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.loginapp.R
 import com.example.loginapp.adapters.FavouritesAdapter
 import com.example.loginapp.databinding.FragmentFavouritesBinding
+import com.example.loginapp.model.Articles
 import com.example.loginapp.model.NewsContent
 import com.example.loginapp.utils.EditPreference
 import com.google.firebase.auth.FirebaseAuth
@@ -18,7 +19,7 @@ import com.google.firebase.auth.FirebaseAuth
 class FavouritesFragment : Fragment() {
 
     private lateinit var favouriteFragmentBinding: FragmentFavouritesBinding
-    private lateinit var favourites: MutableList<NewsContent>
+    private lateinit var favourites: MutableList<Articles>
     lateinit var editPreferences: EditPreference
     private val favAdapter = FavouritesAdapter()
     override fun onCreateView(

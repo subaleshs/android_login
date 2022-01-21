@@ -7,26 +7,27 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.loginapp.R
 import com.example.loginapp.databinding.NewsRecylcerLayoutBinding
+import com.example.loginapp.model.Articles
 import com.example.loginapp.model.NewsContent
 import com.example.loginapp.utils.EditPreference
 import com.google.firebase.auth.FirebaseAuth
 
 class FavouritesAdapter: RecyclerView.Adapter<FavouritesAdapter.FavoritesViewHolder>() {
 
-    private var favouritesArray: MutableList<NewsContent> = arrayListOf()
+    private var favouritesArray: MutableList<Articles> = arrayListOf()
     var emptyFavourites: (()->Unit)? = null
-    var expandNews: ((NewsContent)->Unit)? = null
+    var expandNews: ((Articles)->Unit)? = null
 
-    fun getFavNews(favouritesArray: MutableList<NewsContent>) {
+    fun getFavNews(favouritesArray: MutableList<Articles>) {
         this.favouritesArray = favouritesArray
     }
 
     class FavoritesViewHolder(val binding: NewsRecylcerLayoutBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(news: NewsContent?, category: String = "all"){
+        fun bind(news: Articles?, category: String = "all"){
             binding.newsTitle.text = news?.title
             binding.category.text = ""
-            binding.dateView.text = news?.date
-            Glide.with(binding.root.context).load(news?.imageUrl)
+            binding.dateView.text = news?.publishedAt
+            Glide.with(binding.root.context).load(news?.urlToImage)
                 .error(R.drawable.news)
                 .into(binding.newsPicture)
             binding.favCheckBox.isChecked = true

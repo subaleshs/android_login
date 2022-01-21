@@ -10,6 +10,7 @@ import androidx.core.text.HtmlCompat
 import com.bumptech.glide.Glide
 import com.example.loginapp.R
 import com.example.loginapp.databinding.FragmentDetailedNewsBinding
+import com.example.loginapp.model.Articles
 import com.example.loginapp.model.NewsContent
 
 class DetailedNewsFragment : Fragment() {
@@ -22,13 +23,13 @@ class DetailedNewsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentDetailedNewsBinding.inflate(inflater, container, false)
-        val newsDetail = arguments?.getParcelable<NewsContent>("full_news")
+        val newsDetail = arguments?.getParcelable<Articles>("full_news")
         binding.newsTitleText.text = newsDetail?.title ?: "title"
-        binding.newsContent.text = newsDetail?.content ?: "Content"
-        context?.let { Glide.with(it).load(newsDetail?.imageUrl).error(R.drawable.news).into(binding.newsImage) }
+        binding.newsContent.text = newsDetail?.description ?: "Content"
+        context?.let { Glide.with(it).load(newsDetail?.urlToImage).error(R.drawable.news).into(binding.newsImage) }
 
-        if (newsDetail?.readMoreUrl != null){
-            val htmlATag = "<a href=\""+newsDetail?.readMoreUrl+"\">Read More</a>"
+        if (newsDetail?.url != null){
+            val htmlATag = "<a href=\""+newsDetail.url+"\">Read More</a>"
             println(htmlATag)
             binding.readMoreLink.text = HtmlCompat.fromHtml(htmlATag,HtmlCompat.FROM_HTML_MODE_LEGACY)
             binding.readMoreLink.movementMethod = LinkMovementMethod.getInstance()

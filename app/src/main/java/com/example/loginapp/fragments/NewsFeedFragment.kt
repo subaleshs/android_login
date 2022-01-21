@@ -11,6 +11,7 @@ import com.example.loginapp.model.NewsContent
 import com.example.loginapp.R
 import com.example.loginapp.adapters.NewsAdapter
 import com.example.loginapp.databinding.FragmentNewsFeedBinding
+import com.example.loginapp.model.Articles
 import com.example.loginapp.viewmodel.NewsViewModel
 
 class NewsFeedFragment : Fragment() {
@@ -35,7 +36,7 @@ class NewsFeedFragment : Fragment() {
             newsFragmentBinding.progressBarView.visibility = View.VISIBLE
             viewModelInit(viewModel)
             newsFragmentBinding.newsRecyclerLayout.adapter = newsAdapter
-            newsAdapter.onCardClick = { detailedNews: NewsContent ->
+            newsAdapter.onCardClick = { detailedNews: Articles ->
                 val transaction = parentFragmentManager.beginTransaction()
                 val fragment = DetailedNewsFragment()
                 val newsBundle = Bundle()
@@ -75,18 +76,18 @@ class NewsFeedFragment : Fragment() {
         if (NetworkChecks.isNetworkConnected(activity)) {
             viewModel.getNewsLiveData().observe(this, {
                 println("$it  vp")
-                if (it != null && it.success) {
+                if (it != null && it.status == "ok") {
                     hideErrorImage()
                     newsFragmentBinding.progressBarView.visibility = View.INVISIBLE
                     newsFragmentBinding.newsRecyclerLayout.visibility = View.VISIBLE
                     newsAdapter.getNewsData(it)
                     newsAdapter.notifyDataSetChanged()
                 } else {
-                    if (it?.success == false) {
+                    if (it?.status == "ok") {
                         context?.let { it1 ->
                             AlertDialog.Builder(it1)
                                 .setTitle(R.string.error)
-                                .setMessage(it.error)
+                                .setMessage(it.message)
                                 .setIcon(android.R.drawable.ic_dialog_alert)
                                 .show()
                         }
