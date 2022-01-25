@@ -17,14 +17,16 @@ abstract class FavouritesDatabase: RoomDatabase() {
         @Volatile var dbInstance: FavouritesDatabase? = null
         private val LOCK = Any()
 
-        fun invoke(context: Context) = dbInstance ?: synchronized(LOCK) {
-            dbInstance ?: buildDatabase(context)
+        operator fun invoke(context: Context) = dbInstance ?: synchronized(LOCK) {
+            dbInstance ?: buildDatabase(context).also {
+                dbInstance = it
+            }
         }
 
         private fun buildDatabase(context: Context) = Room.databaseBuilder(
             context.applicationContext,
             FavouritesDatabase::class.java,
             "favourites"
-        )
+        ).build()
     }
 }

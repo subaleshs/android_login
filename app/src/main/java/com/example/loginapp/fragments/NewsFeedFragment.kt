@@ -1,6 +1,7 @@
 package com.example.loginapp.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -11,6 +12,8 @@ import com.example.loginapp.model.NewsContent
 import com.example.loginapp.R
 import com.example.loginapp.adapters.NewsAdapter
 import com.example.loginapp.databinding.FragmentNewsFeedBinding
+import com.example.loginapp.db.FavouritesEntity
+import com.example.loginapp.viewmodel.FavoritesViewModel
 import com.example.loginapp.viewmodel.NewsViewModel
 
 class NewsFeedFragment : Fragment() {
@@ -30,6 +33,10 @@ class NewsFeedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val viewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
+        val favoritesViewModel = ViewModelProvider(this).get(FavoritesViewModel::class.java)
+        favoritesViewModel.getFavoritesLiveData().observe(this, { list->
+            list?.let { newsAdapter.updateFavoriteList(it) }
+        })
         if (NetworkChecks.isNetworkConnected(activity)) {
             hideErrorImage()
             newsFragmentBinding.progressBarView.visibility = View.VISIBLE
@@ -49,6 +56,31 @@ class NewsFeedFragment : Fragment() {
             }
         } else {
             showNoInternetImage()
+        }
+
+        Log.d("db", favoritesViewModel.getFavoritesLiveData().value.toString())
+
+        newsAdapter.onFavButtonChecked =  { news ->
+//            var newsAlreadyExists = news.title?.let { favoritesViewModel.checkForNewsInDb(it) }
+            favoritesViewModel.checkForNewsInDb(news.title!!).observe(this, {
+                if (it == null) {
+                    val newsEntity = FavouritesEntity(news)
+                    favoritesViewModel.addToFavorites(newsEntity)
+                    Log.d("db", favoritesViewModel.getFavoritesLiveData().value.toString())
+                }
+            })
+
+        }
+
+        newsAdapter.onFavButtonUnChecked = { news ->
+            Log.d("tit", "-${news.title}-")
+            favoritesViewModel.checkForNewsInDb(news.title!!).observe(this, {
+                if (it != null) {
+                    favoritesViewModel.deleteFromFavorites(it)
+//                favoritesViewModel.fd(newsEntity.id)
+                    Log.d("db", favoritesViewModel.getFavoritesLiveData().value.toString())
+                }
+            })
         }
 
         newsFragmentBinding.swipeRefresh.setOnRefreshListener {
@@ -91,7 +123,13 @@ class NewsFeedFragment : Fragment() {
                                 .show()
                         }
                     } else {
-
+                        context?.let { it1 ->
+                            AlertDialog.Builder(it1)
+                                .setTitle(R.string.error)
+                                .setMessage("Unknown error")
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .show()
+                        }
                     }
                     showRefreshImage()
                 }
