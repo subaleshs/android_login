@@ -5,20 +5,19 @@ import com.example.loginapp.db.FavouritesDao
 import com.example.loginapp.db.FavouritesEntity
 
 
-class FavoriteNewsRepository(private val favoritesDao: FavouritesDao) {
+class FavoriteNewsRepository(private val dao: FavouritesDao) {
 
-    fun getAllFavoriteNews(): LiveData<List<FavouritesEntity>> {
-        return favoritesDao.getFavourites()
+    fun getAllFavoriteNews(uid: String): LiveData<List<FavouritesEntity>> {
+        return dao.getFavourites(uid)
     }
 
-    suspend fun addToFavorites(news: FavouritesEntity) = favoritesDao.addTOFavourites(news)
+    suspend fun addToFavorites(news: FavouritesEntity) = dao.addTOFavourites(news)
 
-    suspend fun deleteFavoriteNews(news: FavouritesEntity) = favoritesDao.deleteFavorites(news)
+    suspend fun deleteFavoriteNews(news: FavouritesEntity) = dao.deleteFavorites(news)
 
-    suspend fun checkNewsExists(title: String): FavouritesEntity{
-        return favoritesDao.checkNewsExist(title)
+    suspend fun checkNewsExists(title: String, uid: String): FavouritesEntity{
+        return dao.checkNewsExist(title,uid)
     }
 
-    suspend fun del(id: Int) = favoritesDao.delete(id)
-
+    suspend fun del(id: Int) = dao.delete(id)
 }

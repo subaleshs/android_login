@@ -13,6 +13,7 @@ import com.example.loginapp.R
 import com.example.loginapp.adapters.NewsAdapter
 import com.example.loginapp.databinding.FragmentNewsFeedBinding
 import com.example.loginapp.db.FavouritesEntity
+import com.example.loginapp.viewmodel.AuthViewModel
 import com.example.loginapp.viewmodel.FavoritesViewModel
 import com.example.loginapp.viewmodel.NewsViewModel
 
@@ -34,6 +35,7 @@ class NewsFeedFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val viewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
         val favoritesViewModel = ViewModelProvider(this).get(FavoritesViewModel::class.java)
+        val authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
         favoritesViewModel.getFavoritesLiveData().observe(this, { list->
             list?.let { newsAdapter.updateFavoriteList(it) }
         })
@@ -62,11 +64,12 @@ class NewsFeedFragment : Fragment() {
 
         newsAdapter.onFavButtonChecked =  { news ->
 //            var newsAlreadyExists = news.title?.let { favoritesViewModel.checkForNewsInDb(it) }
-            favoritesViewModel.checkForNewsInDb(news.title!!).observe(this, {
-                if (it == null) {
-                    val newsEntity = FavouritesEntity(news)
-                    favoritesViewModel.addToFavorites(newsEntity)
-                    Log.d("db", favoritesViewModel.getFavoritesLiveData().value.toString())
+            favoritesViewModel.checkForNewsInDb(news.title!!).observe(this, { favorite ->
+                if (favorite == null) {
+                    val newsEntity = authViewModel.getCurrentUser()?.let { FavouritesEntity(news, it.uid) }
+                    if (newsEntity != null) {
+                        favoritesViewModel.addToFavorites(newsEntity)
+                    }
                 }
             })
 

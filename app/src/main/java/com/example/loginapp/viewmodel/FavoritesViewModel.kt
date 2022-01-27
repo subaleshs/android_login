@@ -17,9 +17,10 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
     private var favoritesLiveData: LiveData<List<FavouritesEntity>>
     private var dao: FavouritesDao =  FavouritesDatabase(getApplication<Application>().applicationContext).getDao()
     private val repository = FavoriteNewsRepository(dao)
+    private var currentUserId: String = AuthViewModel().getCurrentUser()?.uid ?: "user"
 
     init {
-        favoritesLiveData = repository.getAllFavoriteNews()
+        favoritesLiveData = repository.getAllFavoriteNews(currentUserId)
     }
 
 
@@ -30,7 +31,7 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
     fun checkForNewsInDb(title: String): MutableLiveData<FavouritesEntity?> {
         val newsEntityLivaData = MutableLiveData<FavouritesEntity?>()
         viewModelScope.launch(Dispatchers.IO) {
-            newsEntityLivaData.postValue(repository.checkNewsExists(title))
+            newsEntityLivaData.postValue(repository.checkNewsExists(title, currentUserId))
         }
         return newsEntityLivaData
     }
