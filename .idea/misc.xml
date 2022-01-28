@@ -55,6 +55,7 @@
         <entry key="app/src/main/res/layout/new_feed.xml" value="0.26856884057971014" />
         <entry key="app/src/main/res/layout/news_recycler_update.xml" value="0.1" />
         <entry key="app/src/main/res/layout/news_recylcer_layout.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/notification.xml" value="0.25" />
         <entry key="app/src/main/res/menu/bottom_navigation.xml" value="0.16510416666666666" />
       </map>
     </option>
@@ -64,12 +65,5 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
-  </component>
-  <component name="VisualizationToolProject">
-    <option name="state">
-      <ProjectState>
-        <option name="scale" value="0.22" />
-      </ProjectState>
-    </option>
   </component>
 </project>

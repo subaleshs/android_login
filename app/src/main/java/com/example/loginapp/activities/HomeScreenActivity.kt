@@ -3,13 +3,13 @@ package com.example.loginapp.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.ViewModelProvider
 import com.example.loginapp.R
 import com.example.loginapp.adapters.SwipeViewAdapter
 import com.example.loginapp.databinding.ActivityHomeScreenBinding
-import com.example.loginapp.viewmodel.AuthViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.messaging.FirebaseMessaging
 
 class HomeScreenActivity : AppCompatActivity() {
 
@@ -27,6 +27,14 @@ class HomeScreenActivity : AppCompatActivity() {
             homeScreenActivityBinding = ActivityHomeScreenBinding.inflate(layoutInflater)
             setContentView(homeScreenActivityBinding.root)
 
+            FirebaseMessaging.getInstance().token.addOnCompleteListener {
+                if (!it.isComplete){
+                    return@addOnCompleteListener
+                }
+
+                val token = it.result
+                Log.d("newtoken", token)
+            }
             val viewPager = homeScreenActivityBinding.viewPagerBottomNav
             viewPager.adapter = SwipeViewAdapter(supportFragmentManager, lifecycle)
             homeScreenActivityBinding.bottomNavigation.setOnItemSelectedListener {
