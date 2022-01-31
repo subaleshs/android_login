@@ -32,19 +32,22 @@
         <entry key="app/src/main/res/drawable/button_shape.xml" value="0.2894736842105263" />
         <entry key="app/src/main/res/drawable/favourite_toggle_btn.xml" value="0.2894736842105263" />
         <entry key="app/src/main/res/drawable/ic_account_circle.xml" value="0.2894736842105263" />
-        <entry key="app/src/main/res/drawable/ic_baseline_add_photo.xml" value="0.33489583333333334" />
         <entry key="app/src/main/res/drawable/ic_edit.xml" value="0.18125" />
         <entry key="app/src/main/res/drawable/ic_favorite_border.xml" value="0.2894736842105263" />
         <entry key="app/src/main/res/drawable/ic_favorite_button.xml" value="0.2894736842105263" />
         <entry key="app/src/main/res/drawable/ic_favorites.xml" value="0.18125" />
+        <entry key="app/src/main/res/drawable/ic_lock.xml" value="0.2925" />
+        <entry key="app/src/main/res/drawable/ic_login.xml" value="0.2925" />
+        <entry key="app/src/main/res/drawable/ic_small_icon.xml" value="0.2925" />
         <entry key="app/src/main/res/drawable/login_button_shape.xml" value="0.2894736842105263" />
+        <entry key="app/src/main/res/drawable/logout_button_shape.xml" value="0.2925" />
         <entry key="app/src/main/res/drawable/news_tile.xml" value="0.16447368421052633" />
         <entry key="app/src/main/res/drawable/profile_layout.xml" value="0.18125" />
         <entry key="app/src/main/res/drawable/user_detail_shape.xml" value="0.18125" />
         <entry key="app/src/main/res/layout/activity_home_screen.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_login_screen.xml" value="0.15087719298245614" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22" />
-        <entry key="app/src/main/res/layout/fragment_account.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/fragment_account.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_detailed_news.xml" value="0.17" />
         <entry key="app/src/main/res/layout/fragment_favorites.xml" value="0.16510416666666666" />
         <entry key="app/src/main/res/layout/fragment_favourites.xml" value="0.2463768115942029" />
@@ -55,7 +58,7 @@
         <entry key="app/src/main/res/layout/new_feed.xml" value="0.26856884057971014" />
         <entry key="app/src/main/res/layout/news_recycler_update.xml" value="0.1" />
         <entry key="app/src/main/res/layout/news_recylcer_layout.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/notification.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/notification.xml" value="0.5" />
         <entry key="app/src/main/res/menu/bottom_navigation.xml" value="0.16510416666666666" />
       </map>
     </option>
@@ -65,5 +68,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.22" />
+      </ProjectState>
+    </option>
   </component>
 </project>

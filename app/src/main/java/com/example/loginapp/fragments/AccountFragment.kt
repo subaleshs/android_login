@@ -72,7 +72,7 @@ class AccountFragment : Fragment() {
                 result.launch(takePic)
             } else {
                 ActivityCompat.requestPermissions(
-                    activity!!,
+                    requireActivity(),
                     arrayOf(android.Manifest.permission.CAMERA),
                     111
                 )
@@ -111,7 +111,7 @@ class AccountFragment : Fragment() {
             fileOutputStream.flush()
             fileOutputStream.close()
         } catch (exception: Exception) {
-            AlertDialog.Builder(activity!!).setTitle(R.string.error)
+            AlertDialog.Builder(requireActivity()).setTitle(R.string.error)
                 .setMessage("Image not found")
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setPositiveButton(R.string.ok){
@@ -135,7 +135,7 @@ class AccountFragment : Fragment() {
     private fun checkCamPermission(): Boolean {
         return try {
             ActivityCompat.checkSelfPermission(
-                activity!!,
+                requireActivity(),
                 android.Manifest.permission.CAMERA
             ) == PackageManager.PERMISSION_GRANTED
         } catch (exception: NullPointerException) {
