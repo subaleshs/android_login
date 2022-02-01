@@ -49,7 +49,15 @@ class PasswordResetFragment : Fragment() {
             } else {
                 if (NetworkChecks.isNetworkConnected(activity)) {
                     passwordResetFragmentBinding.progressBarView.visibility = View.VISIBLE
-                    viewModel.resetPassword(userEmail)
+                    androidx.appcompat.app.AlertDialog.Builder(it.context).setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle(R.string.reset_password_check)
+                        .setPositiveButton(R.string.confirm) {
+                            _, _ -> viewModel.resetPassword(userEmail)
+                        }
+                        .setNegativeButton(R.string.cancel) {
+                                dialog, _ -> dialog.dismiss()
+                        }
+                        .show()
 
                 } else {
                     context?.let {
@@ -66,7 +74,7 @@ class PasswordResetFragment : Fragment() {
 
     private fun viewModelObserve() {
         val builder = AlertDialog.Builder(context)
-        viewModel.getExceptionMessage().observe(this, { message ->
+        viewModel.getExceptionMessage().observe(viewLifecycleOwner) { message ->
             if (message == null) {
                 builder.setMessage(R.string.email_send_success)
                 builder.setPositiveButton(R.string.ok) { dialog, _ ->
@@ -87,7 +95,7 @@ class PasswordResetFragment : Fragment() {
                         .setIcon(android.R.drawable.ic_dialog_alert).show()
                 }
             }
-        })
+        }
     }
 
 }
