@@ -44,4 +44,5 @@
     <string name="no_fav">No Favourites</string>
     <string name="check_email">Check your Email to reset your password</string>
     <string name="choose_language">Choose any language</string>
+    <string name="reset_password_check">Do you want to reset password?</string>
 </resources>

@@ -88,13 +88,13 @@ class AccountFragment : Fragment() {
 
         accountFragmentBinding.resetPasswordButton.setOnClickListener {
             if (email != null) {
-                viewModel.resetPassword(email)
-                AlertDialog.Builder(it.context).setIcon(R.drawable.ic_done)
-                    .setTitle(R.string.email_send_success)
-                    .setMessage(R.string.check_email)
-                    .setCancelable(true)
-                    .setNeutralButton(R.string.cancel) { dialog, _ ->
-                        dialog.dismiss()
+                AlertDialog.Builder(it.context).setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle(R.string.reset_password_check)
+                    .setPositiveButton(R.string.confirm) {
+                        _, _ -> resetUserPassword(email)
+                    }
+                    .setNegativeButton(R.string.cancel) {
+                        dialog, _ -> dialog.dismiss()
                     }
                     .show()
             }
@@ -107,6 +107,17 @@ class AccountFragment : Fragment() {
 
     }
 
+    private fun resetUserPassword(email: String) {
+        viewModel.resetPassword(email)
+        AlertDialog.Builder(requireContext()).setIcon(R.drawable.ic_done)
+            .setTitle(R.string.email_send_success)
+            .setMessage(R.string.check_email)
+            .setCancelable(true)
+            .setNeutralButton(R.string.cancel) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
     private fun loadImage() {
         if (sharedPreferences?.contains("path") == true) {
             val imageName = viewModel.getCurrentUser()?.uid.toString() + ".jpg"
