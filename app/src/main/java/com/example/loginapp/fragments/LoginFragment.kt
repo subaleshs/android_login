@@ -53,7 +53,7 @@ class LoginFragment : Fragment() {
 
         showSignUpText(loginFragmentBinding.signUpTextView)
 
-        loginFragmentBinding.loginButtonView.setOnClickListener {
+        loginFragmentBinding.logoutButtonView.setOnClickListener {
 
             if (NetworkChecks.isNetworkConnected(activity)) {
                 val userEmailAddress = loginFragmentBinding.emailTextView.text.toString()
@@ -108,7 +108,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun viewModelObserve() {
-        viewModel.getUserLiveData().observe(this, {
+        viewModel.getUserLiveData().observe(this) {
             if (it != null) {
                 changeToHomeScreen()
             } else {
@@ -117,7 +117,7 @@ class LoginFragment : Fragment() {
                 loginFragmentBinding.emailTextInputLayout.error = " "
                 loginFragmentBinding.passwordTextInputLayout.error = " "
             }
-        })
+        }
     }
     private fun changeToHomeScreen() {
         /**

@@ -42,4 +42,6 @@
     <string name="change_language">Change Language</string>
     <string name="refresh">Please refresh</string>
     <string name="no_fav">No Favourites</string>
+    <string name="check_email">Check your Email to reset your password</string>
+    <string name="choose_language">Choose any language</string>
 </resources>

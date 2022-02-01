@@ -43,4 +43,6 @@
     <string name="change_language">Cambiar idioma</string>
     <string name="refresh">Porfavor refresca</string>
     <string name="no_fav">Sin favoritos</string>
+    <string name="check_email">Revise su correo electrónico para restablecer su contraseña</string>
+    <string name="choose_language">Elige cualquier idioma</string>
 </resources>

@@ -5,7 +5,9 @@ import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.os.Build
 import android.os.Bundle
+import android.os.LocaleList
 import android.provider.MediaStore
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -27,6 +29,7 @@ import java.io.FileInputStream
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.lang.NullPointerException
+import java.util.*
 
 
 class AccountFragment : Fragment() {
@@ -41,7 +44,10 @@ class AccountFragment : Fragment() {
     ): View {
         accountFragmentBinding = FragmentAccountBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
-        sharedPreferences = activity?.getSharedPreferences(viewModel.getCurrentUser()?.uid.toString(), Context.MODE_PRIVATE)
+        sharedPreferences = activity?.getSharedPreferences(
+            viewModel.getCurrentUser()?.uid.toString(),
+            Context.MODE_PRIVATE
+        )
         return accountFragmentBinding.root
     }
 
@@ -51,14 +57,15 @@ class AccountFragment : Fragment() {
         loadImage()
         val email = viewModel.getCurrentUser()?.email
         accountFragmentBinding.userName.text = email?.split('@')?.get(0) ?: "No Username"
-        accountFragmentBinding.loginButtonView.setOnClickListener { showLogoutDialog() }
+        accountFragmentBinding.logoutButtonView.setOnClickListener { showLogoutDialog() }
+
 
         val result =
             this.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
                     val imgBitmap = result.data?.extras?.get("data") as Bitmap
                     accountFragmentBinding.profileImage.setImageBitmap(imgBitmap)
-                    Log.d("test",result?.data?.extras?.keySet().toString())
+                    Log.d("test", result?.data?.extras?.keySet().toString())
                     saveImage(imgBitmap)
                 } else {
                     Log.d("failcam", "fail")
@@ -77,17 +84,32 @@ class AccountFragment : Fragment() {
                     111
                 )
             }
-            accountFragmentBinding.favoritesButton.setOnClickListener {
-                val viewPager = requireActivity().findViewById<ViewPager2>(R.id.viewPagerBottomNav)
-                viewPager.currentItem = 1
-            }
-
         }
+
+        accountFragmentBinding.resetPasswordButton.setOnClickListener {
+            if (email != null) {
+                viewModel.resetPassword(email)
+                AlertDialog.Builder(it.context).setIcon(R.drawable.ic_done)
+                    .setTitle(R.string.email_send_success)
+                    .setMessage(R.string.check_email)
+                    .setCancelable(true)
+                    .setNeutralButton(R.string.cancel) { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .show()
+            }
+        }
+
+        accountFragmentBinding.favoritesButton.setOnClickListener {
+            val viewPager = requireActivity().findViewById<ViewPager2>(R.id.viewPagerBottomNav)
+            viewPager.currentItem = 1
+        }
+
     }
 
     private fun loadImage() {
         if (sharedPreferences?.contains("path") == true) {
-            val imageName = viewModel.getCurrentUser()?.uid.toString()+".jpg"
+            val imageName = viewModel.getCurrentUser()?.uid.toString() + ".jpg"
             val path = sharedPreferences?.getString("path", null)
             try {
                 val file = File(path, imageName)
@@ -103,9 +125,9 @@ class AccountFragment : Fragment() {
 
     private fun saveImage(image: Bitmap) {
         val directory = context?.getDir("images", Context.MODE_PRIVATE)
-        val imageName = viewModel.getCurrentUser()?.uid.toString()+".jpg"
+        val imageName = viewModel.getCurrentUser()?.uid.toString() + ".jpg"
         try {
-            val file = File(directory,imageName)
+            val file = File(directory, imageName)
             val fileOutputStream = FileOutputStream(file)
             image.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream)
             fileOutputStream.flush()
@@ -114,8 +136,7 @@ class AccountFragment : Fragment() {
             AlertDialog.Builder(requireActivity()).setTitle(R.string.error)
                 .setMessage("Image not found")
                 .setIcon(android.R.drawable.ic_dialog_alert)
-                .setPositiveButton(R.string.ok){
-                    _,_ ->
+                .setPositiveButton(R.string.ok) { _, _ ->
                 }.show()
         }
 

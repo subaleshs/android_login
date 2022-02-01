@@ -16,8 +16,8 @@ import com.google.firebase.messaging.RemoteMessage
 
 class FirebaseNotification : FirebaseMessagingService() {
 
-    private val channelId: String = "notification"
-    private val channelName: String = "com.example.loginapp"
+    private val channelId: String = "firebaseNotification"
+    private val channelName: String = "Daily notification"
 
     override fun onNewToken(p0: String) {
         Log.d("newFT", p0)
@@ -25,7 +25,6 @@ class FirebaseNotification : FirebaseMessagingService() {
     }
 
     override fun onMessageReceived(p0: RemoteMessage) {
-        Log.d("mess", p0.notification?.title.toString())
         if (p0.notification != null) {
             generateNotification(p0.notification?.title!!, p0.notification?.body!!)
         }
@@ -47,7 +46,7 @@ class FirebaseNotification : FirebaseMessagingService() {
             .setAutoCancel(true)
             .setStyle(NotificationCompat.DecoratedCustomViewStyle())
             .setVibrate(longArrayOf(1000, 1000, 1000, 1000))
-            .setOnlyAlertOnce(true)
+            .setOnlyAlertOnce(false)
             .setContentIntent(pendingIntent).build()
 
         val notificationManager =
