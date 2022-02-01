@@ -23,6 +23,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.loginapp.activities.LoginScreenActivity
 import com.example.loginapp.R
 import com.example.loginapp.databinding.FragmentAccountBinding
+import com.example.loginapp.utils.NetworkChecks
 import com.example.loginapp.viewmodel.AuthViewModel
 import java.io.File
 import java.io.FileInputStream
@@ -108,15 +109,23 @@ class AccountFragment : Fragment() {
     }
 
     private fun resetUserPassword(email: String) {
-        viewModel.resetPassword(email)
-        AlertDialog.Builder(requireContext()).setIcon(R.drawable.ic_done)
-            .setTitle(R.string.email_send_success)
-            .setMessage(R.string.check_email)
-            .setCancelable(true)
-            .setNeutralButton(R.string.cancel) { dialog, _ ->
-                dialog.dismiss()
-            }
-            .show()
+        if (NetworkChecks.isNetworkConnected(activity)) {
+            viewModel.resetPassword(email)
+            AlertDialog.Builder(requireContext()).setIcon(R.drawable.ic_done)
+                .setTitle(R.string.email_send_success)
+                .setMessage(R.string.check_email)
+                .setCancelable(true)
+                .setNeutralButton(R.string.cancel) { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
+        } else {
+            android.app.AlertDialog.Builder(requireContext())
+                .setTitle(R.string.no_internet)
+                .setMessage(R.string.no_internet_message)
+                .setPositiveButton(android.R.string.ok) { _, _ -> }
+                .setIcon(android.R.drawable.ic_dialog_alert).show()
+        }
     }
     private fun loadImage() {
         if (sharedPreferences?.contains("path") == true) {
