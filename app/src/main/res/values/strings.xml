@@ -45,4 +45,9 @@
     <string name="check_email">Check your Email to reset your password</string>
     <string name="choose_language">Choose any language</string>
     <string name="reset_password_check">Do you want to reset password?</string>
+    <string name="your_news">Your News</string>
+    <string name="news_title">News Title</string>
+    <string name="date">Date</string>
+    <string name="news_content">News Content</string>
+    <string name="input_error">Enter valid input</string>
 </resources>

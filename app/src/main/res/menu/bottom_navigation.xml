@@ -12,6 +12,11 @@
         android:title="@string/fav_title"/>
 
     <item
+        android:id="@+id/customNews"
+        android:icon="@drawable/ic_custom_add"
+        android:title="@string/your_news"/>
+
+    <item
         android:id="@+id/account"
         android:icon="@drawable/ic_account_circle"
         android:title="@string/account_title"/>

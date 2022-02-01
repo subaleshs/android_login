@@ -46,4 +46,9 @@
     <string name="check_email">Revise su correo electrónico para restablecer su contraseña</string>
     <string name="choose_language">Elige cualquier idioma</string>
     <string name="reset_password_check">¿Quieres restablecer la contraseña?</string>
+    <string name="your_news">Tus noticias</string>
+    <string name="news_title">Título de la noticia</string>
+    <string name="date">fecha</string>
+    <string name="news_content">Contenido de noticias</string>
+    <string name="input_error">Introduce una entrada válida</string>
 </resources>

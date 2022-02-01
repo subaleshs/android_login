@@ -50,8 +50,11 @@ class HomeScreenActivity : AppCompatActivity() {
                     R.id.favorites -> {
                         viewPager.currentItem = 1
                     }
-                    R.id.account -> {
+                    R.id.customNews -> {
                         viewPager.currentItem = 2
+                    }
+                    R.id.account -> {
+                        viewPager.currentItem = 3
                     }
                 }
                 true
@@ -68,11 +71,7 @@ class HomeScreenActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
 
-        if (supportActionBar?.title != getString(R.string.home_title)) {
-            supportActionBar?.setDisplayHomeAsUpEnabled(false)
-            supportActionBar?.setDisplayShowHomeEnabled(false)
-            supportActionBar?.setTitle(R.string.home_title)
-        }
+
         if (supportFragmentManager.backStackEntryCount < 1) {
             val exitConfirm = AlertDialog.Builder(this)
             exitConfirm.setMessage(R.string.exit_dialog_message)
@@ -80,6 +79,11 @@ class HomeScreenActivity : AppCompatActivity() {
             exitConfirm.setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
             exitConfirm.show()
         } else {
+            supportActionBar?.setDisplayHomeAsUpEnabled(false)
+            supportActionBar?.setDisplayShowHomeEnabled(false)
+            if (supportActionBar?.title != "") {
+                supportActionBar?.setTitle(R.string.home_title)
+            }
             super.onBackPressed()
         }
     }
