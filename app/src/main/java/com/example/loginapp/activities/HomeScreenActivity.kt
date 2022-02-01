@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import com.example.loginapp.R
 import com.example.loginapp.adapters.SwipeViewAdapter
@@ -58,7 +59,20 @@ class HomeScreenActivity : AppCompatActivity() {
         }
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> onBackPressed()
+        }
+        return true
+    }
+
     override fun onBackPressed() {
+
+        if (supportActionBar?.title != getString(R.string.home_title)) {
+            supportActionBar?.setDisplayHomeAsUpEnabled(false)
+            supportActionBar?.setDisplayShowHomeEnabled(false)
+            supportActionBar?.setTitle(R.string.home_title)
+        }
         if (supportFragmentManager.backStackEntryCount < 1) {
             val exitConfirm = AlertDialog.Builder(this)
             exitConfirm.setMessage(R.string.exit_dialog_message)

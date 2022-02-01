@@ -1,14 +1,19 @@
 package com.example.loginapp.fragments
 
+import android.app.ProgressDialog.show
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
 import com.bumptech.glide.Glide
 import com.example.loginapp.R
+import com.example.loginapp.activities.HomeScreenActivity
 import com.example.loginapp.databinding.FragmentDetailedNewsBinding
 import com.example.loginapp.model.NewsContent
 
@@ -27,6 +32,9 @@ class DetailedNewsFragment : Fragment() {
         binding.newsContent.text = newsDetail?.content ?: "Content"
         context?.let { Glide.with(it).load(newsDetail?.imageUrl).error(R.drawable.news).into(binding.newsImage) }
 
+        (activity as HomeScreenActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        (activity as HomeScreenActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
+
         if (newsDetail?.readMoreUrl != null){
             val htmlATag = "<a href=\""+newsDetail.readMoreUrl+"\">Read More</a>"
             println(htmlATag)
@@ -36,4 +44,8 @@ class DetailedNewsFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        (activity as HomeScreenActivity).supportActionBar?.title = ""
+    }
 }
