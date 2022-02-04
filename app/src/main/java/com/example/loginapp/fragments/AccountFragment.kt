@@ -3,11 +3,10 @@ package com.example.loginapp.fragments
 import android.app.Activity
 import android.content.*
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
-import android.os.LocaleList
+import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -18,6 +17,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.loginapp.activities.LoginScreenActivity
@@ -26,11 +26,9 @@ import com.example.loginapp.databinding.FragmentAccountBinding
 import com.example.loginapp.utils.NetworkChecks
 import com.example.loginapp.viewmodel.AuthViewModel
 import java.io.File
-import java.io.FileInputStream
 import java.io.FileNotFoundException
-import java.io.FileOutputStream
 import java.lang.NullPointerException
-import java.util.*
+import java.util.jar.Manifest
 
 
 class AccountFragment : Fragment() {
@@ -38,6 +36,11 @@ class AccountFragment : Fragment() {
     private lateinit var accountFragmentBinding: FragmentAccountBinding
     private lateinit var viewModel: AuthViewModel
     private var sharedPreferences: SharedPreferences? = null
+    private var photoFile: File? = null
+    private var mCurrentPhotoPath: String? = null
+    private var readPermission = false
+    private var writePermission = false
+    var permissionRequired: MutableList<String> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,10 +67,17 @@ class AccountFragment : Fragment() {
         val result =
             this.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
-                    val imgBitmap = result.data?.extras?.get("data") as Bitmap
-                    accountFragmentBinding.profileImage.setImageBitmap(imgBitmap)
+//                    val imgBitmap = result.data?.extras?.get("data") as Bitmap
+                    if (photoFile != null) {
+                        Log.d("path", photoFile?.absolutePath.toString())
+                        val img = BitmapFactory.decodeFile(photoFile?.absolutePath)
+                        val editor = sharedPreferences?.edit()
+                        editor?.putString("path", photoFile?.absolutePath)
+                        editor?.apply()
+                        accountFragmentBinding.profileImage.setImageBitmap(img)
+                    }
                     Log.d("test", result?.data?.extras?.keySet().toString())
-                    saveImage(imgBitmap)
+//                    saveImage(imgBitmap)
                 } else {
                     Log.d("failcam", "fail")
                 }
@@ -77,7 +87,30 @@ class AccountFragment : Fragment() {
 
         accountFragmentBinding.profileImage.setOnClickListener {
             if (checkCamPermission()) {
-                result.launch(takePic)
+                if (!checkReadAndWritePermissions()) {
+                    ActivityCompat.requestPermissions(
+                        requireActivity(),
+                        permissionRequired.toTypedArray(),
+                        111
+                    )
+                } else {
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+
+                    } else {
+                        photoFile = createImageFile()
+                        if (photoFile != null) {
+                            val photoURI = FileProvider.getUriForFile(
+                                requireActivity(), "com.example.loginapp.provider",
+                                photoFile!!
+                            )
+                            takePic.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                            result.launch(takePic)
+                        } else {
+                            print("v")
+                        }
+                    }
+                }
             } else {
                 ActivityCompat.requestPermissions(
                     requireActivity(),
@@ -91,11 +124,11 @@ class AccountFragment : Fragment() {
             if (email != null) {
                 AlertDialog.Builder(it.context).setIcon(android.R.drawable.ic_dialog_alert)
                     .setTitle(R.string.reset_password_check)
-                    .setPositiveButton(R.string.confirm) {
-                        _, _ -> resetUserPassword(email)
+                    .setPositiveButton(R.string.confirm) { _, _ ->
+                        resetUserPassword(email)
                     }
-                    .setNegativeButton(R.string.cancel) {
-                        dialog, _ -> dialog.dismiss()
+                    .setNegativeButton(R.string.cancel) { dialog, _ ->
+                        dialog.dismiss()
                     }
                     .show()
             }
@@ -106,6 +139,77 @@ class AccountFragment : Fragment() {
             viewPager.currentItem = 1
         }
 
+    }
+
+    private fun checkReadAndWritePermissions(): Boolean {
+        val hasReadPermission = ActivityCompat.checkSelfPermission(
+            requireContext(),
+            android.Manifest.permission.READ_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED
+        val hasWritePermission = ActivityCompat.checkSelfPermission(
+            requireContext(),
+            android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED
+
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            permissionRequired.add(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+            hasReadPermission
+        } else {
+            if (!hasReadPermission) {
+                permissionRequired.add(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+            }
+            if (!hasWritePermission) {
+                permissionRequired.add(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            }
+
+            permissionRequired.size <= 0
+        }
+
+    }
+
+    private fun loadImage() {
+        if (sharedPreferences?.contains("path") == true) {
+            val path = sharedPreferences?.getString("path", null)
+            Log.d("paa", path.toString())
+            try {
+                val image = BitmapFactory.decodeFile(path)
+                accountFragmentBinding.profileImage.setImageBitmap(image)
+            } catch (exception: FileNotFoundException) {
+                accountFragmentBinding.profileImage.setImageResource(R.drawable.profile)
+            }
+        } else {
+            accountFragmentBinding.profileImage.setImageResource(R.drawable.profile)
+        }
+    }
+
+    private fun createImageFile(): File {
+        val imageFileName = viewModel.getCurrentUser()?.uid.toString()
+        val storageDir = context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val image = File.createTempFile(
+            imageFileName,
+            ".jpg",
+            storageDir
+        )
+        mCurrentPhotoPath = image.absolutePath
+        return image
+    }
+
+
+    private fun checkCamPermission(): Boolean {
+        return try {
+            ActivityCompat.checkSelfPermission(
+                requireActivity(),
+                android.Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED
+        } catch (exception: NullPointerException) {
+            false
+        }
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        (activity as AppCompatActivity).supportActionBar?.setTitle(R.string.account_title)
     }
 
     private fun resetUserPassword(email: String) {
@@ -127,68 +231,7 @@ class AccountFragment : Fragment() {
                 .setIcon(android.R.drawable.ic_dialog_alert).show()
         }
     }
-    private fun loadImage() {
-        if (sharedPreferences?.contains("path") == true) {
-            val imageName = viewModel.getCurrentUser()?.uid.toString() + ".jpg"
-            val path = sharedPreferences?.getString("path", null)
-            try {
-                val file = File(path, imageName)
-                val image = BitmapFactory.decodeStream(FileInputStream(file))
-                accountFragmentBinding.profileImage.setImageBitmap(image)
-            } catch (exception: FileNotFoundException) {
-                accountFragmentBinding.profileImage.setImageResource(R.drawable.profile)
-            }
-        } else {
-            accountFragmentBinding.profileImage.setImageResource(R.drawable.profile)
-        }
-    }
 
-    private fun saveImage(image: Bitmap) {
-        val directory = context?.getDir("images", Context.MODE_PRIVATE)
-        val imageName = viewModel.getCurrentUser()?.uid.toString() + ".jpg"
-        try {
-            val file = File(directory, imageName)
-            val fileOutputStream = FileOutputStream(file)
-            image.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream)
-            fileOutputStream.flush()
-            fileOutputStream.close()
-        } catch (exception: Exception) {
-            AlertDialog.Builder(requireActivity()).setTitle(R.string.error)
-                .setMessage("Image not found")
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setPositiveButton(R.string.ok) { _, _ ->
-                }.show()
-        }
-
-        if (sharedPreferences?.contains("path") == false) {
-            val editor = sharedPreferences?.edit()
-            editor?.putString("path", directory?.absolutePath)
-            editor?.apply()
-        } else {
-            if (sharedPreferences?.getString("path", null) == directory?.absolutePath) {
-                val editor = sharedPreferences?.edit()
-                editor?.putString("path", directory?.absolutePath)
-                editor?.apply()
-            }
-        }
-    }
-
-    private fun checkCamPermission(): Boolean {
-        return try {
-            ActivityCompat.checkSelfPermission(
-                requireActivity(),
-                android.Manifest.permission.CAMERA
-            ) == PackageManager.PERMISSION_GRANTED
-        } catch (exception: NullPointerException) {
-            false
-        }
-    }
-
-
-    override fun onResume() {
-        super.onResume()
-        (activity as AppCompatActivity).supportActionBar?.setTitle(R.string.account_title)
-    }
 
     private fun showLogoutDialog() {
 

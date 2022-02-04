@@ -50,4 +50,5 @@
     <string name="date">Date</string>
     <string name="news_content">News Content</string>
     <string name="input_error">Enter valid input</string>
+    <string name="file_creation_error">Can\'t create file.</string>
 </resources>

@@ -29,8 +29,8 @@ class FavouritesFragment : Fragment() {
         favouriteFragmentBinding.noFavoritesText.visibility = View.INVISIBLE
         favouriteFragmentBinding.newsRecyclerLayout.adapter = favAdapter
         val favoritesViewModel = ViewModelProvider(this).get(FavoritesViewModel::class.java)
-        favoritesViewModel.getFavoritesLiveData().observe(this, {
-            if (it.isEmpty()){
+        favoritesViewModel.getFavoritesLiveData().observe(viewLifecycleOwner) {
+            if (it.isEmpty()) {
                 favouriteFragmentBinding.noFavoritesText.visibility = View.VISIBLE
                 favouriteFragmentBinding.newsRecyclerLayout.visibility = View.INVISIBLE
             } else {
@@ -38,7 +38,7 @@ class FavouritesFragment : Fragment() {
                 favouriteFragmentBinding.noFavoritesText.visibility = View.INVISIBLE
                 favouriteFragmentBinding.newsRecyclerLayout.visibility = View.VISIBLE
             }
-        })
+        }
 
         favAdapter.onFavButtonClick = {
             favoritesViewModel.deleteFromFavorites(it)
