@@ -16,3 +16,5 @@ local.properties
 activity_test_home_screen.xml
 new_feed.xml
 app/google-services.json
+app/release/app-release.aab
+key_store.jks
