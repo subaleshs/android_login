@@ -2,7 +2,6 @@ package com.example.loginapp.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.loginapp.R
 import com.example.loginapp.repositories.AuthRepository
 import com.google.firebase.auth.FirebaseUser
 

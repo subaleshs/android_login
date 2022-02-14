@@ -5,9 +5,7 @@ import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.os.Build
 import android.os.Bundle
-import android.os.LocaleList
 import android.provider.MediaStore
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -30,7 +28,6 @@ import java.io.FileInputStream
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.lang.NullPointerException
-import java.util.*
 
 
 class AccountFragment : Fragment() {

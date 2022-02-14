@@ -36,9 +36,9 @@ class NewsFeedFragment : Fragment() {
         val viewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
         val favoritesViewModel = ViewModelProvider(this).get(FavoritesViewModel::class.java)
         val authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
-        favoritesViewModel.getFavoritesLiveData().observe(this, { list->
+        favoritesViewModel.getFavoritesLiveData().observe(viewLifecycleOwner) { list ->
             list?.let { newsAdapter.updateFavoriteList(it) }
-        })
+        }
         if (NetworkChecks.isNetworkConnected(activity)) {
             hideErrorImage()
             newsFragmentBinding.progressBarView.visibility = View.VISIBLE
@@ -64,26 +64,27 @@ class NewsFeedFragment : Fragment() {
 
         newsAdapter.onFavButtonChecked =  { news ->
 //            var newsAlreadyExists = news.title?.let { favoritesViewModel.checkForNewsInDb(it) }
-            favoritesViewModel.checkForNewsInDb(news.title!!).observe(this, { favorite ->
+            favoritesViewModel.checkForNewsInDb(news.title!!).observe(viewLifecycleOwner) { favorite ->
                 if (favorite == null) {
-                    val newsEntity = authViewModel.getCurrentUser()?.let { FavouritesEntity(news, it.uid) }
+                    val newsEntity =
+                        authViewModel.getCurrentUser()?.let { FavouritesEntity(news, it.uid) }
                     if (newsEntity != null) {
                         favoritesViewModel.addToFavorites(newsEntity)
                     }
                 }
-            })
+            }
 
         }
 
         newsAdapter.onFavButtonUnChecked = { news ->
             Log.d("tit", "-${news.title}-")
-            favoritesViewModel.checkForNewsInDb(news.title!!).observe(this, {
+            favoritesViewModel.checkForNewsInDb(news.title!!).observe(viewLifecycleOwner) {
                 if (it != null) {
                     favoritesViewModel.deleteFromFavorites(it)
 //                favoritesViewModel.fd(newsEntity.id)
                     Log.d("db", favoritesViewModel.getFavoritesLiveData().value.toString())
                 }
-            })
+            }
         }
 
         newsFragmentBinding.swipeRefresh.setOnRefreshListener {
@@ -108,7 +109,7 @@ class NewsFeedFragment : Fragment() {
 
     private fun viewModelInit(viewModel: NewsViewModel) {
         if (NetworkChecks.isNetworkConnected(activity)) {
-            viewModel.getNewsLiveData().observe(this, {
+            viewModel.getNewsLiveData().observe(viewLifecycleOwner) {
                 println("$it  vp")
                 if (it != null && it.success) {
                     hideErrorImage()
@@ -136,7 +137,7 @@ class NewsFeedFragment : Fragment() {
                     }
                     showRefreshImage()
                 }
-            })
+            }
             viewModel.getNewsFromRepo("national")
         } else {
             showNoInternetImage()

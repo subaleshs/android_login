@@ -60,8 +60,8 @@ class PasswordResetFragment : Fragment() {
                         .show()
 
                 } else {
-                    context?.let {
-                        AlertDialog.Builder(it)
+                    context?.let { context ->
+                        AlertDialog.Builder(context)
                             .setTitle(R.string.no_internet)
                             .setMessage(R.string.no_internet_message)
                             .setPositiveButton(android.R.string.ok) { _, _ -> }

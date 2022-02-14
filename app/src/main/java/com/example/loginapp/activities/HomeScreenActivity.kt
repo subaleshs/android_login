@@ -43,14 +43,19 @@ class HomeScreenActivity : AppCompatActivity() {
                 if (supportFragmentManager.backStackEntryCount >= 1) {
                     supportFragmentManager.popBackStack()
                 }
+                supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                supportActionBar?.setDisplayShowHomeEnabled(false)
                 when (it.itemId) {
                     R.id.home -> {
+                        supportActionBar?.setTitle(R.string.home_title)
                         viewPager.currentItem = 0
                     }
                     R.id.favorites -> {
+                        supportActionBar?.setTitle(R.string.fav_title)
                         viewPager.currentItem = 1
                     }
                     R.id.account -> {
+                        supportActionBar?.setTitle(R.string.account_title)
                         viewPager.currentItem = 2
                     }
                 }
@@ -68,9 +73,9 @@ class HomeScreenActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        supportActionBar?.setDisplayShowHomeEnabled(false)
         if (supportActionBar?.title != getString(R.string.home_title)) {
-            supportActionBar?.setDisplayHomeAsUpEnabled(false)
-            supportActionBar?.setDisplayShowHomeEnabled(false)
             supportActionBar?.setTitle(R.string.home_title)
         }
         if (supportFragmentManager.backStackEntryCount < 1) {
