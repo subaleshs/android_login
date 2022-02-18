@@ -95,7 +95,8 @@ class NewsFeedFragment : Fragment() {
             ) {
                 hideErrorImage()
             }
-            viewModelInit(viewModel)
+//            viewModelInit(viewModel)
+            viewModel.getNewsFromRepo("national")
             newsFragmentBinding.newsRecyclerLayout.adapter = newsAdapter
             newsFragmentBinding.swipeRefresh.isRefreshing = false
         }
